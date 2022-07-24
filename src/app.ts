@@ -1,11 +1,12 @@
-import express, { Express, Request, Response, NextFunction } from "express";
+import express, { Express, Request, Response } from "express";
 import cors from "cors";
 import { AddressInfo } from "net";
 import * as dotenv from "dotenv";
+import mysql, { ResultSetHeader, RowDataPacket } from "mysql2/promise";
 
 async function main() {
   dotenv.config();
-  const { PORT } = process.env;
+  const { MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASS, MYSQL_DB, PORT } = process.env;
 
   const app: Express = express();
   app.use(express.json());
@@ -23,8 +24,23 @@ async function main() {
     console.log("Node.js is listening to PORT:" + address.port);
   });
 
-  app.get("/", async (req: express.Request, res: express.Response) => {
-    res.json("テスト");
+  type MasterPrefecture = {
+    id: number;
+    name: string;
+  };
+
+  const connection = await mysql.createConnection({
+    host: MYSQL_HOST as string,
+    port: parseInt(MYSQL_PORT as string),
+    user: MYSQL_USER as string,
+    password: MYSQL_PASS as string,
+    database: MYSQL_DB as string,
+  });
+
+  app.get("/master-prefectures", async (req: Request, res: Response) => {
+    const sql = "select * from master_prefectures";
+    const [rows] = await connection.execute<MasterPrefecture[] & RowDataPacket[]>(sql);
+    res.json(rows);
   });
 }
 
