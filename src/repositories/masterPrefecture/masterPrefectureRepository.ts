@@ -1,7 +1,7 @@
 import { Connection, ResultSetHeader, RowDataPacket } from "mysql2/promise";
-import { MasterPrefecture } from "../models/masterPrefecture";
+import { MasterPrefecture } from "../../models/masterPrefecture";
 import { IMasterPrefectureRepository } from "./interface";
-import { SqlError } from "../utils/error";
+import { SqlError } from "../../utils/error";
 
 export class MasterPrefectureRepository implements IMasterPrefectureRepository {
   private connection: Connection;
