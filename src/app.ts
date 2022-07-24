@@ -4,6 +4,11 @@ import { AddressInfo } from "net";
 import * as dotenv from "dotenv";
 import mysql, { ResultSetHeader, RowDataPacket } from "mysql2/promise";
 
+export type MasterPrefecture = {
+  id?: number;
+  name: string;
+};
+
 async function main() {
   dotenv.config();
   const { MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASS, MYSQL_DB, PORT } = process.env;
@@ -23,11 +28,6 @@ async function main() {
     const address = server.address() as AddressInfo;
     console.log("Node.js is listening to PORT:" + address.port);
   });
-
-  type MasterPrefecture = {
-    id: number;
-    name: string;
-  };
 
   const connection = await mysql.createConnection({
     host: MYSQL_HOST as string,
