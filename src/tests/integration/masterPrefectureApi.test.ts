@@ -40,4 +40,20 @@ describe("MasterPrefectureApi", () => {
       }
     });
   });
+  describe("getById", () => {
+    it("should return masterPrefecture and 200 status", async () => {
+      const createdMasterPrefectureList = await createMasterPrefectureTestData(connection, 1);
+      const expectMasterPrefecture = createdMasterPrefectureList[0];
+      const response = await axios.get<MasterPrefecture>(`/api/master-prefectures/${expectMasterPrefecture.id}`);
+
+      expect(response.status).toBe(200);
+      expect(response.data.id).toBe(expectMasterPrefecture.id);
+      expect(response.data.name).toBe(expectMasterPrefecture.name);
+    });
+    it("should return 404 status", async () => {
+      const notExistsId = 1;
+      const response = await axios.get<MasterPrefecture>(`/api/master-prefectures/${notExistsId}`);
+      expect(response.status).toBe(404);
+    });
+  });
 });
