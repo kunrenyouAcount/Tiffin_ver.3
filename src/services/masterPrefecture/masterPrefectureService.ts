@@ -13,4 +13,9 @@ export class MasterPrefectureService implements IMasterPrefectureService {
     const result = await this.masterPrefectureRepository.findAll();
     return result;
   }
+
+  public async getById(id: number): Promise<MasterPrefecture | Error> {
+    const result = await this.masterPrefectureRepository.getById(id);
+    return result;
+  }
 }
