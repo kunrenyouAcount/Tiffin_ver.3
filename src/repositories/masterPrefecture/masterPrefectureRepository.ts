@@ -25,7 +25,7 @@ export class MasterPrefectureRepository implements IMasterPrefectureRepository {
 
   public async getById(id: number): Promise<MasterPrefecture | Error> {
     try {
-      const sql = "select * from master_prefectures where ?";
+      const sql = "select * from master_prefectures where id = ?";
       const [rows] = await this.connection.execute<MasterPrefecture & RowDataPacket[]>(sql, [id]);
       if (rows.length === 0) {
         return new NotFoundDataError(`not exists target masterPrefectures`);
