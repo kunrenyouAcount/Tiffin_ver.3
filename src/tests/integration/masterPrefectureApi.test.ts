@@ -1,9 +1,9 @@
 import axios from "axios";
 import * as dotenv from "dotenv";
 import { Connection, RowDataPacket } from "mysql2/promise";
-import { MasterPrefecture } from "../../../src/app";
-import { createDBConnection } from "../../utils/Database/database";
-import { createMasterPrefectureTestData } from "../../utils/testData/createMasterPrefectureTestData";
+import { MasterPrefecture } from "../../../src/models/masterPrefecture";
+import { createDBConnection } from "../utils/Database/database";
+import { createMasterPrefectureTestData } from "../utils/testData/createMasterPrefectureTestData";
 
 dotenv.config();
 const { PORT } = process.env;
@@ -28,7 +28,7 @@ describe("MasterPrefectureApi", () => {
     it("should return 5 prefectures and 200 status", async () => {
       const createdMasterPrefectureList = await createMasterPrefectureTestData(connection, 5);
 
-      const response = await axios.get<MasterPrefecture[]>("/master-prefectures");
+      const response = await axios.get<MasterPrefecture[]>("/api/master-prefectures");
 
       expect(response.status).toBe(200);
       expect(response.data.length).toBe(5);

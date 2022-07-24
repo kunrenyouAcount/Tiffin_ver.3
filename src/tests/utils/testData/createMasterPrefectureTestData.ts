@@ -1,5 +1,5 @@
 import { Connection, ResultSetHeader } from "mysql2/promise";
-import { MasterPrefecture } from "../../../src/app";
+import { MasterPrefecture } from "../../../models/masterPrefecture";
 
 export async function createMasterPrefectureTestData(connection: Connection, num: number): Promise<MasterPrefecture[]> {
   const prefectureList: MasterPrefecture[] = [];

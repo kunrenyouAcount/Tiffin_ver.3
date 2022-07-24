@@ -1,13 +1,11 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express } from "express";
 import cors from "cors";
 import { AddressInfo } from "net";
 import * as dotenv from "dotenv";
-import mysql, { ResultSetHeader, RowDataPacket } from "mysql2/promise";
-
-export type MasterPrefecture = {
-  id?: number;
-  name: string;
-};
+import mysql from "mysql2/promise";
+import { MasterPrefectureRepository } from "./repositories/masterPrefecture/masterPrefectureRepository";
+import { MasterPrefectureService } from "./services/masterPrefecture/masterPrefectureService";
+import { MasterPrefectureController } from "./controllers/masterPrefecture/masterPrefectureController";
 
 async function main() {
   dotenv.config();
@@ -37,11 +35,10 @@ async function main() {
     database: MYSQL_DB as string,
   });
 
-  app.get("/master-prefectures", async (req: Request, res: Response) => {
-    const sql = "select * from master_prefectures";
-    const [rows] = await connection.execute<MasterPrefecture[] & RowDataPacket[]>(sql);
-    res.json(rows);
-  });
+  const masterPrefectureRepository = new MasterPrefectureRepository(connection);
+  const masterPrefectureService = new MasterPrefectureService(masterPrefectureRepository);
+  const masterPrefectureController = new MasterPrefectureController(masterPrefectureService);
+  app.use("/api/", masterPrefectureController.router);
 }
 
 main();
