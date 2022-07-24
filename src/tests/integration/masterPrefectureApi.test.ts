@@ -2,8 +2,8 @@ import axios from "axios";
 import * as dotenv from "dotenv";
 import { Connection, RowDataPacket } from "mysql2/promise";
 import { MasterPrefecture } from "../../../src/models/masterPrefecture";
-import { createDBConnection } from "../../utils/Database/database";
-import { createMasterPrefectureTestData } from "../../utils/testData/createMasterPrefectureTestData";
+import { createDBConnection } from "../utils/Database/database";
+import { createMasterPrefectureTestData } from "../utils/testData/createMasterPrefectureTestData";
 
 dotenv.config();
 const { PORT } = process.env;
