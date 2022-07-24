@@ -1,7 +1,7 @@
 -- master
 -- master_prefectures
 CREATE TABLE `master_prefectures` (
-  `id` bigint unsigned NOT NULL,
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -61,7 +61,7 @@ INSERT INTO `master_prefectures` (
 
 -- master_areas
 CREATE TABLE `master_areas` (
-  `id` bigint unsigned NOT NULL,
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `master_prefecture_id` bigint unsigned NOT NULL,
   PRIMARY KEY (`id`),
@@ -332,7 +332,7 @@ INSERT INTO `master_areas` (
 ;
 
 CREATE TABLE `master_detailed_areas` (
-  `id` bigint unsigned NOT NULL,
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `master_area_id` bigint unsigned NOT NULL,
   PRIMARY KEY (`id`),
@@ -448,7 +448,7 @@ INSERT INTO `master_detailed_areas` (
 
 -- master_railroad_companies
 CREATE TABLE `master_railroad_companies` (
-  `id` bigint unsigned NOT NULL,
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `public_name` varchar(255) NOT NULL,
   `public_name_kana` varchar(255),
   `formal_name` varchar(255),
@@ -644,7 +644,7 @@ INSERT INTO `master_railroad_companies` (
 
 -- master_railload_lines
 CREATE TABLE `master_railload_lines` (
-  `id` bigint unsigned NOT NULL,
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `public_name` varchar(255) NOT NULL,
   `public_name_kana` varchar(255),
   `formal_name` varchar(255),
@@ -1283,7 +1283,7 @@ INSERT INTO `master_railload_lines` (
 
 -- master_railload_stations
 CREATE TABLE `master_railload_stations` (
-  `id` bigint unsigned NOT NULL,
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `post_code` varchar(10),
   `address` varchar(255),
@@ -12193,7 +12193,7 @@ INSERT INTO `master_railload_stations` (
 
 -- master_genres
 CREATE TABLE `master_genres` (
-  `id` bigint unsigned NOT NULL,
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -12236,7 +12236,7 @@ INSERT INTO `master_genres` (
 
 -- master_detailed_genres
 CREATE TABLE `master_detailed_genres` (
-  `id` bigint unsigned NOT NULL,
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `master_genre_id` bigint unsigned NOT NULL,
   PRIMARY KEY (`id`),
@@ -12313,7 +12313,7 @@ INSERT INTO `master_detailed_genres` (
 
 -- master_cooking
 CREATE TABLE `master_cookings` (
-  `id` bigint unsigned NOT NULL,
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `master_genres_id` bigint NOT NULL,
   `master_detailed_genres` bigint,
