@@ -9,7 +9,7 @@ export class MasterPrefectureController {
     this.masterPrefectureService = masterPrefectureService;
     this.router = Router();
 
-    this.router.get("/masterPrefectures", async (req: Request, res: Response) => {
+    this.router.get("/master-prefectures", async (req: Request, res: Response) => {
       const result = await this.masterPrefectureService.findAll();
       if (result instanceof Error) {
         res.status(500).json(result.message);
