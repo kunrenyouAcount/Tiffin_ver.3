@@ -1,5 +1,5 @@
 import { Connection, RowDataPacket } from "mysql2/promise";
-import { MasterPrefectureRepository } from "../../../repositories/masterPrefectureRepository";
+import { MasterPrefectureRepository } from "../../../repositories/masterPrefecture/masterPrefectureRepository";
 import { createDBConnection } from "../../utils/Database/database";
 import { createMasterPrefectureTestData } from "../../utils/testData/createMasterPrefectureTestData";
 
