@@ -28,7 +28,7 @@ describe("MasterPrefectureApi", () => {
     it("should return 5 prefectures and 200 status", async () => {
       const createdMasterPrefectureList = await createMasterPrefectureTestData(connection, 5);
 
-      const response = await axios.get<MasterPrefecture[]>("/master-prefectures");
+      const response = await axios.get<MasterPrefecture[]>("/api/master-prefectures");
 
       expect(response.status).toBe(200);
       expect(response.data.length).toBe(5);
