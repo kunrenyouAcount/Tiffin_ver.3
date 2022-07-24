@@ -3,11 +3,7 @@ import cors from "cors";
 import { AddressInfo } from "net";
 import * as dotenv from "dotenv";
 import mysql, { ResultSetHeader, RowDataPacket } from "mysql2/promise";
-
-export type MasterPrefecture = {
-  id?: number;
-  name: string;
-};
+import { MasterPrefecture } from "./models/masterPrefecture";
 
 async function main() {
   dotenv.config();
