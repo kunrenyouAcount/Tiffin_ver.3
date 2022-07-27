@@ -3,9 +3,9 @@ import cors from "cors";
 import { AddressInfo } from "net";
 import * as dotenv from "dotenv";
 import mysql from "mysql2/promise";
-import { MasterPrefectureRepository } from "./repositories/masterPrefecture/masterPrefectureRepository";
-import { MasterPrefectureService } from "./services/masterPrefecture/masterPrefectureService";
-import { MasterPrefectureController } from "./controllers/masterPrefecture/masterPrefectureController";
+import { PrefectureRepository } from "./repositories/prefecture/prefectureRepository";
+import { PrefectureService } from "./services/prefecture/prefectureService";
+import { PrefectureController } from "./controllers/prefectureController";
 
 async function main() {
   dotenv.config();
@@ -35,10 +35,10 @@ async function main() {
     database: MYSQL_DB as string,
   });
 
-  const masterPrefectureRepository = new MasterPrefectureRepository(connection);
-  const masterPrefectureService = new MasterPrefectureService(masterPrefectureRepository);
-  const masterPrefectureController = new MasterPrefectureController(masterPrefectureService);
-  app.use("/api/", masterPrefectureController.router);
+  const prefectureRepository = new PrefectureRepository(connection);
+  const prefectureService = new PrefectureService(prefectureRepository);
+  const prefectureController = new PrefectureController(prefectureService);
+  app.use("/api/", prefectureController.router);
 }
 
 main();
