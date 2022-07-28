@@ -1,8 +1,8 @@
 import { Connection, RowDataPacket } from "mysql2/promise";
-import { MasterPrefectureRepository } from "../../../repositories/masterPrefecture/masterPrefectureRepository";
+import { PrefectureRepository } from "../../../repositories/prefecture/prefectureRepository";
 import { NotFoundDataError } from "../../../utils/error";
 import { createDBConnection } from "../../utils/Database/database";
-import { createMasterPrefectureTestData } from "../../utils/testData/createMasterPrefectureTestData";
+import { createPrefectureTestData } from "../../utils/testData/createPrefectureTestData";
 
 let connection: Connection;
 
@@ -16,25 +16,25 @@ afterEach(async () => {
   await connection.end();
 });
 
-describe("MasterPrefectureRepository", () => {
+describe("PrefectureRepository", () => {
   describe("findAll", () => {
-    it("shoud return 5 masterPrefecture", async () => {
-      const repository = new MasterPrefectureRepository(connection);
-      const createdMasterPrefectureList = await createMasterPrefectureTestData(connection, 5);
+    it("shoud return 5 prefecture", async () => {
+      const repository = new PrefectureRepository(connection);
+      const createdPrefectureList = await createPrefectureTestData(connection, 5);
 
       const result = await repository.findAll();
       if (result instanceof Error) {
         throw new Error(`Test failed because an error has occurred: ${result.message}`);
       }
 
-      for (const masterPrefecture of result) {
-        const expectMasterPrefecture = createdMasterPrefectureList.filter((t) => t.id === masterPrefecture.id)[0];
-        expect(masterPrefecture.id).toBe(expectMasterPrefecture.id);
-        expect(masterPrefecture.name).toBe(expectMasterPrefecture.name);
+      for (const prefecture of result) {
+        const expectPrefecture = createdPrefectureList.filter((t) => t.id === prefecture.id)[0];
+        expect(prefecture.id).toBe(expectPrefecture.id);
+        expect(prefecture.name).toBe(expectPrefecture.name);
       }
     });
     it("shoud return empty", async () => {
-      const repository = new MasterPrefectureRepository(connection);
+      const repository = new PrefectureRepository(connection);
 
       const result = await repository.findAll();
       if (result instanceof Error) {
@@ -44,21 +44,21 @@ describe("MasterPrefectureRepository", () => {
     });
   });
   describe("getById", () => {
-    it("shoud return 5 masterPrefecture", async () => {
-      const repository = new MasterPrefectureRepository(connection);
-      const [masterPrefecture] = await createMasterPrefectureTestData(connection, 1);
+    it("shoud return 5 prefecture", async () => {
+      const repository = new PrefectureRepository(connection);
+      const [prefecture] = await createPrefectureTestData(connection, 1);
 
-      const result = await repository.getById(masterPrefecture.id!);
+      const result = await repository.getById(prefecture.id!);
       if (result instanceof Error) {
         throw new Error(`Test failed because an error has occurred: ${result.message}`);
       }
 
-      expect(result.id).toBe(masterPrefecture.id);
-      expect(result.name).toBe(masterPrefecture.name);
+      expect(result.id).toBe(prefecture.id);
+      expect(result.name).toBe(prefecture.name);
     });
 
     it("shoud return notfound error", async () => {
-      const repository = new MasterPrefectureRepository(connection);
+      const repository = new PrefectureRepository(connection);
       const result = await repository.getById(1);
       if (!(result instanceof Error)) {
         throw new Error("Test failed because no error occurred");

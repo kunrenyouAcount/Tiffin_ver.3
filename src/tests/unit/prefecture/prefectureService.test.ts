@@ -1,10 +1,10 @@
-import { MasterPrefecture } from "../../../../src/models/masterPrefecture";
-import { IMasterPrefectureRepository } from "../../../../src/repositories/masterPrefecture/interface";
-import { MasterPrefectureService } from "../../../../src/services/masterPrefecture/masterPrefectureService";
+import { Prefecture } from "../../../models/prefecture";
+import { IPrefectureRepository } from "../../../repositories/prefecture/interface";
+import { PrefectureService } from "../../../services/prefecture/prefectureService";
 import { NotFoundDataError } from "../../../utils/error";
 
-function createMockRepository(): IMasterPrefectureRepository {
-  const mockRepository: IMasterPrefectureRepository = {
+function createMockRepository(): IPrefectureRepository {
+  const mockRepository: IPrefectureRepository = {
     findAll: jest.fn(() => {
       throw new Error("Function not implemented.");
     }),
@@ -16,28 +16,28 @@ function createMockRepository(): IMasterPrefectureRepository {
   return mockRepository;
 }
 
-function createMockMasterPrefectureList(num: number): MasterPrefecture[] {
-  const masterPrefectureList: MasterPrefecture[] = [];
+function createMockPrefectureList(num: number): Prefecture[] {
+  const prefectureList: Prefecture[] = [];
 
   for (let index = 0; index < num; index++) {
-    const masterPrefecture: MasterPrefecture = {
+    const prefecture: Prefecture = {
       id: index,
       name: `test_${index}`,
     };
-    masterPrefectureList.push(masterPrefecture);
+    prefectureList.push(prefecture);
   }
 
-  return masterPrefectureList;
+  return prefectureList;
 }
 
-describe("MasterPrefectureService", () => {
+describe("PrefectureService", () => {
   describe("findAll", () => {
-    it("should return 5 masterPrefecture", async () => {
-      const mockResult: MasterPrefecture[] = createMockMasterPrefectureList(5);
+    it("should return 5 prefecture", async () => {
+      const mockResult: Prefecture[] = createMockPrefectureList(5);
 
       let mockRepository = createMockRepository();
-      mockRepository.findAll = jest.fn(() => new Promise<MasterPrefecture[] | Error>((resolve) => resolve(mockResult)));
-      const service = new MasterPrefectureService(mockRepository);
+      mockRepository.findAll = jest.fn(() => new Promise<Prefecture[] | Error>((resolve) => resolve(mockResult)));
+      const service = new PrefectureService(mockRepository);
 
       const result = await service.findAll();
 
@@ -58,8 +58,8 @@ describe("MasterPrefectureService", () => {
       const mockResult: Error = new Error(errMsg);
 
       let mockRepository = createMockRepository();
-      mockRepository.findAll = jest.fn(() => new Promise<MasterPrefecture[] | Error>((resolve) => resolve(mockResult)));
-      const service = new MasterPrefectureService(mockRepository);
+      mockRepository.findAll = jest.fn(() => new Promise<Prefecture[] | Error>((resolve) => resolve(mockResult)));
+      const service = new PrefectureService(mockRepository);
 
       const result = await service.findAll();
 
@@ -72,15 +72,15 @@ describe("MasterPrefectureService", () => {
   });
 
   describe("getById", () => {
-    it("should return masterPrefecture", async () => {
-      const mockResult: MasterPrefecture = {
+    it("should return prefecture", async () => {
+      const mockResult: Prefecture = {
         id: 1,
         name: "東京都",
       };
 
       let mockRepository = createMockRepository();
-      mockRepository.getById = jest.fn(() => new Promise<MasterPrefecture | Error>((resolve) => resolve(mockResult)));
-      const service = new MasterPrefectureService(mockRepository);
+      mockRepository.getById = jest.fn(() => new Promise<Prefecture | Error>((resolve) => resolve(mockResult)));
+      const service = new PrefectureService(mockRepository);
 
       const result = await service.getById(1);
 
@@ -95,11 +95,9 @@ describe("MasterPrefectureService", () => {
       const mockGetByIdResult: Error = new NotFoundDataError("mock notfound error");
 
       let mockRepository = createMockRepository();
-      mockRepository.getById = jest.fn(
-        () => new Promise<MasterPrefecture | Error>((resolve) => resolve(mockGetByIdResult))
-      );
+      mockRepository.getById = jest.fn(() => new Promise<Prefecture | Error>((resolve) => resolve(mockGetByIdResult)));
 
-      const service = new MasterPrefectureService(mockRepository);
+      const service = new PrefectureService(mockRepository);
       const result = await service.getById(1);
 
       if (!(result instanceof Error)) {
@@ -115,8 +113,8 @@ describe("MasterPrefectureService", () => {
       const mockResult: Error = new Error(errMsg);
 
       let mockRepository = createMockRepository();
-      mockRepository.getById = jest.fn(() => new Promise<MasterPrefecture | Error>((resolve) => resolve(mockResult)));
-      const service = new MasterPrefectureService(mockRepository);
+      mockRepository.getById = jest.fn(() => new Promise<Prefecture | Error>((resolve) => resolve(mockResult)));
+      const service = new PrefectureService(mockRepository);
 
       const result = await service.getById(1);
 

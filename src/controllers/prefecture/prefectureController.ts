@@ -1,17 +1,17 @@
-import { IMasterPrefectureService } from "../../services/masterPrefecture/interface";
+import { IPrefectureService } from "../../services/prefecture/interface";
 import { Request, Response, Router } from "express";
 import { NotFoundDataError } from "../../utils/error";
 
-export class MasterPrefectureController {
-  private masterPrefectureService: IMasterPrefectureService;
+export class PrefectureController {
+  private prefectureService: IPrefectureService;
   public router: Router;
 
-  constructor(masterPrefectureService: IMasterPrefectureService) {
-    this.masterPrefectureService = masterPrefectureService;
+  constructor(prefectureService: IPrefectureService) {
+    this.prefectureService = prefectureService;
     this.router = Router();
 
-    this.router.get("/master-prefectures", async (req: Request, res: Response) => {
-      const result = await this.masterPrefectureService.findAll();
+    this.router.get("/prefectures", async (req: Request, res: Response) => {
+      const result = await this.prefectureService.findAll();
       if (result instanceof Error) {
         res.status(500).json(result.message);
         return;
@@ -19,9 +19,9 @@ export class MasterPrefectureController {
       res.status(200).json(result);
     });
 
-    this.router.get("/master-prefectures/:id", async (req: Request, res: Response) => {
+    this.router.get("/prefectures/:id", async (req: Request, res: Response) => {
       const id = parseInt(req.params.id);
-      const result = await this.masterPrefectureService.getById(id);
+      const result = await this.prefectureService.getById(id);
 
       if (result instanceof NotFoundDataError) {
         res.status(404).json(result.message);
