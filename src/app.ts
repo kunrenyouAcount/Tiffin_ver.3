@@ -6,6 +6,9 @@ import mysql from "mysql2/promise";
 import { PrefectureRepository } from "./repositories/prefecture/prefectureRepository";
 import { PrefectureService } from "./services/prefecture/prefectureService";
 import { PrefectureController } from "./controllers/prefectureController";
+import { AreaRepository } from "./repositories/area/areaRepository";
+import { AreaService } from "./services/area/areaService";
+import { AreaController } from "./controllers/areaController";
 
 async function main() {
   dotenv.config();
@@ -39,6 +42,11 @@ async function main() {
   const prefectureService = new PrefectureService(prefectureRepository);
   const prefectureController = new PrefectureController(prefectureService);
   app.use("/api/", prefectureController.router);
+
+  const areaRepository = new AreaRepository(connection);
+  const areaService = new AreaService(areaRepository);
+  const areaController = new AreaController(areaService);
+  app.use("/api/", areaController.router);
 }
 
 main();
