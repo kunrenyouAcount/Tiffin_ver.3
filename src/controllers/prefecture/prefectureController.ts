@@ -1,6 +1,6 @@
-import { IPrefectureService } from "../services/prefecture/interface";
+import { IPrefectureService } from "../../services/prefecture/interface";
 import { Request, Response, Router } from "express";
-import { NotFoundDataError } from "../utils/error";
+import { NotFoundDataError } from "../../utils/error";
 
 export class PrefectureController {
   private prefectureService: IPrefectureService;

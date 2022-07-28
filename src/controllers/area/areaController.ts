@@ -1,6 +1,6 @@
-import { IAreaService } from "../services/area/interface";
+import { IAreaService } from "../../services/area/interface";
 import { Request, Response, Router } from "express";
-import { NotFoundDataError } from "../utils/error";
+import { NotFoundDataError } from "../../utils/error";
 
 export class AreaController {
   private areaService: IAreaService;
