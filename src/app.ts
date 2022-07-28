@@ -5,10 +5,10 @@ import * as dotenv from "dotenv";
 import mysql from "mysql2/promise";
 import { PrefectureRepository } from "./repositories/prefecture/prefectureRepository";
 import { PrefectureService } from "./services/prefecture/prefectureService";
-import { PrefectureController } from "./controllers/prefectureController";
+import { PrefectureController } from "./controllers/prefecture/prefectureController";
 import { AreaRepository } from "./repositories/area/areaRepository";
 import { AreaService } from "./services/area/areaService";
-import { AreaController } from "./controllers/areaController";
+import { AreaController } from "./controllers/area/areaController";
 
 async function main() {
   dotenv.config();
