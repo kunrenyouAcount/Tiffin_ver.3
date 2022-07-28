@@ -1,6 +1,7 @@
 import { IAreaService } from "../../services/area/interface";
 import { Request, Response, Router } from "express";
 import { NotFoundDataError } from "../../utils/error";
+import { AreaResponse } from "./response";
 
 export class AreaController {
   private areaService: IAreaService;
@@ -11,29 +12,42 @@ export class AreaController {
     this.router = Router();
 
     this.router.get("/areas", async (req: Request, res: Response) => {
-      const result = await this.areaService.findAll();
-      if (result instanceof Error) {
-        res.status(500).json(result.message);
+      const results = await this.areaService.findAll();
+      if (results instanceof Error) {
+        res.status(500).json(results.message);
         return;
       }
-      res.status(200).json(result);
+
+      const areaList: AreaResponse[] = results.map((result) => {
+        return {
+          id: result.id,
+          name: result.name,
+        } as AreaResponse;
+      });
+      res.status(200).json(areaList);
     });
 
     this.router.get("/areas/prefecture-id/:prefectureId", async (req: Request, res: Response) => {
       const prefectureId = parseInt(req.params.prefectureId);
-      const result = await this.areaService.getByPrefectureId(prefectureId);
+      const results = await this.areaService.getByPrefectureId(prefectureId);
 
-      if (result instanceof NotFoundDataError) {
-        res.status(404).json(result.message);
+      if (results instanceof NotFoundDataError) {
+        res.status(404).json(results.message);
         return;
       }
 
-      if (result instanceof Error) {
-        res.status(500).json(result.message);
+      if (results instanceof Error) {
+        res.status(500).json(results.message);
         return;
       }
 
-      res.status(200).json(result);
+      const areaList: AreaResponse[] = results.map((result) => {
+        return {
+          id: result.id,
+          name: result.name,
+        } as AreaResponse;
+      });
+      res.status(200).json(areaList);
     });
   }
 }
