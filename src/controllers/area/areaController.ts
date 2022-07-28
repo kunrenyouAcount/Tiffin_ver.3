@@ -19,7 +19,7 @@ export class AreaController {
       res.status(200).json(result);
     });
 
-    this.router.get("/areas/:prefectureId", async (req: Request, res: Response) => {
+    this.router.get("/areas/prefecture-id/:prefectureId", async (req: Request, res: Response) => {
       const prefectureId = parseInt(req.params.prefectureId);
       const result = await this.areaService.getByPrefectureId(prefectureId);
 
