@@ -1,11 +1,11 @@
 import { Connection, ResultSetHeader } from "mysql2/promise";
-import { MasterPrefecture } from "../../../models/masterPrefecture";
+import { Prefecture } from "../../../models/prefecture";
 
-export async function createMasterPrefectureTestData(connection: Connection, num: number): Promise<MasterPrefecture[]> {
-  const prefectureList: MasterPrefecture[] = [];
+export async function createPrefectureTestData(connection: Connection, num: number): Promise<Prefecture[]> {
+  const prefectureList: Prefecture[] = [];
 
   for (let index = 0; index < num; index++) {
-    const prefecture: MasterPrefecture = {
+    const prefecture: Prefecture = {
       name: `test_${index}`,
     };
     const query = `insert into master_prefectures(name) values("${prefecture.name}")`;

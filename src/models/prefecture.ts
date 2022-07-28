@@ -1,4 +1,4 @@
-export type MasterPrefecture = {
+export type Prefecture = {
   id?: number;
   name: string;
 };
