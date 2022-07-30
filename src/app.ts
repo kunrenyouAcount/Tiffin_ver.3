@@ -9,6 +9,9 @@ import { PrefectureController } from "./controllers/prefecture/prefectureControl
 import { AreaRepository } from "./repositories/area/areaRepository";
 import { AreaService } from "./services/area/areaService";
 import { AreaController } from "./controllers/area/areaController";
+import { DetailedAreaRepository } from "./repositories/detailedArea/detailedAreaRepository";
+import { DetailedAreaService } from "./services/detailedArea/detailedAreaService";
+import { DetailedAreaController } from "./controllers/detailedArea/detailedAreaController";
 
 async function main() {
   dotenv.config();
@@ -47,6 +50,11 @@ async function main() {
   const areaService = new AreaService(areaRepository);
   const areaController = new AreaController(areaService);
   app.use("/api/", areaController.router);
+
+  const detailedAreaRepository = new DetailedAreaRepository(connection);
+  const detailedAreaService = new DetailedAreaService(detailedAreaRepository);
+  const detailedAreaController = new DetailedAreaController(detailedAreaService);
+  app.use("/api/", detailedAreaController.router);
 }
 
 main();
