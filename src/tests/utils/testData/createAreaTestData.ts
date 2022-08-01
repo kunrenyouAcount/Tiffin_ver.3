@@ -17,7 +17,7 @@ export async function createAreaTestData(
         name: `test_${i}_${j}`,
         master_prefecture_id: prefectures[i].id!,
       };
-      const query = `insert into master_areas(name, master_prefecture_id) values("${area.name}", ${prefectures[i].id})`;
+      const query = `insert into master_areas(name, master_prefecture_id) values("${area.name}", ${area.master_prefecture_id})`;
       const [result] = await connection.query<ResultSetHeader>(query);
       area.id = result.insertId;
       areaList.push(area);
