@@ -28,6 +28,8 @@ describe("AreaRepository", () => {
         throw new Error(`Test failed because an error has occurred: ${result.message}`);
       }
 
+      expect(result.length).toBe(10);
+
       for (const area of result) {
         const expectArea = createdAreaList.filter((t) => t.id === area.id)[0];
         expect(area.id).toBe(expectArea.id);
@@ -54,6 +56,8 @@ describe("AreaRepository", () => {
       if (result instanceof Error) {
         throw new Error(`Test failed because an error has occurred: ${result.message}`);
       }
+
+      expect(result.length).toBe(5);
 
       for (const area of result) {
         const expectArea = createdAreaList.filter((t) => t.id === area.id)[0];
