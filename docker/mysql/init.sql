@@ -446,8 +446,8 @@ INSERT INTO `master_detailed_areas` (
   (100, "熊本市", 234)
 ;
 
--- master_railload_stations
-CREATE TABLE `master_railload_stations` (
+-- master_railroad_stations
+CREATE TABLE `master_railroad_stations` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `post_code` varchar(10),
@@ -458,7 +458,7 @@ CREATE TABLE `master_railload_stations` (
   FOREIGN KEY (`master_prefecture_id`) REFERENCES `master_prefectures` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `master_railload_stations` (
+INSERT INTO `master_railroad_stations` (
 	`id`,
   `name`,
   `post_code`,
@@ -11549,8 +11549,8 @@ INSERT INTO `master_railload_stations` (
 --   (243, "沖縄都市モノレール", "オキナワトシモノレール", "沖縄都市モノレール株式会社", "沖縄都市モノレール", "http://www.yui-rail.co.jp/", 0, 0)
 -- ;
 
--- -- master_railload_lines
--- CREATE TABLE `master_railload_lines` (
+-- -- master_railroad_lines
+-- CREATE TABLE `master_railroad_lines` (
 --   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
 --   `public_name` varchar(255) NOT NULL,
 --   `public_name_kana` varchar(255),
@@ -11561,7 +11561,7 @@ INSERT INTO `master_railload_stations` (
 --   FOREIGN KEY (`master_railroad_company_id`) REFERENCES `master_railroad_companies` (`id`)
 -- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- INSERT INTO `master_railload_lines` (
+-- INSERT INTO `master_railroad_lines` (
 --   `id`,
 --   `public_name`,
 --   `public_name_kana`,
@@ -12188,27 +12188,27 @@ INSERT INTO `master_railload_stations` (
 --   (99927, "ゆいレール", "ユイレール", "沖縄都市モノレール線", 0, 243)
 -- ;
 
--- -- master_railload_stations
--- CREATE TABLE `master_railload_stations` (
+-- -- master_railroad_stations
+-- CREATE TABLE `master_railroad_stations` (
 --   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
 --   `name` varchar(255) NOT NULL,
 --   `post_code` varchar(10),
 --   `address` varchar(255),
 --   `status` int,
---   `master_railload_line_id` bigint unsigned NOT NULL,
+--   `master_railroad_line_id` bigint unsigned NOT NULL,
 --   `master_prefecture_id` bigint unsigned NOT NULL,
 --   PRIMARY KEY (`id`),
---   FOREIGN KEY (`master_railload_line_id`) REFERENCES `master_railload_lines` (`id`),
+--   FOREIGN KEY (`master_railroad_line_id`) REFERENCES `master_railroad_lines` (`id`),
 --   FOREIGN KEY (`master_prefecture_id`) REFERENCES `master_prefectures` (`id`)
 -- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- INSERT INTO `master_railload_stations` (
+-- INSERT INTO `master_railroad_stations` (
 -- 	`id`,
 --   `name`,
 --   `post_code`,
 --   `address`,
 --   `status`,
---   `master_railload_line_id`,
+--   `master_railroad_line_id`,
 --   `master_prefecture_id`
 -- ) VALUES
 --   (1110101, "函館", "040-0063", "北海道函館市若松町１２-１３", 0, 11101, 1),
@@ -23279,13 +23279,13 @@ CREATE TABLE `shops` (
   `closing_time` time NOT NULL,
   `master_area_id` bigint unsigned NOT NULL,
   `master_detailed_area_id` bigint,
-  `master_railload_station_id` bigint unsigned NOT NULL,
+  `master_railroad_station_id` bigint unsigned NOT NULL,
   `shop_user_id` bigint unsigned NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`master_area_id`) REFERENCES `master_areas` (`id`),
-  FOREIGN KEY (`master_railload_station_id`) REFERENCES `master_railload_stations` (`id`),
+  FOREIGN KEY (`master_railroad_station_id`) REFERENCES `master_railroad_stations` (`id`),
   FOREIGN KEY (`shop_user_id`) REFERENCES `shop_users` (`id`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -23298,7 +23298,7 @@ INSERT INTO `shops` (
   `closing_time`,
   `master_area_id`,
   `master_detailed_area_id`,
-  `master_railload_station_id`,
+  `master_railroad_station_id`,
   `shop_user_id`
 ) VALUES
 	(1, 'キッチンおかもと', '東京都葛飾区水元1-1-1', '03-1111-2222', '11:00', '14:00', 62, null, 1132008, 1),
