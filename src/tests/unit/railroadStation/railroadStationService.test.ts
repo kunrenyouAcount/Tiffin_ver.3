@@ -1,10 +1,10 @@
-import { Area } from "../../../models/area";
-import { IAreaRepository } from "../../../repositories/area/interface";
-import { AreaService } from "../../../services/area/areaService";
+import { RailroadStation } from "../../../models/railroadStation";
+import { IRailroadStationRepository } from "../../../repositories/railroadStation/interface";
+import { RailroadStationService } from "../../../services/railroadStation/railroadStationService";
 import { NotFoundDataError } from "../../../utils/error";
 
-function createMockRepository(): IAreaRepository {
-  const mockRepository: IAreaRepository = {
+function createMockRepository(): IRailroadStationRepository {
+  const mockRepository: IRailroadStationRepository = {
     findAll: jest.fn(() => {
       throw new Error("Function not implemented.");
     }),
@@ -16,34 +16,37 @@ function createMockRepository(): IAreaRepository {
   return mockRepository;
 }
 
-function createMockAreaList(
+function createMockRailroadStationList(
   prefectureNum: number, //都道府県数を指定
-  areaNumByPrefecture: number //都道府県ごとのエリア数を指定
-): Area[] {
-  const areaList: Area[] = [];
+  railroadStationNumByPrefecture: number //都道府県ごとのエリア数を指定
+): RailroadStation[] {
+  const railroadStationList: RailroadStation[] = [];
 
   for (let i = 1; i < prefectureNum + 1; i++) {
-    for (let j = 1; j < areaNumByPrefecture + 1; j++) {
-      const area: Area = {
-        id: i * areaNumByPrefecture + j,
-        name: `test_${i}_${j}`,
+    for (let j = 1; j < railroadStationNumByPrefecture + 1; j++) {
+      const railroadStation: RailroadStation = {
+        id: i * railroadStationNumByPrefecture + j,
+        name: `test_name_${i}_${j}`,
+        post_code: `000-${i}${j}${i}${j}`,
+        address: `test_address_${i}_${j}`,
+        status: 0,
         master_prefecture_id: i,
       };
-      areaList.push(area);
+      railroadStationList.push(railroadStation);
     }
   }
 
-  return areaList;
+  return railroadStationList;
 }
 
-describe("AreaService", () => {
+describe("RailroadStationService", () => {
   describe("findAll", () => {
-    it("should return 10 area", async () => {
-      const mockResult: Area[] = createMockAreaList(2, 5);
+    it("should return 10 railroadStation", async () => {
+      const mockResult: RailroadStation[] = createMockRailroadStationList(2, 5);
 
       let mockRepository = createMockRepository();
-      mockRepository.findAll = jest.fn(() => new Promise<Area[] | Error>((resolve) => resolve(mockResult)));
-      const service = new AreaService(mockRepository);
+      mockRepository.findAll = jest.fn(() => new Promise<RailroadStation[] | Error>((resolve) => resolve(mockResult)));
+      const service = new RailroadStationService(mockRepository);
 
       const result = await service.findAll();
 
@@ -65,8 +68,8 @@ describe("AreaService", () => {
       const mockResult: Error = new Error(errMsg);
 
       let mockRepository = createMockRepository();
-      mockRepository.findAll = jest.fn(() => new Promise<Area[] | Error>((resolve) => resolve(mockResult)));
-      const service = new AreaService(mockRepository);
+      mockRepository.findAll = jest.fn(() => new Promise<RailroadStation[] | Error>((resolve) => resolve(mockResult)));
+      const service = new RailroadStationService(mockRepository);
 
       const result = await service.findAll();
 
@@ -79,11 +82,13 @@ describe("AreaService", () => {
   });
 
   describe("getByPrefectureId", () => {
-    it("should return 5 areas", async () => {
-      const mockResult: Area[] = createMockAreaList(1, 5);
+    it("should return 5 railroadStations", async () => {
+      const mockResult: RailroadStation[] = createMockRailroadStationList(1, 5);
       let mockRepository = createMockRepository();
-      mockRepository.getByPrefectureId = jest.fn(() => new Promise<Area[] | Error>((resolve) => resolve(mockResult)));
-      const service = new AreaService(mockRepository);
+      mockRepository.getByPrefectureId = jest.fn(
+        () => new Promise<RailroadStation[] | Error>((resolve) => resolve(mockResult))
+      );
+      const service = new RailroadStationService(mockRepository);
 
       const result = await service.getByPrefectureId(1);
 
@@ -101,10 +106,10 @@ describe("AreaService", () => {
 
       let mockRepository = createMockRepository();
       mockRepository.getByPrefectureId = jest.fn(
-        () => new Promise<Area[] | Error>((resolve) => resolve(mockGetByPrefectureIdResult))
+        () => new Promise<RailroadStation[] | Error>((resolve) => resolve(mockGetByPrefectureIdResult))
       );
 
-      const service = new AreaService(mockRepository);
+      const service = new RailroadStationService(mockRepository);
       const result = await service.getByPrefectureId(1);
 
       if (!(result instanceof Error)) {
@@ -120,8 +125,10 @@ describe("AreaService", () => {
       const mockResult: Error = new Error(errMsg);
 
       let mockRepository = createMockRepository();
-      mockRepository.getByPrefectureId = jest.fn(() => new Promise<Area[] | Error>((resolve) => resolve(mockResult)));
-      const service = new AreaService(mockRepository);
+      mockRepository.getByPrefectureId = jest.fn(
+        () => new Promise<RailroadStation[] | Error>((resolve) => resolve(mockResult))
+      );
+      const service = new RailroadStationService(mockRepository);
 
       const result = await service.getByPrefectureId(1);
 

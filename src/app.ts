@@ -12,6 +12,9 @@ import { AreaController } from "./controllers/area/areaController";
 import { DetailedAreaRepository } from "./repositories/detailedArea/detailedAreaRepository";
 import { DetailedAreaService } from "./services/detailedArea/detailedAreaService";
 import { DetailedAreaController } from "./controllers/detailedArea/detailedAreaController";
+import { RailroadStationRepository } from "./repositories/railroadStation/railroadStationRepository";
+import { RailroadStationService } from "./services/railroadStation/railroadStationService";
+import { RailroadStationController } from "./controllers/railroadStation/railroadStationController";
 
 async function main() {
   dotenv.config();
@@ -55,6 +58,11 @@ async function main() {
   const detailedAreaService = new DetailedAreaService(detailedAreaRepository);
   const detailedAreaController = new DetailedAreaController(detailedAreaService);
   app.use("/api/", detailedAreaController.router);
+
+  const railroadStationRepository = new RailroadStationRepository(connection);
+  const railroadStationService = new RailroadStationService(railroadStationRepository);
+  const railroadStationController = new RailroadStationController(railroadStationService);
+  app.use("/api/", railroadStationController.router);
 }
 
 main();
