@@ -25,3 +25,9 @@ docker の終了(Ctrl + C で stop した後に実行)
 ```:terminal
 docker-compose down -v
 ```
+
+npm の開発モードでの立ち上げ
+
+```
+npm run dev
+```
