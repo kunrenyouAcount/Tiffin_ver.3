@@ -12,7 +12,7 @@ import { AreaController } from "./controllers/area/areaController";
 import { DetailedAreaRepository } from "./repositories/detailedArea/detailedAreaRepository";
 import { DetailedAreaService } from "./services/detailedArea/detailedAreaService";
 import { DetailedAreaController } from "./controllers/detailedArea/detailedAreaController";
-import { RailroadStationRepository } from "./repositories/railroadStation/railroadStation";
+import { RailroadStationRepository } from "./repositories/railroadStation/railroadStationRepository";
 import { RailroadStationService } from "./services/railroadStation/railroadStationService";
 import { RailroadStationController } from "./controllers/railroadStation/railroadStationController";
 
