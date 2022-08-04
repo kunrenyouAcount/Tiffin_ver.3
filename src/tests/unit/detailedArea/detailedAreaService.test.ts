@@ -25,7 +25,7 @@ function createMockAreaList(
   for (let i = 1; i < prefectureNum + 1; i++) {
     for (let j = 1; j < areaNumByPrefecture + 1; j++) {
       const area: Area = {
-        id: i * j + j,
+        id: i * areaNumByPrefecture + j,
         name: `test_${i}_${j}`,
         master_prefecture_id: i,
       };
