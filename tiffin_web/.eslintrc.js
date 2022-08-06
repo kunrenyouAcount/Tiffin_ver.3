@@ -4,10 +4,10 @@ module.exports = {
         "es2021": true
     },
     "extends": [
-        "plugin:react/recommended",
-        "google",
-        'next/core-web-vitals',
-    ],
+        "next/core-web-vitals",
+        "plugin:import/recommended",
+        "plugin:import/warnings"
+      ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaFeatures": {
@@ -21,5 +21,13 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
+        "import/order": [
+          "error",
+          {
+            "alphabetize": {
+              "order": "asc"
+            }
+          }
+        ]
     }
 }
