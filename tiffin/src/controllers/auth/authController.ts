@@ -1,7 +1,8 @@
 import { IAuthService } from "../../services/auth/interface";
 import { Request, Response, Router } from "express";
-import { MismatchEmailOrPassword, NotFoundDataError } from "../../utils/error";
+import { MismatchEmailOrPassword, NotFoundDataError, ValidationError } from "../../utils/error";
 import { User } from "../../models/user";
+import { SignInRequest } from "./signIn/request";
 
 export class AuthController {
   private authService: IAuthService;
@@ -12,8 +13,14 @@ export class AuthController {
     this.router = Router();
 
     this.router.post("/auth/signin", async (req: Request, res: Response) => {
-      const user: User = req.body;
-      const result = await this.authService.signIn(user.email, user.password);
+      const validation = new SignInRequest();
+      const validated = validation.validate(req.body);
+      if (validated instanceof ValidationError) {
+        res.status(403).json(validated.err);
+        return;
+      }
+
+      const result = await this.authService.signIn(validated.email, validated.password);
 
       if (result instanceof NotFoundDataError) {
         res.status(404).json(result.message);
