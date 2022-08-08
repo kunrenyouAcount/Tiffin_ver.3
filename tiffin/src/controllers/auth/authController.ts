@@ -3,6 +3,7 @@ import { Request, Response, Router } from "express";
 import { MismatchEmailOrPassword, NotFoundDataError, ValidationError } from "../../utils/error";
 import { User } from "../../models/user";
 import { SignInRequest } from "./signIn/request";
+import { SignUpRequest } from "./signUp/request";
 
 export class AuthController {
   private authService: IAuthService;
@@ -41,7 +42,19 @@ export class AuthController {
     });
 
     this.router.post("/auth/signup", async (req: Request, res: Response) => {
-      const user: User = req.body;
+      const validation = new SignUpRequest();
+      const validated = validation.validate(req.body);
+      if (validated instanceof ValidationError) {
+        res.status(403).json(validated.err);
+        return;
+      }
+      const isNotUsedEmail = await this.authService.checkNotUsingEmail(validated.email);
+      if (!isNotUsedEmail) {
+        res.status(403).json("このメールアドレスは使用済みです");
+        return;
+      }
+
+      const user: User = validated;
       const result = await this.authService.signUp(user);
 
       if (result instanceof Error) {

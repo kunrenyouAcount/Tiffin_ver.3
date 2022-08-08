@@ -3,7 +3,7 @@ import { User } from "../../models/user";
 import { AccessTokenPayload, generateAccessToken } from "../../utils/token";
 import { IUserRepository } from "../../repositories/user/interface";
 import { IAuthService } from "./interface";
-import { MismatchEmailOrPassword } from "../../utils/error";
+import { MismatchEmailOrPassword, NotFoundDataError } from "../../utils/error";
 
 export class AuthService implements IAuthService {
   private userRepository: IUserRepository;
@@ -51,5 +51,17 @@ export class AuthService implements IAuthService {
     };
 
     return generateAccessToken(payload);
+  }
+
+  public async checkNotUsingEmail(email: string): Promise<boolean | Error> {
+    const result = await this.userRepository.getByEmail(email);
+    if (result instanceof NotFoundDataError) {
+      return true;
+    }
+    if (result instanceof Error) {
+      return result;
+    }
+
+    return false;
   }
 }
