@@ -1,6 +1,7 @@
 import { IPrefectureService } from "../../services/prefecture/interface";
 import { Request, Response, Router } from "express";
 import { NotFoundDataError } from "../../utils/error";
+import { authorization } from "../../middlewares/auth";
 
 export class PrefectureController {
   private prefectureService: IPrefectureService;
@@ -10,7 +11,7 @@ export class PrefectureController {
     this.prefectureService = prefectureService;
     this.router = Router();
 
-    this.router.get("/prefectures", async (req: Request, res: Response) => {
+    this.router.get("/prefectures", authorization, async (req: Request, res: Response) => {
       const result = await this.prefectureService.findAll();
       if (result instanceof Error) {
         res.status(500).json(result.message);
@@ -19,7 +20,7 @@ export class PrefectureController {
       res.status(200).json(result);
     });
 
-    this.router.get("/prefectures/:id", async (req: Request, res: Response) => {
+    this.router.get("/prefectures/:id", authorization, async (req: Request, res: Response) => {
       const id = parseInt(req.params.id);
       const result = await this.prefectureService.getById(id);
 
