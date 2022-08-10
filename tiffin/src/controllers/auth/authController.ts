@@ -17,7 +17,7 @@ export class AuthController {
       const validation = new SignInRequest();
       const validated = validation.validate(req.body);
       if (validated instanceof ValidationError) {
-        res.status(403).json(validated.err);
+        res.status(422).json(validated.err);
         return;
       }
 
@@ -45,7 +45,7 @@ export class AuthController {
       const validation = new SignUpRequest();
       const validated = validation.validate(req.body);
       if (validated instanceof ValidationError) {
-        res.status(403).json(validated.err);
+        res.status(422).json(validated.err);
         return;
       }
       const isNotUsedEmail = await this.authService.checkNotUsingEmail(validated.email);
