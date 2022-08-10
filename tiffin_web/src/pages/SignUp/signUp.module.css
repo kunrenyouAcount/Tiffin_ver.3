@@ -1,23 +1,23 @@
-.signUpForm {
+.signupForm {
   width: 400px;
   margin: 8px 16px;
   padding-bottom: 16px;
   border-bottom: 1px solid #aaa;
 }
 
-.signUpInput {
+.signupInput {
   line-height: 20px;
   width: 500px;
   margin: 6px 0;
 }
 
-.signUpInput {
+.signupInput {
   line-height: 20px;
   width: 500px;
   margin: 6px 0;
 }
 
-.signUpButton {
+.signupButton {
   margin-bottom: 20px;
   padding: 8px;
   border: none;
@@ -33,7 +33,7 @@
   color: #fff;
   transition: 0.3s all;
 }
-.signUpButton:hover {
+.signupButton:hover {
   border: 3px solid #007bff;
   background-color: #efefef;
   color: #007bff;
