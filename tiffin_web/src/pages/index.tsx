@@ -15,17 +15,17 @@ export const Home: React.FC = () => {
         <h1>Home</h1>
         <button
           onClick={() => {
-            router.push('/SignIn')
+            router.push('/signin')
           }}
         >
-          SignIn
+          signin
         </button>
         <button
           onClick={() => {
-            router.push('/SignUp')
+            router.push('/signup')
           }}
         >
-          SignUp
+          signup
         </button>
       </main>
     </div>

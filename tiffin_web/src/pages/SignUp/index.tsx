@@ -1,24 +1,24 @@
 import { useRouter } from 'next/router'
-import styles from './signUp.module.css'
+import styles from './signup.module.css'
 
-export const SignUp: React.FC = () => {
+export const Signup: React.FC = () => {
   const router = useRouter()
-  const pushSignUp = () => {
+  const pushSignup = () => {
     router.push('/')
   }
 
   return (
     <>
-      <h1>SignUp</h1>
-      <div className={styles.signUpForm}>
-        <input className={styles.signUpInput} />
-        <input className={styles.signUpInput} />
+      <h1>Signup</h1>
+      <div className={styles.signupForm}>
+        <input className={styles.signupInput} />
+        <input className={styles.signupInput} />
         <div>
           <button className={styles.backButton} onClick={() => router.back()}>
             back
           </button>
-          <button className={styles.signUpButton} onClick={pushSignUp}>
-            SignUp
+          <button className={styles.signupButton} onClick={pushSignup}>
+            signup
           </button>
         </div>
       </div>
@@ -26,4 +26,4 @@ export const SignUp: React.FC = () => {
   )
 }
 
-export default SignUp
+export default Signup
