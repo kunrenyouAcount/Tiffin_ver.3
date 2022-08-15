@@ -18,7 +18,7 @@ export const Signin: React.FC = () => {
     const response = await Axios.post<AuthResponse>('auth/signin', user)
     if (response.status == 200) {
       //cookieにjwt認証に必要な情報を保存する
-      document.cookie = `${tiffin_token_key}=${response.data.access_token}`
+      document.cookie = `${tiffin_token_key}=${response.data}`
       router.push('/')
     } else {
       alert('ログイン失敗')
