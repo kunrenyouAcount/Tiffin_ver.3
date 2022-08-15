@@ -8,6 +8,10 @@ import { isLogin } from '@/utils/auth'
 
 export const Home: React.FC = () => {
   const router = useRouter()
+  const pushSignout = () => {
+    document.cookie = `tiffin_token=; max-age=0`
+    router.push('/')
+  }
 
   return (
     <div className='container'>
@@ -24,12 +28,7 @@ export const Home: React.FC = () => {
         <>
           <div className={styles.pageTitle}>Home</div>
           {isLogin() ? (
-            <button
-              className={styles.primaryButton}
-              onClick={() => {
-                router.push('/')
-              }}
-            >
+            <button className={styles.primaryButton} onClick={pushSignout}>
               signout
             </button>
           ) : (
