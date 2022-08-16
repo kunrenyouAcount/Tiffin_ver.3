@@ -3,6 +3,7 @@ import router from 'next/router'
 import { useState } from 'react'
 import styles from './signup.module.css'
 import { Header } from '@/components/header/header'
+import { AccountIcon } from '@/components/header/headerRight/accountIcon/accountIcon'
 import { HeaderRight } from '@/components/header/headerRight/headerRight'
 import { SigninButton } from '@/components/header/headerRight/signinButton/signinButton'
 import { Logo } from '@/components/header/logo/logo'
@@ -52,6 +53,7 @@ export const Signup: React.FC = () => {
           <HeaderRight>
             <>
               <SigninButton />
+              <AccountIcon />
             </>
           </HeaderRight>
         </>

@@ -1,10 +1,5 @@
-import router from 'next/router'
-import styles from './logo.module.css'
+import Image from 'next/image'
 
 export const Logo: React.FC = () => {
-  return (
-    <div className={styles.logo} onClick={() => router.push('/')}>
-      Tiffin
-    </div>
-  )
+  return <Image src='/images/logo/logo.png' alt='logo' width={150} height={45} />
 }
