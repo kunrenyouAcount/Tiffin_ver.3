@@ -1,9 +1,8 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import styles from './Home.module.css'
-import { Header } from '@/components/header/header'
-import { Logo } from '@/components/header/logo/logo'
-import { Layout } from '@/components/layout/layout'
+import { Header } from '@/components/header'
+import { Logo } from '@/components/header/logo'
+import { Layout } from '@/components/layout'
 import { isLogin } from '@/utils/auth'
 
 export const Home: React.FC = () => {
@@ -20,21 +19,16 @@ export const Home: React.FC = () => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <Header>
-        <>
-          <Logo />
-        </>
+        <Logo />
       </Header>
       <Layout>
         <>
-          <div className={styles.pageTitle}>Home</div>
+          <div>Home</div>
           {isLogin() ? (
-            <button className={styles.primaryButton} onClick={pushSignout}>
-              signout
-            </button>
+            <button onClick={pushSignout}>signout</button>
           ) : (
             <>
               <button
-                className={styles.primaryButton}
                 onClick={() => {
                   router.push('/signup')
                 }}
@@ -42,7 +36,6 @@ export const Home: React.FC = () => {
                 signup
               </button>
               <button
-                className={styles.primaryButton}
                 onClick={() => {
                   router.push('/signin')
                 }}

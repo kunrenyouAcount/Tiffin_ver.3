@@ -1,5 +1,4 @@
 import router from 'next/router'
-import styles from './signoutButton.module.css'
 import { tiffin_token_key } from '@/utils/auth'
 
 export const SignoutButton: React.FC = () => {
@@ -8,9 +7,5 @@ export const SignoutButton: React.FC = () => {
     router.push('/')
   }
 
-  return (
-    <button className={styles.headerButton} onClick={pushSignout}>
-      signout
-    </button>
-  )
+  return <button onClick={pushSignout}>signout</button>
 }
