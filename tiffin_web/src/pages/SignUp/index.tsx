@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import Image from 'next/image'
 import router from 'next/router'
 import { useState } from 'react'
 import { Header } from '@/components/header'
@@ -59,6 +60,7 @@ export const Signup: React.FC = () => {
       </Header>
       <Layout>
         <>
+          <Image src='/images/auth/backgroundImage.png' alt='背景画像' width='2000' height='1500' />
           <div>Signup</div>
           <div>
             <input type='text' onChange={changedName} />
