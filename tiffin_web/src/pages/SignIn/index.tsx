@@ -1,7 +1,6 @@
 import Axios from 'axios'
 import router from 'next/router'
 import { useState } from 'react'
-import styles from './signin.module.css'
 import { Header } from '@/components/header'
 import { HeaderRight } from '@/components/header/headerRight'
 import { AccountIcon } from '@/components/header/headerRight/accountIcon'
@@ -53,17 +52,13 @@ export const Signin: React.FC = () => {
       </Header>
       <Layout>
         <>
-          <div className={styles.pageTitle}>Signin</div>
-          <div className={styles.signinForm}>
-            <input type='email' className={styles.signinInput} onChange={changedEmail} />
-            <input type='password' className={styles.signinInput} onChange={changedPassword} />
+          <div>Signin</div>
+          <div>
+            <input type='email' onChange={changedEmail} />
+            <input type='password' onChange={changedPassword} />
             <div>
-              <button className={styles.backButton} onClick={() => router.back()}>
-                back
-              </button>
-              <button className={styles.signinButton} onClick={pushSignin}>
-                signin
-              </button>
+              <button onClick={() => router.back()}>back</button>
+              <button onClick={pushSignin}>signin</button>
             </div>
           </div>
         </>

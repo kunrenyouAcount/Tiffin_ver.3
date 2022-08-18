@@ -1,7 +1,6 @@
 import Axios from 'axios'
 import router from 'next/router'
 import { useState } from 'react'
-import styles from './signup.module.css'
 import { Header } from '@/components/header'
 import { HeaderRight } from '@/components/header/headerRight'
 import { AccountIcon } from '@/components/header/headerRight/accountIcon'
@@ -60,19 +59,15 @@ export const Signup: React.FC = () => {
       </Header>
       <Layout>
         <>
-          <div className={styles.pageTitle}>Signup</div>
-          <div className={styles.signupForm}>
-            <input type='text' className={styles.signupInput} onChange={changedName} />
-            <input type='email' className={styles.signupInput} onChange={changedEmail} />
-            <input type='password' className={styles.signupInput} onChange={changedPassword} />
-            <input type='password' className={styles.signupInput} onChange={changedConfirmation} />
+          <div>Signup</div>
+          <div>
+            <input type='text' onChange={changedName} />
+            <input type='email' onChange={changedEmail} />
+            <input type='password' onChange={changedPassword} />
+            <input type='password' onChange={changedConfirmation} />
             <div>
-              <button className={styles.backButton} onClick={() => router.back()}>
-                back
-              </button>
-              <button className={styles.signupButton} onClick={pushSignup}>
-                signup
-              </button>
+              <button onClick={() => router.back()}>back</button>
+              <button onClick={pushSignup}>signup</button>
             </div>
           </div>
         </>
