@@ -1,5 +1,5 @@
 import router from 'next/router'
-import { tiffin_token_key } from '@/utils/auth'
+import { tiffin_token_key } from 'src/utils/auth'
 
 export const SignoutButton: React.FC = () => {
   const pushSignout = () => {

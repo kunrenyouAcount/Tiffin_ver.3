@@ -1,9 +1,9 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { Header } from '@/components/header'
-import { Logo } from '@/components/header/logo'
-import { Layout } from '@/components/layout'
-import { isLogin } from '@/utils/auth'
+import { Header } from 'src/components/header'
+import { Logo } from 'src/components/header/logo'
+import { Layout } from 'src/components/layout'
+import { isLogin } from 'src/utils/auth'
 
 export const Home: React.FC = () => {
   const router = useRouter()
