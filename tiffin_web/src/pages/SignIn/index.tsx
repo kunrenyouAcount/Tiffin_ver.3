@@ -1,4 +1,5 @@
 import { Button } from '@mui/material'
+import Typography from '@mui/material/Typography'
 import Axios from 'axios'
 import Image from 'next/image'
 import router from 'next/router'
@@ -55,7 +56,9 @@ export const Signin: React.FC = () => {
       <Layout>
         <>
           <Image src='/images/auth/backgroundImage.png' alt='背景画像' width='2000' height='1500' />
-          <div>Signin</div>
+          <Typography variant='h3' gutterBottom>
+            Signin
+          </Typography>
           <div>
             <input type='email' onChange={changedEmail} />
             <input type='password' onChange={changedPassword} />

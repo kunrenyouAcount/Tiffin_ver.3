@@ -1,4 +1,5 @@
 import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { Header } from 'src/components/header'
@@ -25,7 +26,9 @@ export const Home: React.FC = () => {
       </Header>
       <Layout>
         <>
-          <div>Home</div>
+          <Typography variant='h3' gutterBottom>
+            Home
+          </Typography>
           {isLogin() ? (
             <Button variant='contained' onClick={pushSignout}>
               signout{' '}
