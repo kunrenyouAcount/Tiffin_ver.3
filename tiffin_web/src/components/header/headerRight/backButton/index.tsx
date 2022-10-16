@@ -1,3 +1,4 @@
+import { Button } from '@mui/material'
 import router from 'next/router'
 
 export const BackButton: React.FC = () => {
@@ -5,5 +6,9 @@ export const BackButton: React.FC = () => {
     router.back()
   }
 
-  return <button onClick={goBack}>戻る</button>
+  return (
+    <Button variant='contained' onClick={goBack}>
+      戻る
+    </Button>
+  )
 }

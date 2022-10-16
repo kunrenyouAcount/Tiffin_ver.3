@@ -1,3 +1,4 @@
+import { Button } from '@mui/material'
 import Axios from 'axios'
 import Image from 'next/image'
 import router from 'next/router'
@@ -59,8 +60,12 @@ export const Signin: React.FC = () => {
             <input type='email' onChange={changedEmail} />
             <input type='password' onChange={changedPassword} />
             <div>
-              <button onClick={() => router.back()}>back</button>
-              <button onClick={pushSignin}>signin</button>
+              <Button variant='contained' onClick={() => router.back()}>
+                back
+              </Button>
+              <Button variant='contained' onClick={pushSignin}>
+                signin
+              </Button>
             </div>
           </div>
         </>

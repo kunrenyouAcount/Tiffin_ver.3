@@ -1,3 +1,4 @@
+import { Button } from '@mui/material'
 import router from 'next/router'
 import { tiffin_token_key } from 'src/utils/auth'
 
@@ -7,5 +8,9 @@ export const SignoutButton: React.FC = () => {
     router.push('/')
   }
 
-  return <button onClick={pushSignout}>signout</button>
+  return (
+    <Button variant='contained' onClick={pushSignout}>
+      signout
+    </Button>
+  )
 }

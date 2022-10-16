@@ -1,3 +1,4 @@
+import Button from '@mui/material/Button'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { Header } from 'src/components/header'
@@ -25,23 +26,27 @@ export const Home: React.FC = () => {
         <>
           <div>Home</div>
           {isLogin() ? (
-            <button onClick={pushSignout}>signout</button>
+            <Button variant='contained' onClick={pushSignout}>
+              signout{' '}
+            </Button>
           ) : (
             <>
-              <button
+              <Button
+                variant='contained'
                 onClick={() => {
                   router.push('/signup')
                 }}
               >
                 signup
-              </button>
-              <button
+              </Button>
+              <Button
+                variant='contained'
                 onClick={() => {
                   router.push('/signin')
                 }}
               >
                 signin
-              </button>
+              </Button>
             </>
           )}
         </>

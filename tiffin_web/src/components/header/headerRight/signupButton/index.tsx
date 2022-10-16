@@ -1,3 +1,4 @@
+import { Button } from '@mui/material'
 import router from 'next/router'
 
 export const SignupButton: React.FC = () => {
@@ -5,5 +6,9 @@ export const SignupButton: React.FC = () => {
     router.push('/signup')
   }
 
-  return <button onClick={pushSignup}>signup</button>
+  return (
+    <Button variant='contained' onClick={pushSignup}>
+      signup
+    </Button>
+  )
 }
