@@ -1,6 +1,6 @@
+import { Button } from '@mui/material'
 import router from 'next/router'
-import styles from './signoutButton.module.css'
-import { tiffin_token_key } from '@/utils/auth'
+import { tiffin_token_key } from 'src/utils/auth'
 
 export const SignoutButton: React.FC = () => {
   const pushSignout = () => {
@@ -9,8 +9,8 @@ export const SignoutButton: React.FC = () => {
   }
 
   return (
-    <button className={styles.headerButton} onClick={pushSignout}>
+    <Button variant='contained' onClick={pushSignout}>
       signout
-    </button>
+    </Button>
   )
 }

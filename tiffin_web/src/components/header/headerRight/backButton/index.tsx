@@ -1,5 +1,5 @@
+import { Button } from '@mui/material'
 import router from 'next/router'
-import styles from './backButton.module.css'
 
 export const BackButton: React.FC = () => {
   const goBack = () => {
@@ -7,8 +7,8 @@ export const BackButton: React.FC = () => {
   }
 
   return (
-    <button className={styles.headerButton} onClick={goBack}>
+    <Button variant='contained' onClick={goBack}>
       戻る
-    </button>
+    </Button>
   )
 }

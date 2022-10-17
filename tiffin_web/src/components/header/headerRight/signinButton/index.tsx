@@ -1,5 +1,5 @@
+import { Button } from '@mui/material'
 import router from 'next/router'
-import styles from './signinButton.module.css'
 
 export const SigninButton: React.FC = () => {
   const pushSignin = () => {
@@ -7,8 +7,8 @@ export const SigninButton: React.FC = () => {
   }
 
   return (
-    <button className={styles.headerButton} onClick={pushSignin}>
+    <Button variant='contained' onClick={pushSignin}>
       signin
-    </button>
+    </Button>
   )
 }

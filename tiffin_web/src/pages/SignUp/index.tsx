@@ -1,13 +1,16 @@
+import { Button } from '@mui/material'
+import Typography from '@mui/material/Typography'
 import Axios from 'axios'
+import Image from 'next/image'
 import router from 'next/router'
 import { useState } from 'react'
-import styles from './signup.module.css'
-import { Header } from '@/components/header/header'
-import { HeaderRight } from '@/components/header/headerRight/headerRight'
-import { SigninButton } from '@/components/header/headerRight/signinButton/signinButton'
-import { Logo } from '@/components/header/logo/logo'
-import { Layout } from '@/components/layout/layout'
-import { AuthSignupRequest } from '@/models/request/auth/authSignupRequest'
+import { Header } from 'src/components/header'
+import { HeaderRight } from 'src/components/header/headerRight'
+import { AccountIcon } from 'src/components/header/headerRight/accountIcon'
+import { SigninButton } from 'src/components/header/headerRight/signinButton'
+import { Logo } from 'src/components/header/logo'
+import { Layout } from 'src/components/layout'
+import { AuthSignupRequest } from 'src/models/request/auth/authSignupRequest'
 
 export const Signup: React.FC = () => {
   const [user, setUser] = useState<AuthSignupRequest>()
@@ -52,25 +55,29 @@ export const Signup: React.FC = () => {
           <HeaderRight>
             <>
               <SigninButton />
+              <AccountIcon />
             </>
           </HeaderRight>
         </>
       </Header>
       <Layout>
         <>
-          <div className={styles.pageTitle}>Signup</div>
-          <div className={styles.signupForm}>
-            <input type='text' className={styles.signupInput} onChange={changedName} />
-            <input type='email' className={styles.signupInput} onChange={changedEmail} />
-            <input type='password' className={styles.signupInput} onChange={changedPassword} />
-            <input type='password' className={styles.signupInput} onChange={changedConfirmation} />
+          <Image src='/images/auth/backgroundImage.png' alt='背景画像' width='2000' height='1500' />
+          <Typography variant='h3' gutterBottom>
+            Signup
+          </Typography>
+          <div>
+            <input type='text' onChange={changedName} />
+            <input type='email' onChange={changedEmail} />
+            <input type='password' onChange={changedPassword} />
+            <input type='password' onChange={changedConfirmation} />
             <div>
-              <button className={styles.backButton} onClick={() => router.back()}>
+              <Button variant='contained' onClick={() => router.back()}>
                 back
-              </button>
-              <button className={styles.signupButton} onClick={pushSignup}>
+              </Button>
+              <Button variant='contained' onClick={pushSignup}>
                 signup
-              </button>
+              </Button>
             </div>
           </div>
         </>
