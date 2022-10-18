@@ -23369,18 +23369,21 @@ CREATE TABLE `users` (
   `name` varchar(50) NOT NULL DEFAULT '',
   `email` varchar(100) NOT NULL DEFAULT '',
   `password` varchar(100) NOT NULL DEFAULT '',
+  `master_prefecture_id` bigint unsigned NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `idx_email` (`email`)
+  UNIQUE INDEX `idx_email` (`email`),
+  FOREIGN KEY (`master_prefecture_id`) REFERENCES `master_prefectures` (`id`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 「password」という文字列をハッシュ化してテストデータとして入れています。
 INSERT INTO `users` (
 	`name`,
   `email`,
-  `password`
+  `password`,
+  `master_prefecture_id`
 ) VALUES
-	('田中太郎', 'tarou@example.com', '$2b$10$lS.1RfbwrBLGm6beMuJAnejoOhvBhw6v34R.ko28zyQG6oNtzWGay'),
-	('山田花子', 'hanako@example.com', '$2b$10$lS.1RfbwrBLGm6beMuJAnejoOhvBhw6v34R.ko28zyQG6oNtzWGay')
+	('田中太郎', 'tarou@example.com', '$2b$10$lS.1RfbwrBLGm6beMuJAnejoOhvBhw6v34R.ko28zyQG6oNtzWGay', 1),
+	('山田花子', 'hanako@example.com', '$2b$10$lS.1RfbwrBLGm6beMuJAnejoOhvBhw6v34R.ko28zyQG6oNtzWGay', 2)
 ;
