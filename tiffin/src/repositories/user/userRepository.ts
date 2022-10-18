@@ -39,9 +39,9 @@ export class UserRepository implements IUserRepository {
   public async create(User: User): Promise<number | Error> {
     try {
       const sql = `
-        insert into users(name,email,password) values(?,?,?)
+        insert into users(name,email,password,master_prefecture_id) values(?,?,?,?)
       `;
-      const [result] = await this.connection.query<ResultSetHeader>(sql, [User.name, User.email, User.password]);
+      const [result] = await this.connection.query<ResultSetHeader>(sql, [User.name, User.email, User.password, User.master_prefecture_id]);
       return result.insertId;
     } catch (error) {
       return new SqlError(`UserRepository.create() ERROR: ${error}`);

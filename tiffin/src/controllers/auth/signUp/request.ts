@@ -22,6 +22,9 @@ export class SignUpRequest extends BaseRequest {
           //8文字以上20文字以下、大文字小文字英字、数字、「.?/-」許可
           pattern: "^[a-zA-Z0-9.?/-]{8,20}$",
         },
+        master_prefecture_id: {
+          type: "number",
+        }
       },
     };
   }
