@@ -14,8 +14,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Axios from 'axios'
 import router from 'next/router'
 import * as React from 'react'
-import { AuthResponse } from 'src/models/response/auth/authResponse'
-import { tiffin_token_key } from 'src/utils/auth'
+import { AuthResponse } from '../../models/response/auth/authResponse'
+import { tiffin_token_key } from '../../utils/auth'
 
 function Copyright(props: any) {
   return (
@@ -41,11 +41,10 @@ export default function SignIn() {
       password: data.get('password'),
     })
     if (response.status == 200) {
-      //cookieにjwt認証に必要な情報を保存する
       document.cookie = `${tiffin_token_key}=${response.data}`
       router.push('/')
     } else {
-      alert('ログイン失敗')
+      alert('failed')
     }
   }
 
