@@ -13,7 +13,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Axios from 'axios'
 import router from 'next/router'
 import { useEffect, useState } from 'react'
-import { Prefecture } from '../../models/Prefecture'
+import { Prefecture } from 'src/models/Prefecture'
 
 function Copyright(props: any) {
   return (

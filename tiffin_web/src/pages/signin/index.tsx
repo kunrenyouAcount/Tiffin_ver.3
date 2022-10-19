@@ -14,8 +14,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Axios from 'axios'
 import router from 'next/router'
 import * as React from 'react'
-import { AuthResponse } from '../../models/response/auth/authResponse'
-import { tiffin_token_key } from '../../utils/auth'
+import { tiffin_token_key } from 'src/utils/auth'
+import { AuthResponse } from 'src/models/response/auth/authResponse'
 
 function Copyright(props: any) {
   return (
