@@ -1,10 +1,10 @@
+import { AppBar, Grid, Toolbar } from '@mui/material'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { Header } from 'src/components/header'
-import { Logo } from 'src/components/header/logo'
 import { Layout } from 'src/components/layout'
+import { Logo } from 'src/components/logo'
 import { isLogin } from 'src/utils/auth'
 
 export const Home: React.FC = () => {
@@ -21,18 +21,33 @@ export const Home: React.FC = () => {
         <link rel='icon' href='/favicon.ico' />
         <meta name='viewport' content='initial-scale=1, width=device-width' />
       </Head>
-      <Header>
-        <Logo />
-      </Header>
+      <header>
+        <AppBar color='default' position='relative'>
+          <Toolbar>
+            <Grid container component='main'>
+              <Grid item md={11}>
+                <Logo />
+              </Grid>
+              <Grid item md={1}>
+                {isLogin() ? (
+                  <Button variant='contained' onClick={pushSignout}>
+                    signout{' '}
+                  </Button>
+                ) : (
+                  <></>
+                )}
+              </Grid>
+            </Grid>
+          </Toolbar>
+        </AppBar>
+      </header>
       <Layout>
         <>
           <Typography variant='h3' gutterBottom>
             Home
           </Typography>
           {isLogin() ? (
-            <Button variant='contained' onClick={pushSignout}>
-              signout{' '}
-            </Button>
+            <></>
           ) : (
             <>
               <Button
