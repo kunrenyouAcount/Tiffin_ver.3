@@ -19,7 +19,7 @@ function Copyright(props: any) {
   return (
     <Typography variant='body2' color='text.secondary' align='center' {...props}>
       {'Copyright © '}
-      <Link color='inherit' href='https://mui.com/'>
+      <Link color='inherit' href='/'>
         Tiffin
       </Link>{' '}
       {new Date().getFullYear()}
@@ -31,11 +31,11 @@ function Copyright(props: any) {
 const theme = createTheme()
 
 export default function SignUp() {
-  const [prefectures, setPrefectures] = useState<Prefecture[]>([]);
+  const [prefectures, setPrefectures] = useState<Prefecture[]>([])
   useEffect(() => {
-    (async() => {
-    const results = await Axios.get<Prefecture[]>('prefectures');
-    setPrefectures(results.data);
+    ;(async () => {
+      const results = await Axios.get<Prefecture[]>('prefectures')
+      setPrefectures(results.data)
     })()
   }, [setPrefectures])
 
@@ -150,7 +150,9 @@ export default function SignUp() {
                     >
                       {prefectures.map((prefecture) => {
                         return (
-                          <MenuItem value={prefecture.id} key={prefecture.id}>{prefecture.name}</MenuItem>
+                          <MenuItem value={prefecture.id} key={prefecture.id}>
+                            {prefecture.name}
+                          </MenuItem>
                         )
                       })}
                     </Select>
