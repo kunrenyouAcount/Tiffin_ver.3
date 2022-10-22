@@ -43,31 +43,37 @@ export const Home: React.FC = () => {
       </header>
       <Layout>
         <>
-          <Typography variant='h3' gutterBottom>
-            Home
-          </Typography>
-          {isLogin() ? (
-            <></>
-          ) : (
-            <>
-              <Button
-                variant='contained'
-                onClick={() => {
-                  router.push('/signup')
-                }}
-              >
-                signup
-              </Button>
-              <Button
-                variant='contained'
-                onClick={() => {
-                  router.push('/signin')
-                }}
-              >
-                signin
-              </Button>
-            </>
-          )}
+          <Grid container alignItems='center' justifyContent='center' direction='column'>
+            <Grid item>
+              <Typography variant='h3' gutterBottom>
+                Home
+              </Typography>
+            </Grid>
+            <Grid item>
+              {isLogin() ? (
+                <></>
+              ) : (
+                <>
+                  <Button
+                    variant='contained'
+                    onClick={() => {
+                      router.push('/signup')
+                    }}
+                  >
+                    signup
+                  </Button>
+                  <Button
+                    variant='contained'
+                    onClick={() => {
+                      router.push('/signin')
+                    }}
+                  >
+                    signin
+                  </Button>
+                </>
+              )}
+            </Grid>
+          </Grid>
         </>
       </Layout>
     </div>
