@@ -3,19 +3,19 @@ import { IDetailedAreaRepository } from "../../repositories/detailedArea/interfa
 import { IDetailedAreaService } from "./interface";
 
 export class DetailedAreaService implements IDetailedAreaService {
-  private detailedDetailedAreaRepository: IDetailedAreaRepository;
+  private detailedAreaRepository: IDetailedAreaRepository;
 
-  constructor(detailedDetailedAreaRepository: IDetailedAreaRepository) {
-    this.detailedDetailedAreaRepository = detailedDetailedAreaRepository;
+  constructor(detailedAreaRepository: IDetailedAreaRepository) {
+    this.detailedAreaRepository = detailedAreaRepository;
   }
 
   public async findAll(): Promise<DetailedArea[] | Error> {
-    const result = await this.detailedDetailedAreaRepository.findAll();
+    const result = await this.detailedAreaRepository.findAll();
     return result;
   }
 
   public async getByAreaId(areaId: number): Promise<DetailedArea[] | Error> {
-    const result = await this.detailedDetailedAreaRepository.getByAreaId(areaId);
+    const result = await this.detailedAreaRepository.getByAreaId(areaId);
     return result;
   }
 }
