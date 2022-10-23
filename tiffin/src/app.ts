@@ -18,6 +18,9 @@ import { RailroadStationController } from "./controllers/railroadStation/railroa
 import { UserRepository } from "./repositories/user/userRepository";
 import { AuthService } from "./services/auth/authService";
 import { AuthController } from "./controllers/auth/authController";
+import { MenuRepository } from "./repositories/menu/menuRepository";
+import { MenuService } from "./services/menu/menuService";
+import { MenuController } from "./controllers/menu/menuController";
 
 async function main() {
   dotenv.config();
@@ -71,6 +74,11 @@ async function main() {
   const authService = new AuthService(userRepository);
   const authController = new AuthController(authService);
   app.use("/api/", authController.router);
+
+  const menuRepository = new MenuRepository(connection);
+  const menuService = new MenuService(menuRepository);
+  const menuController = new MenuController(menuService);
+  app.use("/api/", menuController.router);
 }
 
 main();
