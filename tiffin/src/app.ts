@@ -21,6 +21,9 @@ import { AuthController } from "./controllers/auth/authController";
 import { MenuRepository } from "./repositories/menu/menuRepository";
 import { MenuService } from "./services/menu/menuService";
 import { MenuController } from "./controllers/menu/menuController";
+import { CookingRepository } from "./repositories/cooking/cookingRepository";
+import { CookingService } from "./services/cooking/cookingService";
+import { CookingController } from "./controllers/cooking/cookingController";
 
 async function main() {
   dotenv.config();
@@ -74,6 +77,11 @@ async function main() {
   const authService = new AuthService(userRepository);
   const authController = new AuthController(authService);
   app.use("/api/", authController.router);
+
+  const cookingRepository = new CookingRepository(connection);
+  const cookingService = new CookingService(cookingRepository);
+  const cookingController = new CookingController(cookingService);
+  app.use("/api/", cookingController.router);
 
   const menuRepository = new MenuRepository(connection);
   const menuService = new MenuService(menuRepository);
