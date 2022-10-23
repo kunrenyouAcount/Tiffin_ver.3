@@ -3,7 +3,6 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { Layout } from 'src/components/layout'
 import { Logo } from 'src/components/logo'
 import { isLogin } from 'src/utils/auth'
 
@@ -41,41 +40,39 @@ export const Home: React.FC = () => {
           </Toolbar>
         </AppBar>
       </header>
-      <Layout>
-        <>
-          <Grid container alignItems='center' justifyContent='center' direction='column'>
-            <Grid item>
-              <Typography variant='h3' gutterBottom>
-                Home
-              </Typography>
-            </Grid>
-            <Grid item>
-              {isLogin() ? (
-                <></>
-              ) : (
-                <>
-                  <Button
-                    variant='contained'
-                    onClick={() => {
-                      router.push('/signup')
-                    }}
-                  >
-                    signup
-                  </Button>
-                  <Button
-                    variant='contained'
-                    onClick={() => {
-                      router.push('/signin')
-                    }}
-                  >
-                    signin
-                  </Button>
-                </>
-              )}
-            </Grid>
+      <Grid container mt={5}>
+        <Grid container alignItems='center' justifyContent='center' direction='column'>
+          <Grid item>
+            <Typography variant='h3' gutterBottom>
+              Home
+            </Typography>
           </Grid>
-        </>
-      </Layout>
+          <Grid item>
+            {isLogin() ? (
+              <></>
+            ) : (
+              <>
+                <Button
+                  variant='contained'
+                  onClick={() => {
+                    router.push('/signup')
+                  }}
+                >
+                  signup
+                </Button>
+                <Button
+                  variant='contained'
+                  onClick={() => {
+                    router.push('/signin')
+                  }}
+                >
+                  signin
+                </Button>
+              </>
+            )}
+          </Grid>
+        </Grid>
+      </Grid>
     </div>
   )
 }
