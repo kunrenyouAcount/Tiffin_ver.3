@@ -4,7 +4,6 @@ import { Connection, RowDataPacket } from "mysql2/promise";
 import { RailroadStationResponse } from "../../controllers/railroadStation/response";
 import { createDBConnection } from "../utils/Database/database";
 import { createRailroadStationTestData } from "../utils/testData/createRailroadStationTestData";
-import { createTokenTestData } from "../utils/testData/createTokenTestData";
 
 dotenv.config();
 const { PORT } = process.env;
@@ -29,12 +28,9 @@ afterEach(async () => {
 describe("RailroadStationApi", () => {
   describe("findAll", () => {
     it("should return 10 railroadStations and 200 status", async () => {
-      const token = await createTokenTestData(connection);
       const createdRailroadStationList = await createRailroadStationTestData(connection, 2, 5);
 
-      const response = await axios.get<RailroadStationResponse[]>("/api/railroad-stations", {
-        headers: { Authorization: token },
-      });
+      const response = await axios.get<RailroadStationResponse[]>("/api/railroad-stations");
 
       expect(response.status).toBe(200);
       expect(response.data.length).toBe(10);
@@ -48,12 +44,10 @@ describe("RailroadStationApi", () => {
   });
   describe("getByPrefectureId", () => {
     it("should return 5 railroadStations and 200 status", async () => {
-      const token = await createTokenTestData(connection);
       const createdRailroadStationList = await createRailroadStationTestData(connection, 2, 5);
       const expectRailroadStation = createdRailroadStationList[0];
       const response = await axios.get<RailroadStationResponse[]>(
-        `/api/railroad-stations/prefecture-id/${expectRailroadStation.master_prefecture_id}`,
-        { headers: { Authorization: token } }
+        `/api/railroad-stations/prefecture-id/${expectRailroadStation.master_prefecture_id}`
       );
 
       expect(response.status).toBe(200);
@@ -66,11 +60,9 @@ describe("RailroadStationApi", () => {
       }
     });
     it("should return 404 status", async () => {
-      const token = await createTokenTestData(connection);
       const notExistsId = 1;
       const response = await axios.get<RailroadStationResponse[]>(
-        `/api/railroad-stations/prefecture-id/${notExistsId}`,
-        { headers: { Authorization: token } }
+        `/api/railroad-stations/prefecture-id/${notExistsId}`
       );
       expect(response.status).toBe(404);
     });

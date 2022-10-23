@@ -3,13 +3,15 @@ import { User } from "../../../../src/models/user";
 import { UserRepository } from "../../../../src/repositories/user/userRepository";
 import { NotFoundDataError } from "../../../../src/utils/error";
 import { createDBConnection } from "../../utils/Database/database";
+import { createPrefectureTestData } from "../../utils/testData/createPrefectureTestData";
 import { createUserTestData } from "../../utils/testData/createUserTestData";
 
 let connection: Connection;
 
 beforeEach(async () => {
   connection = await createDBConnection();
-  await connection.query(`delete from users`);
+  connection.query(`delete from users`);
+  connection.query(`delete from master_prefectures`);
 });
 
 afterEach(async () => {
@@ -31,6 +33,7 @@ describe("UserRepository", () => {
       expect(result.name).toBe(expectUser.name);
       expect(result.email).toBe(expectUser.email);
       expect(result.password).toBe(expectUser.password);
+      expect(result.master_prefecture_id).toBe(expectUser.master_prefecture_id);
     });
     it("shoud return notfound error", async () => {
       const repository = new UserRepository(connection);
@@ -57,6 +60,7 @@ describe("UserRepository", () => {
       expect(result.name).toBe(expectUser.name);
       expect(result.email).toBe(expectUser.email);
       expect(result.password).toBe(expectUser.password);
+      expect(result.master_prefecture_id).toBe(expectUser.master_prefecture_id);
     });
 
     it("shoud return notfound error", async () => {
@@ -72,11 +76,13 @@ describe("UserRepository", () => {
 
   describe("create", () => {
     it("shoud return createdId", async () => {
+      const prefectures = await createPrefectureTestData(connection, 1);
       const repository = new UserRepository(connection);
       const user: User = {
         name: "name",
         email: "email",
         password: "passsword",
+        master_prefecture_id: prefectures[0].id!,
       };
       const createdId = await repository.create(user);
       if (createdId instanceof Error) {
@@ -91,6 +97,7 @@ describe("UserRepository", () => {
       expect(result.name).toBe(user.name);
       expect(result.email).toBe(user.email);
       expect(result.password).toBe(user.password);
+      expect(result.master_prefecture_id).toBe(user.master_prefecture_id);
     });
   });
 });

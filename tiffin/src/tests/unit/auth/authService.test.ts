@@ -31,6 +31,7 @@ describe("AuthService", () => {
         name: "name",
         email: "email",
         password: hashedPassword,
+        master_prefecture_id: 1,
       };
 
       let mockRepository = createMockRepository();
@@ -61,6 +62,7 @@ describe("AuthService", () => {
         name: "name",
         email: "email",
         password: hashedPassword,
+        master_prefecture_id: 1,
       };
 
       let mockRepository = createMockRepository();
@@ -107,6 +109,7 @@ describe("AuthService", () => {
         name: "name",
         email: "email",
         password: "password",
+        master_prefecture_id: 1,
       };
       const result = await service.signUp(createUser);
 
@@ -137,6 +140,7 @@ describe("AuthService", () => {
         name: "name",
         email: "email",
         password: "password",
+        master_prefecture_id: 1,
       };
       const result = await service.signUp(createUser);
 
