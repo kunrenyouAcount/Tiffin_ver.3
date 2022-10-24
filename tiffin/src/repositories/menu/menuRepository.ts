@@ -25,6 +25,20 @@ export class MenuRepository implements IMenuRepository {
     }
   }
 
+  public async getByDetailedArea(detailedAreaId: number): Promise<Error | Menu[]> {
+    try {
+      const sql =
+        "select menus.id, menus.name, menus.price, menus.shop_id from menus inner join shops on menus.shop_id = shops.id where shops.master_detailed_area_id = ?";
+      const [rows] = await this.connection.execute<Menu[] & RowDataPacket[]>(sql, [detailedAreaId]);
+      if (rows.length === 0) {
+        return new NotFoundDataError(`not exists target menus`);
+      }
+      return rows as Menu[];
+    } catch (error) {
+      return new SqlError(`MenuRepository.getByDetailedArea() ERROR: ${error}`);
+    }
+  }
+
   public async getByGenre(genreId: number): Promise<Menu[] | Error> {
     try {
       const sql = "select * from menus where master_genre_id = ?";
