@@ -23222,16 +23222,16 @@ INSERT INTO `master_detailed_genres` (
 CREATE TABLE `master_cookings` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `master_genres_id` bigint NOT NULL,
-  `master_detailed_genres` bigint,
+  `master_genre_id` bigint NOT NULL,
+  `master_detailed_genre_id` bigint,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `master_cookings` (
 	`id`,
   `name`,
-  `master_genres_id`,
-  `master_detailed_genres`
+  `master_genre_id`,
+  `master_detailed_genre_id`
 ) VALUES
 	(1, 'ハンバーグ', 2, 14),
 	(2, 'ハンバーガー', 2, 17),

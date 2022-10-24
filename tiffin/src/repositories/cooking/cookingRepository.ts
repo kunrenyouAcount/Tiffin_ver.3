@@ -9,11 +9,30 @@ export class CookingRepository implements ICookingRepository {
   constructor(connection: Connection) {
     this.connection = connection;
   }
-  getByGenre(): Promise<Cooking[] | Error> {
-    throw new Error("Method not implemented.");
+  public async getByGenre(genreId: number): Promise<Cooking[] | Error> {
+    try {
+      const sql = "select * from master_cookings where master_genre_id = ?";
+      const [rows] = await this.connection.execute<Cooking[] & RowDataPacket[]>(sql, [genreId]);
+      if (rows.length === 0) {
+        return new NotFoundDataError(`not exists target cookings`);
+      }
+      return rows as Cooking[];
+    } catch (error) {
+      return new SqlError(`CookingRepository.getByGenre() ERROR: ${error}`);
+    }
   }
-  getByDetailedGenre(): Promise<Cooking[] | Error> {
-    throw new Error("Method not implemented.");
+
+  public async getByDetailedGenre(detailedGenreId: number): Promise<Cooking[] | Error> {
+    try {
+      const sql = "select * from master_cookings where master_detailed_genre_id = ?";
+      const [rows] = await this.connection.execute<Cooking[] & RowDataPacket[]>(sql, [detailedGenreId]);
+      if (rows.length === 0) {
+        return new NotFoundDataError(`not exists target cookings`);
+      }
+      return rows as Cooking[];
+    } catch (error) {
+      return new SqlError(`CookingRepository.getByGenre() ERROR: ${error}`);
+    }
   }
 
   public async findAll(): Promise<Cooking[] | Error> {
