@@ -32,7 +32,7 @@ export class RailroadStationRepository implements IRailroadStationRepository {
       }
       return rows as RailroadStation[];
     } catch (error) {
-      return new SqlError(`RailroadStationRepository.getById() ERROR: ${error}`);
+      return new SqlError(`RailroadStationRepository.getByPrefectureId() ERROR: ${error}`);
     }
   }
 }
