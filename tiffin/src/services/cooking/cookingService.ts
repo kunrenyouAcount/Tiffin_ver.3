@@ -3,20 +3,23 @@ import { ICookingRepository } from "../../repositories/cooking/interface";
 import { ICookingService } from "./interface";
 
 export class CookingService implements ICookingService {
-  private detailedAreaRepository: ICookingRepository;
+  private cookingRepository: ICookingRepository;
 
-  constructor(detailedAreaRepository: ICookingRepository) {
-    this.detailedAreaRepository = detailedAreaRepository;
+  constructor(cookingRepository: ICookingRepository) {
+    this.cookingRepository = cookingRepository;
   }
-  getByGenre(): Promise<Cooking[] | Error> {
-    throw new Error("Method not implemented.");
+  public async getByGenre(genreId: number): Promise<Error | Cooking[]> {
+    const result = await this.cookingRepository.getByGenre(genreId);
+    return result;
   }
-  getByDetailedGenre(): Promise<Cooking[] | Error> {
-    throw new Error("Method not implemented.");
+
+  public async getByDetailedGenre(detailedGenreId: number): Promise<Error | Cooking[]> {
+    const result = await this.cookingRepository.getByDetailedGenre(detailedGenreId);
+    return result;
   }
 
   public async findAll(): Promise<Cooking[] | Error> {
-    const result = await this.detailedAreaRepository.findAll();
+    const result = await this.cookingRepository.findAll();
     return result;
   }
 }
