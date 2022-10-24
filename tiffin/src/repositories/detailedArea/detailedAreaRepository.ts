@@ -32,7 +32,7 @@ export class DetailedAreaRepository implements IDetailedAreaRepository {
       }
       return rows as DetailedArea[];
     } catch (error) {
-      return new SqlError(`DetailedAreaRepository.getById() ERROR: ${error}`);
+      return new SqlError(`DetailedAreaRepository.getByAreaId() ERROR: ${error}`);
     }
   }
 }

@@ -32,7 +32,7 @@ export class AreaRepository implements IAreaRepository {
       }
       return rows as Area[];
     } catch (error) {
-      return new SqlError(`AreaRepository.getById() ERROR: ${error}`);
+      return new SqlError(`AreaRepository.getByPrefectureId() ERROR: ${error}`);
     }
   }
 }

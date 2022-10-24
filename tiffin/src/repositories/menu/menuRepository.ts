@@ -22,7 +22,16 @@ export class MenuRepository implements IMenuRepository {
     }
   }
   public async getByCooking(cookingId: number): Promise<Menu[] | Error> {
-    throw new Error("Method not implemented.");
+    try {
+      const sql = "select * from menus where master_cooking_id = ?";
+      const [rows] = await this.connection.execute<Menu[] & RowDataPacket[]>(sql, [cookingId]);
+      if (rows.length === 0) {
+        return new NotFoundDataError(`not exists target menus`);
+      }
+      return rows as Menu[];
+    } catch (error) {
+      return new SqlError(`MenuRepository.getByGenre() ERROR: ${error}`);
+    }
   }
   public async getByStation(stationId: number): Promise<Menu[] | Error> {
     throw new Error("Method not implemented.");

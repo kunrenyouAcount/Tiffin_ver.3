@@ -31,7 +31,7 @@ export class CookingRepository implements ICookingRepository {
       }
       return rows as Cooking[];
     } catch (error) {
-      return new SqlError(`CookingRepository.getByGenre() ERROR: ${error}`);
+      return new SqlError(`CookingRepository.getByDetailedGenre() ERROR: ${error}`);
     }
   }
 
