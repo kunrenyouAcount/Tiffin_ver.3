@@ -5,4 +5,5 @@ export interface IMenuRepository {
   getByCooking(cookingId: number): Promise<Menu[] | Error>;
   getByStation(stationId: number): Promise<Menu[] | Error>;
   getByArea(areaId: number): Promise<Menu[] | Error>;
+  getByDetailedArea(detailedAreaId: number): Promise<Menu[] | Error>;
 }

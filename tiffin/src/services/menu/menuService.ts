@@ -14,6 +14,11 @@ export class MenuService implements IMenuService {
     return result;
   }
 
+  public async getByDetailedArea(detailedAreaId: number): Promise<Menu[] | Error> {
+    const result = await this.menuRepository.getByDetailedArea(detailedAreaId);
+    return result;
+  }
+
   public async getByGenre(genreId: number): Promise<Error | Menu[]> {
     const result = await this.menuRepository.getByGenre(genreId);
     return result;
