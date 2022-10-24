@@ -85,5 +85,30 @@ export class MenuController {
       });
       res.status(200).json(menuList);
     });
+
+    this.router.get("/menus/area/:areaId", async (req: Request, res: Response) => {
+      const areaId = parseInt(req.params.areaId);
+      const results = await this.menuService.getByArea(areaId);
+
+      if (results instanceof NotFoundDataError) {
+        res.status(404).json(results.message);
+        return;
+      }
+
+      if (results instanceof Error) {
+        res.status(500).json(results.message);
+        return;
+      }
+
+      const menuList: MenuResponse[] = results.map((result) => {
+        return {
+          id: result.id,
+          name: result.name,
+          price: result.price,
+          shop_id: result.shop_id,
+        } as MenuResponse;
+      });
+      res.status(200).json(menuList);
+    });
   }
 }
