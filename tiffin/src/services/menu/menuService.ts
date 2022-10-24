@@ -13,7 +13,8 @@ export class MenuService implements IMenuService {
     return result;
   }
   public async getByCooking(cookingId: number): Promise<Error | Menu[]> {
-    throw new Error("Method not implemented.");
+    const result = await this.menuRepository.getByCooking(cookingId);
+    return result;
   }
   public async getByStation(stationId: number): Promise<Error | Menu[]> {
     throw new Error("Method not implemented.");
