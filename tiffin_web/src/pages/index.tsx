@@ -1,50 +1,19 @@
-import { Grid, ImageList, ImageListItem } from '@mui/material'
+import { ImageList, ImageListItem } from '@mui/material'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import Header from 'src/components/Header'
-
-const itemData = [
-  {
-    img: '/images/sample/sample01.jpeg',
-    title: 'パエリア',
-  },
-  {
-    img: '/images/sample/sample02.png',
-    title: '照り焼きチキン',
-  },
-  {
-    img: '/images/sample/sample03.jpeg',
-    title: 'サーモンのクリーム煮',
-  },
-  {
-    img: '/images/sample/sample04.jpeg',
-    title: 'ひき肉となすのボロネーゼごはん',
-  },
-  {
-    img: '/images/sample/sample05.jpeg',
-    title: 'よだれ鶏',
-  },
-  {
-    img: '/images/sample/sample06.jpeg',
-    title: 'スタミナ丼',
-  },
-  {
-    img: '/images/sample/sample07.jpeg',
-    title: '餃子',
-  },
-  {
-    img: '/images/sample/sample08.jpeg',
-    title: '鰻丼',
-  },
-  {
-    img: '/images/sample/sample09.jpg',
-    title: 'チョコレートケーキ',
-  },
-]
+import { Photo } from 'src/models/Photo'
+import { isLogin } from 'src/utils/auth'
+import Axios from 'axios'
 
 export const Home: React.FC = () => {
-  const router = useRouter()
-
+  const [photos, setPhotos] = useState<Photo[]>([])
+  useEffect(() => {
+    ;(async () => {
+      const results = await Axios.get<Photo[]>('photos')
+      setPhotos(results.data)
+    })()
+  }, [setPhotos])
   return (
     <div className='container'>
       <Head>
@@ -53,20 +22,23 @@ export const Home: React.FC = () => {
         <meta name='viewport' content='initial-scale=1, width=device-width' />
       </Head>
       <Header title='Home' sections={[]}></Header>
-      <main>
-        <ImageList sx={{ width: 1900, height: 540 }} cols={7} rowHeight={164}>
-          {itemData.map((item) => (
-            <ImageListItem key={item.img}>
-              <img
-                src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                alt={item.title}
-                loading='lazy'
-              />
-            </ImageListItem>
-          ))}
-        </ImageList>
-      </main>
+      {isLogin() ? (
+        <main>
+          <ImageList sx={{ width: 1900, height: 540 }} cols={7} rowHeight={164}>
+            {photos.map((photo) => (
+              <ImageListItem key={photo.id}>
+                <img
+                  src={`${photo.path}?w=164&h=164&fit=crop&auto=format`}
+                  srcSet={`${photo.path}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                  loading='lazy'
+                />
+              </ImageListItem>
+            ))}
+          </ImageList>
+        </main>
+      ) : (
+        <></>
+      )}
     </div>
   )
 }
