@@ -24,6 +24,9 @@ import { MenuController } from "./controllers/menu/menuController";
 import { CookingRepository } from "./repositories/cooking/cookingRepository";
 import { CookingService } from "./services/cooking/cookingService";
 import { CookingController } from "./controllers/cooking/cookingController";
+import { PhotoRepository } from "./repositories/photo/prefectureRepository";
+import { PhotoService } from "./services/photo/prefectureService";
+import { PhotoController } from "./controllers/photo/photoController";
 
 async function main() {
   dotenv.config();
@@ -87,6 +90,11 @@ async function main() {
   const menuService = new MenuService(menuRepository);
   const menuController = new MenuController(menuService);
   app.use("/api/", menuController.router);
+
+  const photoRepository = new PhotoRepository(connection);
+  const photoService = new PhotoService(photoRepository);
+  const photoController = new PhotoController(photoService);
+  app.use("/api/", photoController.router);
 }
 
 main();
