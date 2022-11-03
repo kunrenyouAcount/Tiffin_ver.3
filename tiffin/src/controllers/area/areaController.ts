@@ -22,6 +22,7 @@ export class AreaController {
         return {
           id: result.id,
           name: result.name,
+          master_prefecture_id: result.master_prefecture_id,
         } as AreaResponse;
       });
       res.status(200).json(areaList);
@@ -45,6 +46,7 @@ export class AreaController {
         return {
           id: result.id,
           name: result.name,
+          master_prefecture_id: result.master_prefecture_id,
         } as AreaResponse;
       });
       res.status(200).json(areaList);

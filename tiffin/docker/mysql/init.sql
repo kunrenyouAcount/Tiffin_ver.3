@@ -23233,16 +23233,15 @@ INSERT INTO `master_cookings` (
   `master_genre_id`,
   `master_detailed_genre_id`
 ) VALUES
-	(1, 'ハンバーグ', 2, 14),
-	(2, 'ハンバーガー', 2, 17),
-	(3, '餃子', 3, 24),
-	(4, '牛丼', 1, 12),
-	(5, '寿司', 1, 2),
-	(6, 'バニラアイス', 21, 59),
-	(7, 'カレー', 5, 31),
-	(8, 'グラタン', 2, 18),
-	(9, '生姜焼き', 1, 1),
-	(10, 'チョコレートケーキ', 21, 57)
+  (1, 'パエリア', 2, 21),
+	(2, '照り焼き', 1, 7),
+	(3, 'クリーム煮', 2, 18),
+	(4, '肉丼', 1, 12),
+	(5, 'よだれ鶏', 3, 23),
+	(6, 'スタミナ丼', 1, 12),
+	(7, '餃子', 3, 24),
+	(8, '鰻重', 1, 6),
+	(9, 'チョコレートケーキ', 21, 57)
 ;
 
 -- shop
@@ -23331,18 +23330,21 @@ INSERT INTO `menus` (
   `master_cooking_id`,
   `shop_id`
 ) VALUES
-	(1, '肉汁溢れるハンバーグセット', 1200, 2, 14, 1, 1),
-	(2, 'うまっグラタン！', 910, 2, 18, 8, 1),
-	(3, 'ぷくぷく餃子', 800, 3, 24, 3, 2)
+  (1, 'パエリア', 1000, 2, 21, 1, 1),
+	(2, '若鶏の照り焼き', 1299, 1, 7, 2, 1),
+	(3, 'サーモンのクリーム煮', 2000, 2, 18, 3, 1),
+	(4, 'なすとひき肉のボロネーゼ丼', 800, 1, 12, 4, 2),
+	(5, 'よだれ鶏', 400, 3, 23, 5, 2),
+	(6, 'スタミナ丼', 900, 1, 12, 6, 1),
+	(7, '餃子', 480, 3, 24, 7, 2),
+	(8, '鰻重', 3200, 1, 6, 8, 1),
+	(9, 'チョコレートケーキ', 1400, 21, 57, 9, 1)
 ;
 
 -- photos
 CREATE TABLE `photos` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL DEFAULT '',
-  `path_s` varchar(255) NOT NULL DEFAULT '',
-  `path_m` varchar(255) NOT NULL DEFAULT '',
-  `path_l` varchar(255) NOT NULL DEFAULT '',
+  `path` varchar(255) NOT NULL DEFAULT '',
   `menu_id` bigint unsigned NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -23352,15 +23354,18 @@ CREATE TABLE `photos` (
 
 INSERT INTO `photos` (
 	`id`,
-	`name`,
-	`path_s`,
-  `path_m`,
-  `path_l`,
+	`path`,
   `menu_id`
 ) VALUES
-	(1, '肉汁溢れるハンバーグセット', 'test/s/39392902390.png', 'test/m/39392902390.png', 'test/l/39392902390.png', 1),
-	(2, 'グラタン', 'test/s/44444902390.png', 'test/m/44444902390.png', 'test/l/44444902390.png', 2),
-	(3, '焼き餃子', 'test/s/55555902390.png', 'test/m/55555902390.png', 'test/l/55555902390.png', 3)
+	(1, '/images/sample/sample01.jpeg', 1),
+	(2, '/images/sample/sample02.png', 2),
+	(3, '/images/sample/sample03.jpeg', 3),
+	(4, '/images/sample/sample04.jpeg', 4),
+	(5, '/images/sample/sample05.jpeg', 5),
+	(6, '/images/sample/sample06.jpeg', 6),
+	(7, '/images/sample/sample07.jpeg', 7),
+	(8, '/images/sample/sample08.jpeg', 8),
+	(9, '/images/sample/sample09.jpg', 9)
 ;
 
 -- users
