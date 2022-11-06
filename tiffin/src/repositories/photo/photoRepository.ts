@@ -35,4 +35,5 @@ export class PhotoRepository implements IPhotoRepository {
       return new SqlError(`PhotoRepository.getById() ERROR: ${error}`);
     }
   }
+
 }

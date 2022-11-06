@@ -24,7 +24,7 @@ import { MenuController } from "./controllers/menu/menuController";
 import { CookingRepository } from "./repositories/cooking/cookingRepository";
 import { CookingService } from "./services/cooking/cookingService";
 import { CookingController } from "./controllers/cooking/cookingController";
-import { PhotoRepository } from "./repositories/photo/prefectureRepository";
+import { PhotoRepository } from "./repositories/photo/photoRepository";
 import { PhotoService } from "./services/photo/prefectureService";
 import { PhotoController } from "./controllers/photo/photoController";
 
