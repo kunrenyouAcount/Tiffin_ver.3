@@ -2,6 +2,7 @@ import { IPhotoService } from "../../services/photo/interface";
 import { Request, Response, Router } from "express";
 import { NotFoundDataError } from "../../utils/error";
 import { PhotoResponse } from "./response";
+import { ChoiceSearchRequest } from "./choiceSearchRequest";
 
 export class PhotoController {
   private photoService: IPhotoService;
@@ -47,6 +48,25 @@ export class PhotoController {
         menu_id: result.menu_id,
       } as PhotoResponse;
       res.status(200).json(photo);
+    });
+
+    this.router.post("/photos/choice-search", async (req: Request, res: Response) => {
+      const params: ChoiceSearchRequest = req.body;
+      console.log(params);
+      const results = await this.photoService.choiceSearch(params);
+      if (results instanceof Error) {
+        res.status(500).json(results.message);
+        return;
+      }
+
+      const photoList: PhotoResponse[] = results.map((result) => {
+        return {
+          id: result.id,
+          path: result.path,
+          menu_id: result.menu_id,
+        } as PhotoResponse;
+      });
+      res.status(200).json(photoList);
     });
   }
 }
