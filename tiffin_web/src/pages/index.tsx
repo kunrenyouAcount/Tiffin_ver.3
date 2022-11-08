@@ -48,8 +48,8 @@ export const Home: React.FC = () => {
     setMasterAreas(areaResults.data)
 
     //選び直しの場合は下位要素をリセットする
-    setArea(0);
-    setDetailedArea(0);
+    setArea(0)
+    setDetailedArea(0)
     setMasterDetailedAreas([])
   }
 
@@ -63,9 +63,9 @@ export const Home: React.FC = () => {
     )
 
     //選び直しの場合は下位要素をリセットする
-    setDetailedArea(0);
+    setDetailedArea(0)
 
-    if(detailedAreaResults.status === 404){
+    if (detailedAreaResults.status === 404) {
       //詳細エリアが存在しない場合はエラーにしない
       setMasterDetailedAreas([])
     } else {
@@ -81,8 +81,7 @@ export const Home: React.FC = () => {
   return (
     <div className='container'>
       <Head>
-        <title>Create Next App</title>
-        <link rel='icon' href='/favicon.ico' />
+        <title>Tiffin</title>
         <meta name='viewport' content='initial-scale=1, width=device-width' />
       </Head>
       <Header title='Home' sections={[]}></Header>
@@ -91,10 +90,7 @@ export const Home: React.FC = () => {
           <Grid container component='main' sx={{ height: '100px' }}>
             <Grid item>
               <InputLabel>都道府県</InputLabel>
-              <Select
-                label='Prefecture'
-                onChange={changePrefecture}
-              >
+              <Select label='Prefecture' onChange={changePrefecture}>
                 {masterPrefectures.map((master) => (
                   <MenuItem value={master.id}>{master.name}</MenuItem>
                 ))}
@@ -102,10 +98,7 @@ export const Home: React.FC = () => {
             </Grid>
             <Grid item>
               <InputLabel>エリア</InputLabel>
-              <Select
-                label='Area'
-                onChange={changeArea}
-              >
+              <Select label='Area' onChange={changeArea}>
                 {masterAreas.map((master) => (
                   <MenuItem value={master.id}>{master.name}</MenuItem>
                 ))}
@@ -113,10 +106,7 @@ export const Home: React.FC = () => {
             </Grid>
             <Grid item>
               <InputLabel>詳細エリア</InputLabel>
-              <Select
-                label='DetailedArea'
-                onChange={changeDetailedArea}
-              >
+              <Select label='DetailedArea' onChange={changeDetailedArea}>
                 {masterDetailedAreas.map((master) => (
                   <MenuItem value={master.id}>{master.name}</MenuItem>
                 ))}
