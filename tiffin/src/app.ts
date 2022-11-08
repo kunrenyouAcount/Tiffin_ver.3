@@ -27,6 +27,9 @@ import { CookingController } from "./controllers/cooking/cookingController";
 import { PhotoRepository } from "./repositories/photo/photoRepository";
 import { PhotoService } from "./services/photo/prefectureService";
 import { PhotoController } from "./controllers/photo/photoController";
+import { GenreRepository } from "./repositories/genre/genreRepository";
+import { GenreService } from "./services/genre/GenreService";
+import { GenreController } from "./controllers/genre/genreController";
 
 async function main() {
   dotenv.config();
@@ -95,6 +98,11 @@ async function main() {
   const photoService = new PhotoService(photoRepository);
   const photoController = new PhotoController(photoService);
   app.use("/api/", photoController.router);
+
+  const genreRepository = new GenreRepository(connection);
+  const genreService = new GenreService(genreRepository);
+  const genreController = new GenreController(genreService);
+  app.use("/api/", genreController.router);
 }
 
 main();
