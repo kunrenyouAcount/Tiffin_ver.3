@@ -11,7 +11,7 @@ export class MenuController {
     this.menuService = menuService;
     this.router = Router();
 
-    this.router.get("/menus/genre/:genreId", async (req: Request, res: Response) => {
+    this.router.get("/menus/genre-id/:genreId", async (req: Request, res: Response) => {
       const genreId = parseInt(req.params.genreId);
       const results = await this.menuService.getByGenre(genreId);
 
@@ -36,7 +36,7 @@ export class MenuController {
       res.status(200).json(menuList);
     });
 
-    this.router.get("/menus/cooking/:cookingId", async (req: Request, res: Response) => {
+    this.router.get("/menus/cooking-id/:cookingId", async (req: Request, res: Response) => {
       const cookingId = parseInt(req.params.cookingId);
       const results = await this.menuService.getByCooking(cookingId);
 
@@ -61,7 +61,7 @@ export class MenuController {
       res.status(200).json(menuList);
     });
 
-    this.router.get("/menus/station/:stationId", async (req: Request, res: Response) => {
+    this.router.get("/menus/station-id/:stationId", async (req: Request, res: Response) => {
       const stationId = parseInt(req.params.stationId);
       const results = await this.menuService.getByStation(stationId);
 
@@ -86,7 +86,7 @@ export class MenuController {
       res.status(200).json(menuList);
     });
 
-    this.router.get("/menus/area/:areaId", async (req: Request, res: Response) => {
+    this.router.get("/menus/area-id/:areaId", async (req: Request, res: Response) => {
       const areaId = parseInt(req.params.areaId);
       const results = await this.menuService.getByArea(areaId);
 
@@ -111,7 +111,7 @@ export class MenuController {
       res.status(200).json(menuList);
     });
 
-    this.router.get("/menus/detailed-area/:detailedAreaId", async (req: Request, res: Response) => {
+    this.router.get("/menus/detailed-area-id/:detailedAreaId", async (req: Request, res: Response) => {
       const detailedAreaId = parseInt(req.params.detailedAreaId);
       const results = await this.menuService.getByDetailedArea(detailedAreaId);
 
