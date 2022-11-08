@@ -27,7 +27,7 @@ export class CookingController {
       res.status(200).json(cookingList);
     });
 
-    this.router.get("/cookings/genre/:genreId", async (req: Request, res: Response) => {
+    this.router.get("/cookings/genre-id/:genreId", async (req: Request, res: Response) => {
       const genreId = parseInt(req.params.genreId);
       const results = await this.cookingService.getByGenre(genreId);
 
@@ -50,7 +50,7 @@ export class CookingController {
       res.status(200).json(menuList);
     });
 
-    this.router.get("/cookings/detailedGenre/:detailedGenreId", async (req: Request, res: Response) => {
+    this.router.get("/cookings/detailed-genre-id/:detailedGenreId", async (req: Request, res: Response) => {
       const detailedGenreId = parseInt(req.params.detailedGenreId);
       const results = await this.cookingService.getByDetailedGenre(detailedGenreId);
 
