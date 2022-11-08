@@ -30,6 +30,9 @@ import { PhotoController } from "./controllers/photo/photoController";
 import { GenreRepository } from "./repositories/genre/genreRepository";
 import { GenreService } from "./services/genre/GenreService";
 import { GenreController } from "./controllers/genre/genreController";
+import { DetailedGenreRepository } from "./repositories/detailedGenre/detailedGenreRepository";
+import { DetailedGenreService } from "./services/detailedGenre/detailedGenreService";
+import { DetailedGenreController } from "./controllers/detailedGenre/detailedGenreController";
 
 async function main() {
   dotenv.config();
@@ -103,6 +106,11 @@ async function main() {
   const genreService = new GenreService(genreRepository);
   const genreController = new GenreController(genreService);
   app.use("/api/", genreController.router);
+
+  const detailedGenreRepository = new DetailedGenreRepository(connection);
+  const detailedGenreService = new DetailedGenreService(detailedGenreRepository);
+  const detailedGenreController = new DetailedGenreController(detailedGenreService);
+  app.use("/api/", detailedGenreController.router);
 }
 
 main();
