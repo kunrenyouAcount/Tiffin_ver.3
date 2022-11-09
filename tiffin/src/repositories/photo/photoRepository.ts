@@ -53,34 +53,31 @@ export class PhotoRepository implements IPhotoRepository {
         where 1 = 1";
       //この後のsqlのwhere条件をand接頭で揃えるために「where 1 = 1」を記載
 
-      if (params.master_prefecture_id !== null) {
+      if (params.master_prefecture_id !== 0) {
         sql += ` and master_prefectures.id = ${params.master_prefecture_id}`;
       }
-      if (params.master_area_id !== null) {
+      if (params.master_area_id !== 0) {
         sql += ` and master_areas.id = ${params.master_area_id}`;
       }
-      if (params.master_detailed_area_id !== null) {
+      if (params.master_detailed_area_id !== 0) {
         sql += ` and master_detailed_areas.id = ${params.master_detailed_area_id}`;
       }
-      if (params.master_railroad_station_id !== null) {
+      if (params.master_railroad_station_id !== 0) {
         sql += ` and master_railroad_stations.id = ${params.master_railroad_station_id}`;
       }
-      if (params.master_cooking_id !== null) {
+      if (params.master_cooking_id !== 0) {
         sql += ` and master_cookings.id = ${params.master_cooking_id}`;
       }
-      if (params.master_genre_id !== null) {
+      if (params.master_genre_id !== 0) {
         sql += ` and master_genres.id = ${params.master_genre_id}`;
       }
-      if (params.master_detailed_genre_id !== null) {
+      if (params.master_detailed_genre_id !== 0) {
         sql += ` and master_detailed_genres.id = ${params.master_detailed_genre_id}`;
       }
-      if (params.menu_id !== null) {
-        sql += ` and menus.id = ${params.menu_id}`;
-      }
-      if (params.price_min !== null) {
+      if (params.price_min !== 0) {
         sql += ` and ${params.price_min} <= menus.price`;
       }
-      if (params.price_max !== null) {
+      if (params.price_max !== 0) {
         sql += ` and menus.price <= ${params.price_max}`;
       }
       sql += ";";
