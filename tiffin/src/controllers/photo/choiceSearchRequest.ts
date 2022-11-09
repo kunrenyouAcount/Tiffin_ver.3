@@ -6,7 +6,6 @@ export type ChoiceSearchRequest = {
   master_genre_id?: number;
   master_detailed_genre_id?: number;
   master_cooking_id?: number;
-  menu_id?: number;
   price_min?: number;
   price_max?: number;
 };
