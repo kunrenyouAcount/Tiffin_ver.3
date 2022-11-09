@@ -7,6 +7,8 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
+import IconButton from '@mui/material/IconButton'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import Header from 'src/components/Header'
@@ -175,6 +177,27 @@ export const Home: React.FC = () => {
     const upperPrice = parseInt(event.target.value)
     setUpperPrice(upperPrice)
   }
+
+  const searchPhotos = async () => {
+    const photoResults = await Axios.post<Photo[]>(`photos/choice-search`, {
+      master_prefecture_id: prefecture,
+      master_area_id: area,
+      master_detailed_area_id: detailedArea,
+      master_railroad_station_id: station,
+      master_genre_id: genre,
+      master_detailed_genre_id: detailedGenre,
+      master_cooking_id: cooking,
+      price_min: lowerPrice,
+      price_max: upperPrice,
+    })
+    if (photoResults.status === 404) {
+      //料理が存在しない場合はエラーにしない
+      setPhotos([])
+    } else {
+      setPhotos(photoResults.data)
+    }
+  }
+
   return (
     <div className='container'>
       <Head>
@@ -256,6 +279,11 @@ export const Home: React.FC = () => {
                   <MenuItem value={master}>{master}</MenuItem>
                 ))}
               </Select>
+            </Grid>
+            <Grid item>
+              <IconButton onClick={searchPhotos}>
+                <SearchIcon fontSize='large' />
+              </IconButton>
             </Grid>
           </Grid>
           <ImageList

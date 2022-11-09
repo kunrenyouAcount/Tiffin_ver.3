@@ -52,8 +52,12 @@ export class PhotoController {
 
     this.router.post("/photos/choice-search", async (req: Request, res: Response) => {
       const params: ChoiceSearchRequest = req.body;
-      console.log(params);
       const results = await this.photoService.choiceSearch(params);
+      if (results instanceof NotFoundDataError) {
+        res.status(404).json(results.message);
+        return;
+      }
+
       if (results instanceof Error) {
         res.status(500).json(results.message);
         return;
