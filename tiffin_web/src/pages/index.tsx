@@ -31,14 +31,17 @@ export const Home: React.FC = () => {
   const [masterGenres, setMasterGenres] = useState<Genre[]>([])
   const [masterDetailedGenres, setMasterDetailedGenres] = useState<DetailedGenre[]>([])
   const [masterCookings, setMasterCookings] = useState<Cooking[]>([])
+  const masterPrices = [500, 1000, 1500, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000]
   //選んだ値格納用のstate
   const [prefecture, setPrefecture] = useState<number>(0)
   const [area, setArea] = useState<number>(0)
   const [detailedArea, setDetailedArea] = useState<number>(0)
   const [station, setStation] = useState<number>(0)
-  const [genres, setGenre] = useState<number>(0)
+  const [genre, setGenre] = useState<number>(0)
   const [detailedGenre, setDetailedGenre] = useState<number>(0)
   const [cooking, setCooking] = useState<number>(0)
+  const [lowerPrice, setLowerPrice] = useState<number>(0)
+  const [upperPrice, setUpperPrice] = useState<number>(0)
 
   useEffect(() => {
     ;(async () => {
@@ -161,6 +164,17 @@ export const Home: React.FC = () => {
     setCooking(cookingId)
   }
 
+  //下限価格を選択
+  const changeLowerPrice = async (event: SelectChangeEvent) => {
+    const lowerPrice = parseInt(event.target.value)
+    setLowerPrice(lowerPrice)
+  }
+
+  //上限価格を選択
+  const changeUpperPrice = async (event: SelectChangeEvent) => {
+    const upperPrice = parseInt(event.target.value)
+    setUpperPrice(upperPrice)
+  }
   return (
     <div className='container'>
       <Head>
@@ -227,22 +241,22 @@ export const Home: React.FC = () => {
                 ))}
               </Select>
             </Grid>
-            {/* <Grid item>
+            <Grid item>
               <InputLabel>料金下限</InputLabel>
-              <Select label='rowPrice' onChange={changeRowPrice}>
+              <Select label='lowerPrice' onChange={changeLowerPrice}>
                 {masterPrices.map((master) => (
-                  <MenuItem value={master.id}>{master.name}</MenuItem>
+                  <MenuItem value={master}>{master}</MenuItem>
                 ))}
               </Select>
             </Grid>
             <Grid item>
               <InputLabel>料金上限</InputLabel>
-              <Select label='cooking' onChange={changeCooking}>
-                {masterCookings.map((master) => (
-                  <MenuItem value={master.id}>{master.name}</MenuItem>
+              <Select label='upperPrice' onChange={changeUpperPrice}>
+                {masterPrices.map((master) => (
+                  <MenuItem value={master}>{master}</MenuItem>
                 ))}
               </Select>
-            </Grid> */}
+            </Grid>
           </Grid>
           <ImageList
             sx={{ width: 1900, height: 270 * (Math.floor(photos.length / 7) + 1) }}
