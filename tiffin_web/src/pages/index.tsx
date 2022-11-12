@@ -208,82 +208,90 @@ export const Home: React.FC = () => {
       {isLogin() ? (
         <main>
           <Grid container component='main' sx={{ height: '100px' }}>
-            <Grid item>
-              <InputLabel>都道府県</InputLabel>
-              <Select label='Prefecture' onChange={changePrefecture}>
-                {masterPrefectures.map((master) => (
-                  <MenuItem value={master.id}>{master.name}</MenuItem>
-                ))}
-              </Select>
+            <Grid container xs={4} margin={2}>
+              <Grid item xs={2}>
+                <InputLabel>都道府県</InputLabel>
+                <Select fullWidth label='Prefecture' onChange={changePrefecture}>
+                  {masterPrefectures.map((master) => (
+                    <MenuItem value={master.id}>{master.name}</MenuItem>
+                  ))}
+                </Select>
+              </Grid>
+              <Grid item xs={4}>
+                <InputLabel>エリア</InputLabel>
+                <Select fullWidth label='Area' onChange={changeArea}>
+                  {masterAreas.map((master) => (
+                    <MenuItem value={master.id}>{master.name}</MenuItem>
+                  ))}
+                </Select>
+              </Grid>
+              <Grid item xs={3}>
+                <InputLabel>詳細エリア</InputLabel>
+                <Select fullWidth label='DetailedArea' onChange={changeDetailedArea}>
+                  {masterDetailedAreas.map((master) => (
+                    <MenuItem value={master.id}>{master.name}</MenuItem>
+                  ))}
+                </Select>
+              </Grid>
+              <Grid item xs={3}>
+                <InputLabel>駅名</InputLabel>
+                <Select fullWidth label='station' onChange={changeStation}>
+                  {masterStations.map((master) => (
+                    <MenuItem value={master.id}>{master.name}</MenuItem>
+                  ))}
+                </Select>
+              </Grid>
             </Grid>
-            <Grid item>
-              <InputLabel>エリア</InputLabel>
-              <Select label='Area' onChange={changeArea}>
-                {masterAreas.map((master) => (
-                  <MenuItem value={master.id}>{master.name}</MenuItem>
-                ))}
-              </Select>
+            <Grid container xs={4} margin={2}>
+              <Grid item xs={3}>
+                <InputLabel>ジャンル</InputLabel>
+                <Select fullWidth label='genre' onChange={changeGenre}>
+                  {masterGenres.map((master) => (
+                    <MenuItem value={master.id}>{master.name}</MenuItem>
+                  ))}
+                </Select>
+              </Grid>
+              <Grid item xs={5}>
+                <InputLabel>詳細ジャンル</InputLabel>
+                <Select fullWidth label='detailedGenre' onChange={changeDetailedGenre}>
+                  {masterDetailedGenres.map((master) => (
+                    <MenuItem value={master.id}>{master.name}</MenuItem>
+                  ))}
+                </Select>
+              </Grid>
+              <Grid item xs={4}>
+                <InputLabel>料理</InputLabel>
+                <Select fullWidth label='cooking' onChange={changeCooking}>
+                  {masterCookings.map((master) => (
+                    <MenuItem value={master.id}>{master.name}</MenuItem>
+                  ))}
+                </Select>
+              </Grid>
             </Grid>
-            <Grid item>
-              <InputLabel>詳細エリア</InputLabel>
-              <Select label='DetailedArea' onChange={changeDetailedArea}>
-                {masterDetailedAreas.map((master) => (
-                  <MenuItem value={master.id}>{master.name}</MenuItem>
-                ))}
-              </Select>
+            <Grid container xs={2} margin={2}>
+              <Grid item xs={6}>
+                <InputLabel>料金下限</InputLabel>
+                <Select fullWidth label='lowerPrice' onChange={changeLowerPrice}>
+                  {masterPrices.map((master) => (
+                    <MenuItem value={master}>{master}</MenuItem>
+                  ))}
+                </Select>
+              </Grid>
+              <Grid item xs={6}>
+                <InputLabel>料金上限</InputLabel>
+                <Select fullWidth label='upperPrice' onChange={changeUpperPrice}>
+                  {masterPrices.map((master) => (
+                    <MenuItem value={master}>{master}</MenuItem>
+                  ))}
+                </Select>
+              </Grid>
             </Grid>
-            <Grid item>
-              <InputLabel>駅名</InputLabel>
-              <Select label='station' onChange={changeStation}>
-                {masterStations.map((master) => (
-                  <MenuItem value={master.id}>{master.name}</MenuItem>
-                ))}
-              </Select>
-            </Grid>
-            <Grid item>
-              <InputLabel>ジャンル</InputLabel>
-              <Select label='genre' onChange={changeGenre}>
-                {masterGenres.map((master) => (
-                  <MenuItem value={master.id}>{master.name}</MenuItem>
-                ))}
-              </Select>
-            </Grid>
-            <Grid item>
-              <InputLabel>詳細ジャンル</InputLabel>
-              <Select label='detailedGenre' onChange={changeDetailedGenre}>
-                {masterDetailedGenres.map((master) => (
-                  <MenuItem value={master.id}>{master.name}</MenuItem>
-                ))}
-              </Select>
-            </Grid>
-            <Grid item>
-              <InputLabel>料理</InputLabel>
-              <Select label='cooking' onChange={changeCooking}>
-                {masterCookings.map((master) => (
-                  <MenuItem value={master.id}>{master.name}</MenuItem>
-                ))}
-              </Select>
-            </Grid>
-            <Grid item>
-              <InputLabel>料金下限</InputLabel>
-              <Select label='lowerPrice' onChange={changeLowerPrice}>
-                {masterPrices.map((master) => (
-                  <MenuItem value={master}>{master}</MenuItem>
-                ))}
-              </Select>
-            </Grid>
-            <Grid item>
-              <InputLabel>料金上限</InputLabel>
-              <Select label='upperPrice' onChange={changeUpperPrice}>
-                {masterPrices.map((master) => (
-                  <MenuItem value={master}>{master}</MenuItem>
-                ))}
-              </Select>
-            </Grid>
-            <Grid item>
-              <IconButton onClick={searchPhotos}>
-                <SearchIcon fontSize='large' />
-              </IconButton>
+            <Grid container xs={1} marginTop={4}>
+              <Grid item>
+                <IconButton onClick={searchPhotos}>
+                  <SearchIcon fontSize='large' />
+                </IconButton>
+              </Grid>
             </Grid>
           </Grid>
           <ImageList
