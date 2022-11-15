@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton'
 import SearchIcon from '@mui/icons-material/Search'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
+import { useEffect, useState } from 'react'
 import { Logo } from './logo'
 import { isLogin } from 'src/utils/auth'
 import { useRouter } from 'next/router'
@@ -18,9 +19,16 @@ interface HeaderProps {
 }
 
 export default function Header(props: HeaderProps) {
+  const [isLoginStatus, setIsLoginStatus] = useState<boolean>(false)
+  useEffect(() => {
+    ;(async () => {
+      setIsLoginStatus(isLogin())
+    })()
+  }, [setIsLoginStatus])
   const { sections, title } = props
   const router = useRouter()
   const pushSignout = () => {
+    setIsLoginStatus(false)
     document.cookie = `tiffin_token=; max-age=0`
     router.push('/')
   }
@@ -39,7 +47,7 @@ export default function Header(props: HeaderProps) {
         >
           {title}
         </Typography>
-        {isLogin() ? (
+        {isLoginStatus ? (
           <Button variant='outlined' size='small' onClick={pushSignout}>
             signout{' '}
           </Button>
