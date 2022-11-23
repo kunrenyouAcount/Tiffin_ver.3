@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton'
 import SearchIcon from '@mui/icons-material/Search'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
-import { Logo } from './logo'
+import Logo from './logo'
 import { isLogin } from 'src/utils/auth'
 import { useRouter } from 'next/router'
 
@@ -87,3 +87,5 @@ export const Header: React.FC<HeaderProps> = (props) => {
     </React.Fragment>
   )
 }
+
+export default Header
