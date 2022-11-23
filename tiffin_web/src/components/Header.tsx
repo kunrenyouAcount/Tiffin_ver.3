@@ -17,7 +17,7 @@ interface HeaderProps {
   title: string
 }
 
-export default function Header(props: HeaderProps) {
+export const Header: React.FC<HeaderProps> = (props) => {
   const { sections, title } = props
   const router = useRouter()
   const pushSignout = () => {
