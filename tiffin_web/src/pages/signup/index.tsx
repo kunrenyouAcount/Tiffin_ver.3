@@ -30,7 +30,7 @@ function Copyright(props: any) {
 
 const theme = createTheme()
 
-export default function SignUp() {
+export const SignUp: React.FC = () => {
   const [prefectures, setPrefectures] = useState<Prefecture[]>([])
   useEffect(() => {
     ;(async () => {
