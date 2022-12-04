@@ -32,7 +32,7 @@ function Copyright(props: any) {
 
 const theme = createTheme()
 
-export default function SignIn() {
+export const Signin: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
@@ -130,3 +130,5 @@ export default function SignIn() {
     </ThemeProvider>
   )
 }
+
+export default Signin

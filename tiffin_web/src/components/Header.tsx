@@ -18,7 +18,7 @@ interface HeaderProps {
   title: string
 }
 
-export default function Header(props: HeaderProps) {
+export const Header: React.FC<HeaderProps> = (props) => {
   const [isLoginStatus, setIsLoginStatus] = useState<boolean>(false)
   useEffect(() => {
     ;(async () => {
@@ -95,3 +95,5 @@ export default function Header(props: HeaderProps) {
     </React.Fragment>
   )
 }
+
+export default Header
