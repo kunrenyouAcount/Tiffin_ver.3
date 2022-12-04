@@ -25,7 +25,7 @@ import { CookingRepository } from "./repositories/cooking/cookingRepository";
 import { CookingService } from "./services/cooking/cookingService";
 import { CookingController } from "./controllers/cooking/cookingController";
 import { PhotoRepository } from "./repositories/photo/photoRepository";
-import { PhotoService } from "./services/photo/prefectureService";
+import { PhotoService } from "./services/photo/photoService";
 import { PhotoController } from "./controllers/photo/photoController";
 import { GenreRepository } from "./repositories/genre/genreRepository";
 import { GenreService } from "./services/genre/GenreService";

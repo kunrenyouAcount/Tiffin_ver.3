@@ -1,6 +1,7 @@
 import { IGenreService } from "../../services/genre/interface";
 import { Request, Response, Router } from "express";
 import { NotFoundDataError } from "../../utils/error";
+import { GenreGetResponse } from "../../models/api/genre/get/response";
 
 export class GenreController {
   private genreService: IGenreService;
@@ -11,12 +12,19 @@ export class GenreController {
     this.router = Router();
 
     this.router.get("/genres", async (req: Request, res: Response) => {
-      const result = await this.genreService.findAll();
-      if (result instanceof Error) {
-        res.status(500).json(result.message);
+      const results = await this.genreService.findAll();
+      if (results instanceof Error) {
+        res.status(500).json(results.message);
         return;
       }
-      res.status(200).json(result);
+
+      const genreList: GenreGetResponse[] = results.map((result) => {
+        return {
+          id: result.id,
+          name: result.name,
+        } as GenreGetResponse;
+      });
+      res.status(200).json(genreList);
     });
   }
 }

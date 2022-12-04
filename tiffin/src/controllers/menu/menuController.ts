@@ -1,7 +1,7 @@
 import { Request, Response, Router } from "express";
+import { MenuGetResponse } from "../../models/api/menu/get/response";
 import { IMenuService } from "../../services/menu/interface";
 import { NotFoundDataError } from "../../utils/error";
-import { MenuResponse } from "./response";
 
 export class MenuController {
   private menuService: IMenuService;
@@ -25,13 +25,13 @@ export class MenuController {
         return;
       }
 
-      const menuList: MenuResponse[] = results.map((result) => {
+      const menuList: MenuGetResponse[] = results.map((result) => {
         return {
           id: result.id,
           name: result.name,
           price: result.price,
           shop_id: result.shop_id,
-        } as MenuResponse;
+        } as MenuGetResponse;
       });
       res.status(200).json(menuList);
     });
@@ -50,13 +50,13 @@ export class MenuController {
         return;
       }
 
-      const menuList: MenuResponse[] = results.map((result) => {
+      const menuList: MenuGetResponse[] = results.map((result) => {
         return {
           id: result.id,
           name: result.name,
           price: result.price,
           shop_id: result.shop_id,
-        } as MenuResponse;
+        } as MenuGetResponse;
       });
       res.status(200).json(menuList);
     });
@@ -75,13 +75,13 @@ export class MenuController {
         return;
       }
 
-      const menuList: MenuResponse[] = results.map((result) => {
+      const menuList: MenuGetResponse[] = results.map((result) => {
         return {
           id: result.id,
           name: result.name,
           price: result.price,
           shop_id: result.shop_id,
-        } as MenuResponse;
+        } as MenuGetResponse;
       });
       res.status(200).json(menuList);
     });
@@ -100,13 +100,13 @@ export class MenuController {
         return;
       }
 
-      const menuList: MenuResponse[] = results.map((result) => {
+      const menuList: MenuGetResponse[] = results.map((result) => {
         return {
           id: result.id,
           name: result.name,
           price: result.price,
           shop_id: result.shop_id,
-        } as MenuResponse;
+        } as MenuGetResponse;
       });
       res.status(200).json(menuList);
     });
@@ -125,13 +125,13 @@ export class MenuController {
         return;
       }
 
-      const menuList: MenuResponse[] = results.map((result) => {
+      const menuList: MenuGetResponse[] = results.map((result) => {
         return {
           id: result.id,
           name: result.name,
           price: result.price,
           shop_id: result.shop_id,
-        } as MenuResponse;
+        } as MenuGetResponse;
       });
       res.status(200).json(menuList);
     });

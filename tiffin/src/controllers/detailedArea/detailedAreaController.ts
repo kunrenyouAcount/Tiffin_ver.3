@@ -1,7 +1,7 @@
 import { IDetailedAreaService } from "../../services/detailedArea/interface";
 import { Request, Response, Router } from "express";
 import { NotFoundDataError } from "../../utils/error";
-import { DetailedAreaResponse } from "./response";
+import { DetailedAreaGetResponse } from "../../models/api/detailedArea/get/response";
 
 export class DetailedAreaController {
   private detailedAreaService: IDetailedAreaService;
@@ -18,11 +18,11 @@ export class DetailedAreaController {
         return;
       }
 
-      const detailedAreaList: DetailedAreaResponse[] = results.map((result) => {
+      const detailedAreaList: DetailedAreaGetResponse[] = results.map((result) => {
         return {
           id: result.id,
           name: result.name,
-        } as DetailedAreaResponse;
+        } as DetailedAreaGetResponse;
       });
       res.status(200).json(detailedAreaList);
     });
@@ -41,11 +41,11 @@ export class DetailedAreaController {
         return;
       }
 
-      const detailedAreaList: DetailedAreaResponse[] = results.map((result) => {
+      const detailedAreaList: DetailedAreaGetResponse[] = results.map((result) => {
         return {
           id: result.id,
           name: result.name,
-        } as DetailedAreaResponse;
+        } as DetailedAreaGetResponse;
       });
       res.status(200).json(detailedAreaList);
     });

@@ -15,7 +15,7 @@ import Axios from 'axios'
 import router from 'next/router'
 import * as React from 'react'
 import { tiffin_token_key } from 'src/utils/auth'
-import { AuthResponse } from 'src/models/response/auth/authResponse'
+import { AuthSigninResponse } from 'src/models/api/auth/signin/response'
 
 function Copyright(props: any) {
   return (
@@ -36,7 +36,7 @@ export const Signin: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    const response = await Axios.post<AuthResponse>('auth/signin', {
+    const response = await Axios.post<AuthSigninResponse>('auth/signin', {
       email: data.get('email'),
       password: data.get('password'),
     })

@@ -13,27 +13,27 @@ import IconButton from '@mui/material/IconButton'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import Header from 'src/components/Header'
-import { Photo } from 'src/models/Photo'
 import { isLogin } from 'src/utils/auth'
 import Axios from 'axios'
-import { Prefecture } from 'src/models/Prefecture'
-import { Area } from 'src/models/Area'
-import { DetailedArea } from 'src/models/DetailedArea'
-import { Station } from 'src/models/Station'
-import { Genre } from 'src/models/Genre'
-import { DetailedGenre } from 'src/models/DetailedGenre'
-import { Cooking } from 'src/models/Cooking'
+import { PhotoGetResponse } from 'src/models/api/photo/get/response'
+import { PrefectureGetResponse } from 'src/models/api/prefecture/get/response'
+import { AreaGetResponse } from 'src/models/api/area/get/response'
+import { DetailedAreaGetResponse } from 'src/models/api/detailedArea/get/response'
+import { RailroadStationGetResponse } from 'src/models/api/railroadStation/get/response'
+import { GenreGetResponse } from 'src/models/api/genre/get/response'
+import { DetailedGenreGetResponse } from 'src/models/api/detailedGenre/get/response'
+import { CookingGetResponse } from 'src/models/api/cooking/get/response'
 
 export const Home: React.FC = () => {
-  const [photos, setPhotos] = useState<Photo[]>([])
+  const [photos, setPhotos] = useState<PhotoGetResponse[]>([])
   //マスタ用のstate
-  const [masterPrefectures, setMasterPrefectures] = useState<Prefecture[]>([])
-  const [masterAreas, setMasterAreas] = useState<Area[]>([])
-  const [masterDetailedAreas, setMasterDetailedAreas] = useState<DetailedArea[]>([])
-  const [masterStations, setMasterStations] = useState<Station[]>([])
-  const [masterGenres, setMasterGenres] = useState<Genre[]>([])
-  const [masterDetailedGenres, setMasterDetailedGenres] = useState<DetailedGenre[]>([])
-  const [masterCookings, setMasterCookings] = useState<Cooking[]>([])
+  const [masterPrefectures, setMasterPrefectures] = useState<PrefectureGetResponse[]>([])
+  const [masterAreas, setMasterAreas] = useState<AreaGetResponse[]>([])
+  const [masterDetailedAreas, setMasterDetailedAreas] = useState<DetailedAreaGetResponse[]>([])
+  const [masterStations, setMasterStations] = useState<RailroadStationGetResponse[]>([])
+  const [masterGenres, setMasterGenres] = useState<GenreGetResponse[]>([])
+  const [masterDetailedGenres, setMasterDetailedGenres] = useState<DetailedGenreGetResponse[]>([])
+  const [masterCookings, setMasterCookings] = useState<CookingGetResponse[]>([])
   const masterPrices = [500, 1000, 1500, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000]
   //選んだ値格納用のstate
   const [prefecture, setPrefecture] = useState<string>('0')
@@ -48,11 +48,11 @@ export const Home: React.FC = () => {
 
   useEffect(() => {
     ;(async () => {
-      const photoResults = await Axios.get<Photo[]>('photos')
+      const photoResults = await Axios.get<PhotoGetResponse[]>('photos')
       setPhotos(photoResults.data)
-      const prefectureResults = await Axios.get<Prefecture[]>('prefectures')
+      const prefectureResults = await Axios.get<PrefectureGetResponse[]>('prefectures')
       setMasterPrefectures(prefectureResults.data)
-      const genreResults = await Axios.get<Genre[]>('genres')
+      const genreResults = await Axios.get<GenreGetResponse[]>('genres')
       setMasterGenres(genreResults.data)
     })()
   }, [setPhotos, setMasterPrefectures, setMasterGenres])
@@ -63,11 +63,11 @@ export const Home: React.FC = () => {
     setPrefecture(prefectureId)
 
     //エリアのリストを設定
-    const areaResults = await Axios.get<Area[]>(`areas/prefecture-id/${prefectureId}`)
+    const areaResults = await Axios.get<AreaGetResponse[]>(`areas/prefecture-id/${prefectureId}`)
     setMasterAreas(areaResults.data)
 
     //駅のリストを設定
-    const stationResults = await Axios.get<Station[]>(
+    const stationResults = await Axios.get<RailroadStationGetResponse[]>(
       `railroad-stations/prefecture-id/${prefectureId}`,
     )
     setMasterStations(stationResults.data)
@@ -85,7 +85,9 @@ export const Home: React.FC = () => {
     setArea(areaId)
 
     //詳細エリアのリストを設定
-    const detailedAreaResults = await Axios.get<DetailedArea[]>(`detailed-areas/area-id/${areaId}`)
+    const detailedAreaResults = await Axios.get<DetailedAreaGetResponse[]>(
+      `detailed-areas/area-id/${areaId}`,
+    )
 
     //選び直しの場合は下位要素をリセットする
     setDetailedArea('0')
@@ -116,7 +118,7 @@ export const Home: React.FC = () => {
     setGenre(genreId)
 
     //詳細ジャンルのリストを設定
-    const detailedGenreResults = await Axios.get<DetailedGenre[]>(
+    const detailedGenreResults = await Axios.get<DetailedGenreGetResponse[]>(
       `detailed-genres/genre-id/${genreId}`,
     )
     if (detailedGenreResults.status === 404) {
@@ -127,7 +129,7 @@ export const Home: React.FC = () => {
     }
 
     //料理のリストを設定
-    const cookingResults = await Axios.get<Cooking[]>(`cookings/genre-id/${genreId}`)
+    const cookingResults = await Axios.get<CookingGetResponse[]>(`cookings/genre-id/${genreId}`)
 
     if (cookingResults.status === 404) {
       //料理が存在しない場合はエラーにしない
@@ -147,7 +149,7 @@ export const Home: React.FC = () => {
     setDetailedGenre(detialedGenreId)
 
     //料理のリストを設定
-    const cookingResults = await Axios.get<Cooking[]>(
+    const cookingResults = await Axios.get<CookingGetResponse[]>(
       `cookings/detailed-genre-id/${detialedGenreId}`,
     )
     if (cookingResults.status === 404) {
@@ -180,7 +182,7 @@ export const Home: React.FC = () => {
   }
 
   const searchPhotos = async () => {
-    const photoResults = await Axios.post<Photo[]>(`photos/choice-search`, {
+    const photoResults = await Axios.post<PhotoGetResponse[]>(`photos/choice-search`, {
       master_prefecture_id: parseInt(prefecture),
       master_area_id: parseInt(area),
       master_detailed_area_id: parseInt(detailedArea),

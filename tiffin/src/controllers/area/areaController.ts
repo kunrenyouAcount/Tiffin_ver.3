@@ -1,7 +1,7 @@
 import { IAreaService } from "../../services/area/interface";
 import { Request, Response, Router } from "express";
 import { NotFoundDataError } from "../../utils/error";
-import { AreaResponse } from "./response";
+import { AreaGetResponse } from "../../models/api/area/get/response";
 
 export class AreaController {
   private areaService: IAreaService;
@@ -18,12 +18,12 @@ export class AreaController {
         return;
       }
 
-      const areaList: AreaResponse[] = results.map((result) => {
+      const areaList: AreaGetResponse[] = results.map((result) => {
         return {
           id: result.id,
           name: result.name,
           master_prefecture_id: result.master_prefecture_id,
-        } as AreaResponse;
+        } as AreaGetResponse;
       });
       res.status(200).json(areaList);
     });
@@ -42,12 +42,12 @@ export class AreaController {
         return;
       }
 
-      const areaList: AreaResponse[] = results.map((result) => {
+      const areaList: AreaGetResponse[] = results.map((result) => {
         return {
           id: result.id,
           name: result.name,
           master_prefecture_id: result.master_prefecture_id,
-        } as AreaResponse;
+        } as AreaGetResponse;
       });
       res.status(200).json(areaList);
     });

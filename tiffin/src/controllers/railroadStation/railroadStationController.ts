@@ -1,7 +1,7 @@
 import { IRailroadStationService } from "../../services/railroadStation/interface";
 import { Request, Response, Router } from "express";
 import { NotFoundDataError } from "../../utils/error";
-import { RailroadStationResponse } from "./response";
+import { RailroadStationGetResponse } from "../../models/api/railroadStation/get/response";
 
 export class RailroadStationController {
   private railroadStationService: IRailroadStationService;
@@ -18,14 +18,14 @@ export class RailroadStationController {
         return;
       }
 
-      const railroadStationList: RailroadStationResponse[] = results.map((result) => {
+      const railroadStationList: RailroadStationGetResponse[] = results.map((result) => {
         return {
           id: result.id,
           name: result.name,
           post_code: result.post_code,
           address: result.address,
           status: result.status,
-        } as RailroadStationResponse;
+        } as RailroadStationGetResponse;
       });
       res.status(200).json(railroadStationList);
     });
@@ -44,14 +44,14 @@ export class RailroadStationController {
         return;
       }
 
-      const railroadStationList: RailroadStationResponse[] = results.map((result) => {
+      const railroadStationList: RailroadStationGetResponse[] = results.map((result) => {
         return {
           id: result.id,
           name: result.name,
           post_code: result.post_code,
           address: result.address,
           status: result.status,
-        } as RailroadStationResponse;
+        } as RailroadStationGetResponse;
       });
       res.status(200).json(railroadStationList);
     });
