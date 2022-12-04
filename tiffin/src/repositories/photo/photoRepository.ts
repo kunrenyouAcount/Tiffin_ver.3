@@ -2,7 +2,7 @@ import { Connection, RowDataPacket } from "mysql2/promise";
 import { Photo } from "../../models/photo";
 import { IPhotoRepository } from "./interface";
 import { NotFoundDataError, SqlError } from "../../utils/error";
-import { ChoiceSearchRequest } from "../../controllers/photo/choiceSearchRequest";
+import { PhotoChoiceSearchRequest } from "../../models/api/photo/choiceSearch/request";
 
 export class PhotoRepository implements IPhotoRepository {
   private connection: Connection;
@@ -37,7 +37,7 @@ export class PhotoRepository implements IPhotoRepository {
     }
   }
 
-  public async choiceSearch(params: ChoiceSearchRequest): Promise<Error | Photo[]> {
+  public async choiceSearch(params: PhotoChoiceSearchRequest): Promise<Error | Photo[]> {
     try {
       var sql =
         "select photos.id, photos.path, photos.menu_id from photos \

@@ -1,7 +1,7 @@
 import { IDetailedGenreService } from "../../services/detailedGenre/interface";
 import { Request, Response, Router } from "express";
 import { NotFoundDataError } from "../../utils/error";
-import { DetailedGenreResponse } from "./response";
+import { DetailedGenreGetResponse } from "../../models/api/detailedGenre/get/response";
 
 export class DetailedGenreController {
   private detailedGenreService: IDetailedGenreService;
@@ -25,11 +25,11 @@ export class DetailedGenreController {
         return;
       }
 
-      const detailedGenreList: DetailedGenreResponse[] = results.map((result) => {
+      const detailedGenreList: DetailedGenreGetResponse[] = results.map((result) => {
         return {
           id: result.id,
           name: result.name,
-        } as DetailedGenreResponse;
+        } as DetailedGenreGetResponse;
       });
       res.status(200).json(detailedGenreList);
     });

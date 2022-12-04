@@ -13,7 +13,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Axios from 'axios'
 import router from 'next/router'
 import { useEffect, useState } from 'react'
-import { Prefecture } from 'src/models/Prefecture'
+import { PrefectureGetResponse } from 'src/models/api/prefecture/get/response'
 
 function Copyright(props: any) {
   return (
@@ -31,10 +31,10 @@ function Copyright(props: any) {
 const theme = createTheme()
 
 export const Signup: React.FC = () => {
-  const [prefectures, setPrefectures] = useState<Prefecture[]>([])
+  const [prefectures, setPrefectures] = useState<PrefectureGetResponse[]>([])
   useEffect(() => {
     ;(async () => {
-      const results = await Axios.get<Prefecture[]>('prefectures')
+      const results = await Axios.get<PrefectureGetResponse[]>('prefectures')
       setPrefectures(results.data)
     })()
   }, [setPrefectures])

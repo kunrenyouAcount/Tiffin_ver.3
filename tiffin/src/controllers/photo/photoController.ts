@@ -1,8 +1,9 @@
 import { IPhotoService } from "../../services/photo/interface";
 import { Request, Response, Router } from "express";
 import { NotFoundDataError } from "../../utils/error";
-import { PhotoResponse } from "./response";
-import { ChoiceSearchRequest } from "./choiceSearchRequest";
+import { PhotoChoiceSearchRequest } from "../../models/api/photo/choiceSearch/request";
+import { PhotoGetResponse } from "../../models/api/photo/get/response";
+import { PhotoChoiceSearchResponse } from "../../models/api/photo/choiceSearch/response";
 
 export class PhotoController {
   private photoService: IPhotoService;
@@ -19,12 +20,12 @@ export class PhotoController {
         return;
       }
 
-      const photoList: PhotoResponse[] = results.map((result) => {
+      const photoList: PhotoGetResponse[] = results.map((result) => {
         return {
           id: result.id,
           path: result.path,
           menu_id: result.menu_id,
-        } as PhotoResponse;
+        } as PhotoGetResponse;
       });
       res.status(200).json(photoList);
     });
@@ -42,16 +43,16 @@ export class PhotoController {
         res.status(500).json(result.message);
         return;
       }
-      const photo: PhotoResponse = {
+      const photo: PhotoGetResponse = {
         id: result.id,
         path: result.path,
         menu_id: result.menu_id,
-      } as PhotoResponse;
+      } as PhotoGetResponse;
       res.status(200).json(photo);
     });
 
     this.router.post("/photos/choice-search", async (req: Request, res: Response) => {
-      const params: ChoiceSearchRequest = req.body;
+      const params: PhotoChoiceSearchRequest = req.body;
       const results = await this.photoService.choiceSearch(params);
       if (results instanceof NotFoundDataError) {
         res.status(404).json(results.message);
@@ -63,12 +64,12 @@ export class PhotoController {
         return;
       }
 
-      const photoList: PhotoResponse[] = results.map((result) => {
+      const photoList: PhotoChoiceSearchResponse[] = results.map((result) => {
         return {
           id: result.id,
           path: result.path,
           menu_id: result.menu_id,
-        } as PhotoResponse;
+        } as PhotoChoiceSearchResponse;
       });
       res.status(200).json(photoList);
     });

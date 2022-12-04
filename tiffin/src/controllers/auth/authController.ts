@@ -2,8 +2,10 @@ import { IAuthService } from "../../services/auth/interface";
 import { Request, Response, Router } from "express";
 import { MismatchEmailOrPassword, NotFoundDataError, ValidationError } from "../../utils/error";
 import { User } from "../../models/user";
-import { SignInRequest } from "./signIn/request";
-import { SignUpRequest } from "./signUp/request";
+import { SigninRequestValidation } from "./signIn/requestValidation";
+import { SignupRequestValidation } from "./signUp/requestValidation";
+import { AuthSigninRequest } from "../../models/api/auth/signin/request";
+import { AuthSignupRequest } from "../../models/api/auth/signup/request";
 
 export class AuthController {
   private authService: IAuthService;
@@ -14,8 +16,8 @@ export class AuthController {
     this.router = Router();
 
     this.router.post("/auth/signin", async (req: Request, res: Response) => {
-      const validation = new SignInRequest();
-      const validated = validation.validate(req.body);
+      const validation = new SigninRequestValidation();
+      const validated: AuthSigninRequest | ValidationError = validation.validate(req.body);
       if (validated instanceof ValidationError) {
         res.status(422).json(validated.err);
         return;
@@ -42,8 +44,8 @@ export class AuthController {
     });
 
     this.router.post("/auth/signup", async (req: Request, res: Response) => {
-      const validation = new SignUpRequest();
-      const validated = validation.validate(req.body);
+      const validation = new SignupRequestValidation();
+      const validated: AuthSignupRequest | ValidationError = validation.validate(req.body);
       if (validated instanceof ValidationError) {
         res.status(422).json(validated.err);
         return;

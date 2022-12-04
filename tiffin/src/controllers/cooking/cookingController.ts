@@ -1,7 +1,7 @@
 import { ICookingService } from "../../services/cooking/interface";
 import { Request, Response, Router } from "express";
 import { NotFoundDataError } from "../../utils/error";
-import { CookingResponse } from "./response";
+import { CookingGetResponse } from "../../models/api/cooking/get/response";
 
 export class CookingController {
   private cookingService: ICookingService;
@@ -18,11 +18,11 @@ export class CookingController {
         return;
       }
 
-      const cookingList: CookingResponse[] = results.map((results) => {
+      const cookingList: CookingGetResponse[] = results.map((results) => {
         return {
           id: results.id,
           name: results.name,
-        } as CookingResponse;
+        } as CookingGetResponse;
       });
       res.status(200).json(cookingList);
     });
@@ -41,13 +41,13 @@ export class CookingController {
         return;
       }
 
-      const menuList: CookingResponse[] = results.map((result) => {
+      const cookingList: CookingGetResponse[] = results.map((result) => {
         return {
           id: result.id,
           name: result.name,
-        } as CookingResponse;
+        } as CookingGetResponse;
       });
-      res.status(200).json(menuList);
+      res.status(200).json(cookingList);
     });
 
     this.router.get("/cookings/detailed-genre-id/:detailedGenreId", async (req: Request, res: Response) => {
@@ -64,13 +64,13 @@ export class CookingController {
         return;
       }
 
-      const menuList: CookingResponse[] = results.map((result) => {
+      const cookingList: CookingGetResponse[] = results.map((result) => {
         return {
           id: result.id,
           name: result.name,
-        } as CookingResponse;
+        } as CookingGetResponse;
       });
-      res.status(200).json(menuList);
+      res.status(200).json(cookingList);
     });
   }
 }
