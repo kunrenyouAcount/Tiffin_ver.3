@@ -1,8 +1,6 @@
 import * as React from 'react'
 import Toolbar from '@mui/material/Toolbar'
 import Button from '@mui/material/Button'
-import IconButton from '@mui/material/IconButton'
-import SearchIcon from '@mui/icons-material/Search'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
 import { useEffect, useState } from 'react'
@@ -18,7 +16,7 @@ interface HeaderProps {
   title: string
 }
 
-export const Header: React.FC<HeaderProps> = (props) => {
+const Header: React.FC<HeaderProps> = (props) => {
   const [isLoginStatus, setIsLoginStatus] = useState<boolean>(false)
   useEffect(() => {
     ;(async () => {
