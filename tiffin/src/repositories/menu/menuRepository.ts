@@ -78,4 +78,30 @@ export class MenuRepository implements IMenuRepository {
       return new SqlError(`MenuRepository.getByStation() ERROR: ${error}`);
     }
   }
+
+  public async getById(menuId: number): Promise<Menu | Error> {
+    try {
+      const sql = "select * from menus where id = ?";
+      const [rows] = await this.connection.execute<Menu & RowDataPacket[]>(sql, [menuId]);
+      if (rows.length === 0) {
+        return new NotFoundDataError(`not exists target menus`);
+      }
+      return rows as Menu;
+    } catch (error) {
+      return new SqlError(`MenuRepository.getById() ERROR: ${error}`);
+    }
+  }
+
+  public async getByShopId(shopId: number): Promise<Menu[] | Error> {
+    try {
+      const sql = "select * from menus where shop_id = ?";
+      const [rows] = await this.connection.execute<Menu[] & RowDataPacket[]>(sql, [shopId]);
+      if (rows.length === 0) {
+        return new NotFoundDataError(`not exists target menus`);
+      }
+      return rows as Menu[];
+    } catch (error) {
+      return new SqlError(`MenuRepository.getByShopId() ERROR: ${error}`);
+    }
+  }
 }
