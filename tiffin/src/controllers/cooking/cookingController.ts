@@ -11,7 +11,7 @@ export class CookingController {
     this.cookingService = cookingService;
     this.router = Router();
 
-    this.router.get("/cookings", async (req: Request, res: Response) => {
+    this.router.get("/cookings", async (res: Response) => {
       const results = await this.cookingService.findAll();
       if (results instanceof Error) {
         res.status(500).json(results.message);

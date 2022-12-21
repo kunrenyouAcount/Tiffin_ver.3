@@ -1,4 +1,4 @@
-import { Connection, ResultSetHeader, RowDataPacket } from "mysql2/promise";
+import { Connection, RowDataPacket } from "mysql2/promise";
 import { DetailedGenre } from "../../models/detailedGenre";
 import { IDetailedGenreRepository } from "./interface";
 import { NotFoundDataError, SqlError } from "../../utils/error";

@@ -1,4 +1,4 @@
-import { Connection, ResultSetHeader, RowDataPacket } from "mysql2/promise";
+import { Connection, RowDataPacket } from "mysql2/promise";
 import { NotFoundDataError, SqlError } from "../../utils/error";
 import { Menu } from "../../models/menu";
 import { IMenuRepository } from "./interface";
