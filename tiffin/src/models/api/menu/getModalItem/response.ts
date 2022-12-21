@@ -11,12 +11,3 @@ export type MenuModalItemResponse = {
     photo_path: string;
   }[];
 };
-
-export const initMenuModalItemResponse: MenuModalItemResponse = {
-  id: 0,
-  name: "",
-  price: 0,
-  photo_path: "",
-  shop_name: "",
-  other_menus: [],
-};
