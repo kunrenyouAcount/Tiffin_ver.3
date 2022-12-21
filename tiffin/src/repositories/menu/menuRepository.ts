@@ -86,7 +86,7 @@ export class MenuRepository implements IMenuRepository {
       if (rows.length === 0) {
         return new NotFoundDataError(`not exists target menus`);
       }
-      return rows as Menu;
+      return rows[0] as Menu;
     } catch (error) {
       return new SqlError(`MenuRepository.getById() ERROR: ${error}`);
     }

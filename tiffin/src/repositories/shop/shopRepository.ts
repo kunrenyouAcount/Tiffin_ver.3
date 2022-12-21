@@ -17,7 +17,7 @@ export class ShopRepository implements IShopRepository {
       if (rows.length === 0) {
         return new NotFoundDataError(`not exists target shops`);
       }
-      return rows as Shop;
+      return rows[0] as Shop;
     } catch (error) {
       return new SqlError(`ShopRepository.getById() ERROR: ${error}`);
     }
