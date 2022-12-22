@@ -11,7 +11,7 @@ export class AreaController {
     this.areaService = areaService;
     this.router = Router();
 
-    this.router.get("/areas", async (res: Response) => {
+    this.router.get("/areas", async (req: Request, res: Response) => {
       const results = await this.areaService.findAll();
       if (results instanceof Error) {
         res.status(500).json(results.message);

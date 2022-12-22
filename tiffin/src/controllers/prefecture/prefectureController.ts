@@ -11,7 +11,7 @@ export class PrefectureController {
     this.prefectureService = prefectureService;
     this.router = Router();
 
-    this.router.get("/prefectures", async (res: Response) => {
+    this.router.get("/prefectures", async (req: Request, res: Response) => {
       const results = await this.prefectureService.findAll();
       if (results instanceof Error) {
         res.status(500).json(results.message);

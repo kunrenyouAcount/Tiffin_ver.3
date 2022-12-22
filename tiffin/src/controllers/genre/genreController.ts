@@ -1,5 +1,5 @@
 import { IGenreService } from "../../services/genre/interface";
-import { Response, Router } from "express";
+import { Request, Response, Router } from "express";
 import { GenreGetResponse } from "../../models/api/genre/get/response";
 
 export class GenreController {
@@ -10,7 +10,7 @@ export class GenreController {
     this.genreService = genreService;
     this.router = Router();
 
-    this.router.get("/genres", async (res: Response) => {
+    this.router.get("/genres", async (req: Request, res: Response) => {
       const results = await this.genreService.findAll();
       if (results instanceof Error) {
         res.status(500).json(results.message);

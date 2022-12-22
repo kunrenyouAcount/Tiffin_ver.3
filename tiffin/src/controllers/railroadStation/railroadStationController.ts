@@ -11,7 +11,7 @@ export class RailroadStationController {
     this.railroadStationService = railroadStationService;
     this.router = Router();
 
-    this.router.get("/railroad-stations", async (res: Response) => {
+    this.router.get("/railroad-stations", async (req: Request, res: Response) => {
       const results = await this.railroadStationService.findAll();
       if (results instanceof Error) {
         res.status(500).json(results.message);
