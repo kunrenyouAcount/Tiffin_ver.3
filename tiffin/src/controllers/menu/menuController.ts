@@ -138,7 +138,7 @@ export class MenuController {
     });
 
     this.router.get("/menus/modal-item/:menuId", async (req: Request, res: Response) => {
-      const id = parseInt(req.params.id);
+      const id = parseInt(req.params.menuId);
       const result = await this.menuService.getModalItemByMenuId(id);
 
       if (result instanceof NotFoundDataError) {

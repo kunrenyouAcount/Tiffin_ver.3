@@ -53,7 +53,7 @@ export class PhotoRepository implements IPhotoRepository {
   public async getByMenuIds(menuIds: number[]): Promise<Error | Photo[]> {
     try {
       const sql = "select * from photos where menu_id in (?)";
-      const [rows] = await this.connection.execute<Photo[] & RowDataPacket[]>(sql, [menuIds]);
+      const [rows] = await this.connection.query<Photo[] & RowDataPacket[]>(sql, [menuIds]);
       if (rows.length === 0) {
         return new NotFoundDataError(`not exists target photos`);
       }
