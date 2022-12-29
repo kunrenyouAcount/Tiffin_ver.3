@@ -100,7 +100,7 @@ async function main() {
 
   const menuRepository = new MenuRepository(connection);
   const shopRepository = new ShopRepository(connection);
-  const menuService = new MenuService(menuRepository, shopRepository, photoRepository);
+  const menuService = new MenuService(menuRepository, shopRepository, photoRepository, railroadStationRepository);
   const menuController = new MenuController(menuService);
   app.use("/api/", menuController.router);
 

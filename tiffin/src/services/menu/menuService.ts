@@ -1,9 +1,11 @@
 import { Menu } from "../../models/menu";
 import { Photo } from "../../models/photo";
+import { RailroadStation } from "../../models/railroadStation";
 import { Shop } from "../../models/shop";
 import { IMenuRepository } from "../../repositories/menu/interface";
 import { IPhotoRepository } from "../../repositories/photo/interface";
 import { PhotoRepository } from "../../repositories/photo/photoRepository";
+import { IRailroadStationRepository } from "../../repositories/railroadStation/interface";
 import { IShopRepository } from "../../repositories/shop/interface";
 import { IMenuService } from "./interface";
 
@@ -11,11 +13,18 @@ export class MenuService implements IMenuService {
   private menuRepository: IMenuRepository;
   private shopRepository: IShopRepository;
   private photoRepository: IPhotoRepository;
+  private stationRepository: IRailroadStationRepository;
 
-  constructor(menuRepository: IMenuRepository, shopRepository: IShopRepository, photoRepository: PhotoRepository) {
+  constructor(
+    menuRepository: IMenuRepository,
+    shopRepository: IShopRepository,
+    photoRepository: PhotoRepository,
+    stationRepository: IRailroadStationRepository
+  ) {
     this.menuRepository = menuRepository;
     this.shopRepository = shopRepository;
     this.photoRepository = photoRepository;
+    this.stationRepository = stationRepository;
   }
 
   public async getByArea(areaId: number): Promise<Error | Menu[]> {
@@ -47,6 +56,7 @@ export class MenuService implements IMenuService {
     | {
         menu: Menu;
         shop: Shop;
+        station: RailroadStation;
         photo: Photo;
         otherMenus: Menu[];
         otherPhotos: Photo[];
@@ -60,6 +70,10 @@ export class MenuService implements IMenuService {
     const shopResult = await this.shopRepository.getById(menuResult.shop_id);
     if (shopResult instanceof Error) {
       return shopResult;
+    }
+    const stationResult = await this.stationRepository.getById(shopResult.master_railroad_station_id);
+    if (stationResult instanceof Error) {
+      return stationResult;
     }
     const photoResult = await this.photoRepository.getByMenuId(menuResult.id!);
     if (photoResult instanceof Error) {
@@ -81,6 +95,7 @@ export class MenuService implements IMenuService {
     return {
       menu: menuResult,
       shop: shopResult,
+      station: stationResult,
       photo: photoResult,
       otherMenus: otherMenuResults,
       otherPhotos: otherPhotoResults,
