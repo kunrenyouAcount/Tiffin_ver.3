@@ -29,7 +29,7 @@ import Modal from '@mui/material/Modal'
 import {
   initMenuModalItemResponse,
   MenuModalItemResponse,
-} from 'src/models/api/menu/getDetail/response'
+} from 'src/models/api/menu/getModalItem/response'
 
 export const Home: React.FC = () => {
   const [photos, setPhotos] = useState<PhotoGetResponse[]>([])
@@ -405,12 +405,15 @@ export const Home: React.FC = () => {
                 rowHeight={164}
               >
                 {modalItem.other_menus
-                  .map((photo) => (
-                    <ImageListItem key={photo.id}>
+                  .map((menu) => (
+                    <ImageListItem key={menu.id}>
                       <img
-                        src={`${photo.photo_path}?w=164&h=164&fit=crop&auto=format`}
-                        srcSet={`${photo.photo_path}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                        src={`${menu.photo_path}?w=164&h=164&fit=crop&auto=format`}
+                        srcSet={`${menu.photo_path}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                         loading='lazy'
+                        onClick={() => {
+                          handleOpen(menu.id)
+                        }}
                       />
                     </ImageListItem>
                   ))
