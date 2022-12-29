@@ -65,10 +65,13 @@ export class MenuService implements IMenuService {
     if (photoResult instanceof Error) {
       return photoResult;
     }
-    const otherMenuResults = await this.menuRepository.getByShopId(menuResult.shop_id);
-    if (otherMenuResults instanceof Error) {
-      return otherMenuResults;
+    const menuResultsByShop = await this.menuRepository.getByShopId(menuResult.shop_id);
+    if (menuResultsByShop instanceof Error) {
+      return menuResultsByShop;
     }
+    //店舗の他のメニューを取得しているため、重複を削除
+    const otherMenuResults = menuResultsByShop.filter((menu) => menu.id !== menuId);
+
     const otherMenuIds = otherMenuResults.map((otherMenu) => otherMenu.id!);
     const otherPhotoResults = await this.photoRepository.getByMenuIds(otherMenuIds);
     if (otherPhotoResults instanceof Error) {
