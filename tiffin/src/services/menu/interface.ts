@@ -1,5 +1,6 @@
 import { Menu } from "../../models/menu";
 import { Photo } from "../../models/photo";
+import { RailroadStation } from "../../models/railroadStation";
 import { Shop } from "../../models/shop";
 
 export interface IMenuService {
@@ -12,6 +13,7 @@ export interface IMenuService {
     | {
         menu: Menu;
         shop: Shop;
+        station: RailroadStation;
         photo: Photo;
         otherMenus: Menu[];
         otherPhotos: Photo[];

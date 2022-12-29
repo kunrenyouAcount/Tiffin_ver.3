@@ -166,7 +166,15 @@ export class MenuController {
         name: result.menu.name,
         price: result.menu.price,
         photo_path: result.photo.path,
-        shop_name: result.shop.name,
+        shop: {
+          id: result.shop.id,
+          name: result.shop.name,
+          tel: result.shop.tel,
+          opening_time: result.shop.opening_time,
+          closing_time: result.shop.closing_time,
+          station_name: result.station.name,
+          address: result.shop.address,
+        },
         other_menus: otherMenus,
       } as MenuModalItemResponse;
 

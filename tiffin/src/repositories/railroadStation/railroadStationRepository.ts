@@ -23,6 +23,19 @@ export class RailroadStationRepository implements IRailroadStationRepository {
     }
   }
 
+  public async getById(stationId: number): Promise<RailroadStation | Error> {
+    try {
+      const sql = "select * from master_railroad_stations where id = ?";
+      const [rows] = await this.connection.execute<RailroadStation & RowDataPacket[]>(sql, [stationId]);
+      if (rows.length === 0) {
+        return new NotFoundDataError(`not exists target master_railroad_stations`);
+      }
+      return rows[0] as RailroadStation;
+    } catch (error) {
+      return new SqlError(`RailroadStationRepository.getById() ERROR: ${error}`);
+    }
+  }
+
   public async getByPrefectureId(prefectureId: number): Promise<RailroadStation[] | Error> {
     try {
       const sql = "select * from master_railroad_stations where master_prefecture_id = ?";
