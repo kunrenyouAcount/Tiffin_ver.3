@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "target": "ES6",
-    "lib": ["ES2015"],
     "module": "commonjs",
     "outDir": "./dist",
     "rootDir": ".",
@@ -9,7 +8,10 @@
     "strict": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    "noImplicitReturns": true
   },
   "include": ["src/**/*.ts", ".eslintrc.js"],
   "exclude": ["node_modules", "dist"]

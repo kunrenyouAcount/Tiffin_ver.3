@@ -1,6 +1,5 @@
 import { IGenreService } from "../../services/genre/interface";
 import { Request, Response, Router } from "express";
-import { NotFoundDataError } from "../../utils/error";
 import { GenreGetResponse } from "../../models/api/genre/get/response";
 
 export class GenreController {

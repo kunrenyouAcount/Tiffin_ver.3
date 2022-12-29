@@ -33,6 +33,7 @@ import { GenreController } from "./controllers/genre/genreController";
 import { DetailedGenreRepository } from "./repositories/detailedGenre/detailedGenreRepository";
 import { DetailedGenreService } from "./services/detailedGenre/detailedGenreService";
 import { DetailedGenreController } from "./controllers/detailedGenre/detailedGenreController";
+import { ShopRepository } from "./repositories/shop/shopRepository";
 
 async function main() {
   dotenv.config();
@@ -92,15 +93,16 @@ async function main() {
   const cookingController = new CookingController(cookingService);
   app.use("/api/", cookingController.router);
 
-  const menuRepository = new MenuRepository(connection);
-  const menuService = new MenuService(menuRepository);
-  const menuController = new MenuController(menuService);
-  app.use("/api/", menuController.router);
-
   const photoRepository = new PhotoRepository(connection);
   const photoService = new PhotoService(photoRepository);
   const photoController = new PhotoController(photoService);
   app.use("/api/", photoController.router);
+
+  const menuRepository = new MenuRepository(connection);
+  const shopRepository = new ShopRepository(connection);
+  const menuService = new MenuService(menuRepository, shopRepository, photoRepository);
+  const menuController = new MenuController(menuService);
+  app.use("/api/", menuController.router);
 
   const genreRepository = new GenreRepository(connection);
   const genreService = new GenreService(genreRepository);

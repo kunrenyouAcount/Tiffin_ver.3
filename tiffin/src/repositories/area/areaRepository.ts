@@ -1,4 +1,4 @@
-import { Connection, ResultSetHeader, RowDataPacket } from "mysql2/promise";
+import { Connection, RowDataPacket } from "mysql2/promise";
 import { Area } from "../../models/area";
 import { IAreaRepository } from "./interface";
 import { NotFoundDataError, SqlError } from "../../utils/error";

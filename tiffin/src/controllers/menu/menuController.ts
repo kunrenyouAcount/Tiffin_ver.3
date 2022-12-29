@@ -1,5 +1,6 @@
 import { Request, Response, Router } from "express";
 import { MenuGetResponse } from "../../models/api/menu/get/response";
+import { MenuModalItemResponse } from "../../models/api/menu/getModalItem/response";
 import { IMenuService } from "../../services/menu/interface";
 import { NotFoundDataError } from "../../utils/error";
 
@@ -134,6 +135,42 @@ export class MenuController {
         } as MenuGetResponse;
       });
       res.status(200).json(menuList);
+    });
+
+    this.router.get("/menus/modal-item/:menuId", async (req: Request, res: Response) => {
+      const id = parseInt(req.params.menuId);
+      const result = await this.menuService.getModalItemByMenuId(id);
+
+      if (result instanceof NotFoundDataError) {
+        res.status(404).json(result.message);
+        return;
+      }
+
+      if (result instanceof Error) {
+        res.status(500).json(result.message);
+        return;
+      }
+
+      const otherMenus = result.otherMenus.map((menu) => {
+        const photo = result.otherPhotos.find((photo) => photo.menu_id === menu.id!);
+        return {
+          id: menu.id!,
+          name: menu.name,
+          price: menu.price,
+          photo_path: photo === undefined ? "" : photo.path,
+        };
+      });
+
+      const modalItem: MenuModalItemResponse = {
+        id: result.menu.id!,
+        name: result.menu.name,
+        price: result.menu.price,
+        photo_path: result.photo.path,
+        shop_name: result.shop.name,
+        other_menus: otherMenus,
+      } as MenuModalItemResponse;
+
+      res.status(200).json(modalItem);
     });
   }
 }

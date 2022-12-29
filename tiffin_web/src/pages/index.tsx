@@ -1,4 +1,5 @@
 import {
+  Box,
   Grid,
   ImageList,
   ImageListItem,
@@ -23,6 +24,12 @@ import { RailroadStationGetResponse } from 'src/models/api/railroadStation/get/r
 import { GenreGetResponse } from 'src/models/api/genre/get/response'
 import { DetailedGenreGetResponse } from 'src/models/api/detailedGenre/get/response'
 import { CookingGetResponse } from 'src/models/api/cooking/get/response'
+import Modal from '@mui/material/Modal'
+
+import {
+  initMenuModalItemResponse,
+  MenuModalItemResponse,
+} from 'src/models/api/menu/getDetail/response'
 
 export const Home: React.FC = () => {
   const [photos, setPhotos] = useState<PhotoGetResponse[]>([])
@@ -45,6 +52,9 @@ export const Home: React.FC = () => {
   const [cooking, setCooking] = useState<string>('0')
   const [lowerPrice, setLowerPrice] = useState<string>('0')
   const [upperPrice, setUpperPrice] = useState<string>('0')
+  //モーダル用
+  const [open, setOpen] = useState<boolean>(false)
+  const [modalItem, setModalItem] = useState<MenuModalItemResponse>(initMenuModalItemResponse)
 
   useEffect(() => {
     ;(async () => {
@@ -220,113 +230,134 @@ export const Home: React.FC = () => {
     setUpperPrice('0')
   }
 
+  const handleOpen = async (menuId: number) => {
+    const modalItemResult = await (
+      await Axios.get<MenuModalItemResponse>(`menus/modal-item/${menuId}`)
+    ).data
+    setModalItem(modalItemResult)
+    setOpen(true)
+  }
+  const handleClose = () => setOpen(false)
+
+  const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    height: 800,
+    transform: 'translate(-50%, -50%)',
+    width: 900,
+    bgcolor: 'rgba(47, 43, 43, 0.9)',
+    border: '2px solid rgba(47, 43, 43, 1)',
+    boxShadow: 24,
+    color: 'white',
+    p: 4,
+  }
+
   return (
-    <div className='container'>
+    <Grid>
       <Head>
         <title>Tiffin</title>
         <meta name='viewport' content='initial-scale=1, width=device-width' />
       </Head>
       <Header title='Home' sections={[]}></Header>
       {isLogin() ? (
-        <main>
-          <Grid container component='main' sx={{ height: '100px' }}>
-            <Grid container xs={4} margin={2}>
-              <Grid item xs={2}>
-                <InputLabel>都道府県</InputLabel>
-                <Select fullWidth label='Prefecture' onChange={changePrefecture} value={prefecture}>
-                  {masterPrefectures.map((master) => (
-                    <MenuItem value={master.id}>{master.name}</MenuItem>
-                  ))}
-                </Select>
-              </Grid>
-              <Grid item xs={4}>
-                <InputLabel>エリア</InputLabel>
-                <Select fullWidth label='Area' onChange={changeArea} value={area}>
-                  {masterAreas.map((master) => (
-                    <MenuItem value={master.id}>{master.name}</MenuItem>
-                  ))}
-                </Select>
-              </Grid>
-              <Grid item xs={3}>
-                <InputLabel>詳細エリア</InputLabel>
-                <Select
-                  fullWidth
-                  label='DetailedArea'
-                  onChange={changeDetailedArea}
-                  value={detailedArea}
-                >
-                  {masterDetailedAreas.map((master) => (
-                    <MenuItem value={master.id}>{master.name}</MenuItem>
-                  ))}
-                </Select>
-              </Grid>
-              <Grid item xs={3}>
-                <InputLabel>駅名</InputLabel>
-                <Select fullWidth label='station' onChange={changeStation} value={station}>
-                  {masterStations.map((master) => (
-                    <MenuItem value={master.id}>{master.name}</MenuItem>
-                  ))}
-                </Select>
-              </Grid>
+        <Grid container component='main' sx={{ height: '100px' }}>
+          <Grid container xs={4} margin={2}>
+            <Grid item xs={2}>
+              <InputLabel>都道府県</InputLabel>
+              <Select fullWidth label='Prefecture' onChange={changePrefecture} value={prefecture}>
+                {masterPrefectures.map((master) => (
+                  <MenuItem value={master.id}>{master.name}</MenuItem>
+                ))}
+              </Select>
             </Grid>
-            <Grid container xs={4} margin={2}>
-              <Grid item xs={3}>
-                <InputLabel>ジャンル</InputLabel>
-                <Select fullWidth label='genre' onChange={changeGenre} value={genre}>
-                  {masterGenres.map((master) => (
-                    <MenuItem value={master.id}>{master.name}</MenuItem>
-                  ))}
-                </Select>
-              </Grid>
-              <Grid item xs={5}>
-                <InputLabel>詳細ジャンル</InputLabel>
-                <Select
-                  fullWidth
-                  label='detailedGenre'
-                  onChange={changeDetailedGenre}
-                  value={detailedGenre}
-                >
-                  {masterDetailedGenres.map((master) => (
-                    <MenuItem value={master.id}>{master.name}</MenuItem>
-                  ))}
-                </Select>
-              </Grid>
-              <Grid item xs={4}>
-                <InputLabel>料理</InputLabel>
-                <Select fullWidth label='cooking' onChange={changeCooking} value={cooking}>
-                  {masterCookings.map((master) => (
-                    <MenuItem value={master.id}>{master.name}</MenuItem>
-                  ))}
-                </Select>
-              </Grid>
+            <Grid item xs={4}>
+              <InputLabel>エリア</InputLabel>
+              <Select fullWidth label='Area' onChange={changeArea} value={area}>
+                {masterAreas.map((master) => (
+                  <MenuItem value={master.id}>{master.name}</MenuItem>
+                ))}
+              </Select>
             </Grid>
-            <Grid container xs={2} margin={2}>
-              <Grid item xs={6}>
-                <InputLabel>料金下限</InputLabel>
-                <Select fullWidth label='lowerPrice' onChange={changeLowerPrice} value={lowerPrice}>
-                  {masterPrices.map((master) => (
-                    <MenuItem value={master}>{master}</MenuItem>
-                  ))}
-                </Select>
-              </Grid>
-              <Grid item xs={6}>
-                <InputLabel>料金上限</InputLabel>
-                <Select fullWidth label='upperPrice' onChange={changeUpperPrice} value={upperPrice}>
-                  {masterPrices.map((master) => (
-                    <MenuItem value={master}>{master}</MenuItem>
-                  ))}
-                </Select>
-              </Grid>
+            <Grid item xs={3}>
+              <InputLabel>詳細エリア</InputLabel>
+              <Select
+                fullWidth
+                label='DetailedArea'
+                onChange={changeDetailedArea}
+                value={detailedArea}
+              >
+                {masterDetailedAreas.map((master) => (
+                  <MenuItem value={master.id}>{master.name}</MenuItem>
+                ))}
+              </Select>
             </Grid>
-            <Grid container xs={1} marginTop={4}>
-              <Grid item>
-                <IconButton onClick={searchPhotos}>
-                  <SearchIcon fontSize='large' />
-                </IconButton>
-                <IconButton onClick={reset}>
-                  <RestartAltIcon fontSize='large' />
-                </IconButton>
-              </Grid>
+            <Grid item xs={3}>
+              <InputLabel>駅名</InputLabel>
+              <Select fullWidth label='station' onChange={changeStation} value={station}>
+                {masterStations.map((master) => (
+                  <MenuItem value={master.id}>{master.name}</MenuItem>
+                ))}
+              </Select>
+            </Grid>
+          </Grid>
+          <Grid container xs={4} margin={2}>
+            <Grid item xs={3}>
+              <InputLabel>ジャンル</InputLabel>
+              <Select fullWidth label='genre' onChange={changeGenre} value={genre}>
+                {masterGenres.map((master) => (
+                  <MenuItem value={master.id}>{master.name}</MenuItem>
+                ))}
+              </Select>
+            </Grid>
+            <Grid item xs={5}>
+              <InputLabel>詳細ジャンル</InputLabel>
+              <Select
+                fullWidth
+                label='detailedGenre'
+                onChange={changeDetailedGenre}
+                value={detailedGenre}
+              >
+                {masterDetailedGenres.map((master) => (
+                  <MenuItem value={master.id}>{master.name}</MenuItem>
+                ))}
+              </Select>
+            </Grid>
+            <Grid item xs={4}>
+              <InputLabel>料理</InputLabel>
+              <Select fullWidth label='cooking' onChange={changeCooking} value={cooking}>
+                {masterCookings.map((master) => (
+                  <MenuItem value={master.id}>{master.name}</MenuItem>
+                ))}
+              </Select>
+            </Grid>
+          </Grid>
+          <Grid container xs={2} margin={2}>
+            <Grid item xs={6}>
+              <InputLabel>料金下限</InputLabel>
+              <Select fullWidth label='lowerPrice' onChange={changeLowerPrice} value={lowerPrice}>
+                {masterPrices.map((master) => (
+                  <MenuItem value={master}>{master}</MenuItem>
+                ))}
+              </Select>
+            </Grid>
+            <Grid item xs={6}>
+              <InputLabel>料金上限</InputLabel>
+              <Select fullWidth label='upperPrice' onChange={changeUpperPrice} value={upperPrice}>
+                {masterPrices.map((master) => (
+                  <MenuItem value={master}>{master}</MenuItem>
+                ))}
+              </Select>
+            </Grid>
+          </Grid>
+          <Grid container xs={1} marginTop={4}>
+            <Grid item>
+              <IconButton onClick={searchPhotos}>
+                <SearchIcon fontSize='large' />
+              </IconButton>
+              <IconButton onClick={reset}>
+                <RestartAltIcon fontSize='large' />
+              </IconButton>
             </Grid>
           </Grid>
           <ImageList
@@ -340,15 +371,58 @@ export const Home: React.FC = () => {
                   src={`${photo.path}?w=164&h=164&fit=crop&auto=format`}
                   srcSet={`${photo.path}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                   loading='lazy'
+                  onClick={() => {
+                    handleOpen(photo.menu_id)
+                  }}
                 />
               </ImageListItem>
             ))}
           </ImageList>
-        </main>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby='modal-modal-title'
+            aria-describedby='modal-modal-description'
+          >
+            <Box sx={style}>
+              <ImageList>
+                <ImageListItem>
+                  <img
+                    src={`${modalItem.photo_path}?w=164&h=164&fit=crop&auto=format`}
+                    srcSet={`${modalItem.photo_path}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                    loading='lazy'
+                  />
+                </ImageListItem>
+                <div style={{ float: 'right' }}>
+                  <div>{modalItem.name}</div>
+                  <div>{modalItem.price}円</div>
+                </div>
+              </ImageList>
+              <div>{modalItem.shop_name}</div>
+              <ImageList
+                sx={{ width: 2000, height: 270 * (Math.floor(photos.length / 7) + 1) }}
+                cols={7}
+                rowHeight={164}
+              >
+                {modalItem.other_menus
+                  .map((photo) => (
+                    <ImageListItem key={photo.id}>
+                      <img
+                        src={`${photo.photo_path}?w=164&h=164&fit=crop&auto=format`}
+                        srcSet={`${photo.photo_path}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                        loading='lazy'
+                      />
+                    </ImageListItem>
+                  ))
+                  .slice(0, 4)}
+              </ImageList>
+            </Box>
+          </Modal>
+        </Grid>
       ) : (
         <></>
       )}
-    </div>
+    </Grid>
   )
 }
 

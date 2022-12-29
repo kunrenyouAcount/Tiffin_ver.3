@@ -37,6 +37,32 @@ export class PhotoRepository implements IPhotoRepository {
     }
   }
 
+  public async getByMenuId(menuId: number): Promise<Error | Photo> {
+    try {
+      const sql = "select * from photos where menu_id = ?";
+      const [rows] = await this.connection.execute<Photo & RowDataPacket[]>(sql, [menuId]);
+      if (rows.length === 0) {
+        return new NotFoundDataError(`not exists target photos`);
+      }
+      return rows[0] as Photo;
+    } catch (error) {
+      return new SqlError(`PhotoRepository.getByMenuId() ERROR: ${error}`);
+    }
+  }
+
+  public async getByMenuIds(menuIds: number[]): Promise<Error | Photo[]> {
+    try {
+      const sql = "select * from photos where menu_id in (?)";
+      const [rows] = await this.connection.query<Photo[] & RowDataPacket[]>(sql, [menuIds]);
+      if (rows.length === 0) {
+        return new NotFoundDataError(`not exists target photos`);
+      }
+      return rows as Photo[];
+    } catch (error) {
+      return new SqlError(`PhotoRepository.getByMenuIds() ERROR: ${error}`);
+    }
+  }
+
   public async choiceSearch(params: PhotoChoiceSearchRequest): Promise<Error | Photo[]> {
     try {
       var sql =

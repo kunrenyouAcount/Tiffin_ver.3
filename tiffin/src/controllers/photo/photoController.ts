@@ -13,7 +13,7 @@ export class PhotoController {
     this.photoService = photoService;
     this.router = Router();
 
-    this.router.get("/photos", async (req: Request, res: Response) => {
+    this.router.get("/photos", async (request: Request, res: Response) => {
       const results = await this.photoService.findAll();
       if (results instanceof Error) {
         res.status(500).json(results.message);
