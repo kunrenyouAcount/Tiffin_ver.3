@@ -246,7 +246,7 @@ export const Home: React.FC = () => {
     height: 800,
     transform: 'translate(-50%, -50%)',
     width: 900,
-    bgcolor: 'rgba(47, 43, 43, 0.9)',
+    bgcolor: 'rgba(47, 43, 43, 0.95)',
     border: '2px solid rgba(47, 43, 43, 1)',
     boxShadow: 24,
     color: 'white',
@@ -442,31 +442,29 @@ export const Home: React.FC = () => {
                       loading='lazy'
                     />
                   </ImageListItem>
-                  <Grid container>
-                    <div>
+                  <Grid container direction='column'>
+                    <Grid item xs={8}>
                       <div>{modalItem.name}</div>
                       <div>{modalItem.price}円</div>
-                      <Grid item alignItems='flex-end'>
-                        <Box>
-                          <div>{modalItem.shop.name}</div>
-                          <div>
-                            {modalItem.shop.opening_time.substring(0, 5)}〜
-                            {modalItem.shop.closing_time.substring(0, 5)}
-                          </div>
-                          <div>{modalItem.shop.tel}</div>
-                          <div>{modalItem.shop.station_name}駅</div>
-                          <div>{modalItem.shop.address}</div>
-                        </Box>
-                      </Grid>
-                    </div>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Box color='#B3B3B3'>
+                        <div>提供店　：{modalItem.shop.name}</div>
+                        <div>
+                          営業時間：{modalItem.shop.opening_time.substring(0, 5)}〜
+                          {modalItem.shop.closing_time.substring(0, 5)}
+                        </div>
+                        <div>電話番号：{modalItem.shop.tel}</div>
+                        <div>最寄り駅：{modalItem.shop.station_name}駅</div>
+                        <div>住所　　：{modalItem.shop.address}</div>
+                      </Box>
+                    </Grid>
                   </Grid>
                 </ImageList>
-                <div>『{modalItem.shop.name}』の他のメニュー</div>
-                <ImageList
-                  sx={{ width: 2000, height: 270 * (Math.floor(photos.length / 7) + 1) }}
-                  cols={7}
-                  rowHeight={164}
-                >
+                <Box color='#B3B3B3' marginTop={7}>
+                  『{modalItem.shop.name}』の他のメニュー
+                </Box>
+                <ImageList cols={4}>
                   {modalItem.other_menus
                     .map((menu) => (
                       <ImageListItem key={menu.id}>
