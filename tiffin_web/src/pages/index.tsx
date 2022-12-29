@@ -245,9 +245,10 @@ export const Home: React.FC = () => {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 800,
-    bgcolor: 'background.paper',
+    bgcolor: 'rgba(47, 43, 43, 0.9)',
     border: '2px solid #000',
     boxShadow: 24,
+    color: 'white',
     p: 4,
   }
 
