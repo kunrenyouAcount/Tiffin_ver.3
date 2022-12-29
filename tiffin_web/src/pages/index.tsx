@@ -273,7 +273,7 @@ export const Home: React.FC = () => {
             margin='auto'
             paddingBottom={3}
             xs={12}
-            sx={{ borderRadius: '16px', boxShadow: 4 }}
+            sx={{ borderRadius: '5px', boxShadow: 4 }}
           >
             <Grid item xs={4}>
               <Grid container direction='column'>
