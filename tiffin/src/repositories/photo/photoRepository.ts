@@ -109,7 +109,6 @@ export class PhotoRepository implements IPhotoRepository {
       sql += ";";
 
       const [rows] = await this.connection.execute<Photo[] & RowDataPacket[]>(sql);
-      console.log(rows);
       if (rows.length === 0) {
         return new NotFoundDataError(`not exists target photos`);
       }
