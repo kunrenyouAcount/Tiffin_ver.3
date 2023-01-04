@@ -20,7 +20,6 @@ import { PhotoGetResponse } from 'src/models/api/photo/get/response'
 import { PrefectureGetResponse } from 'src/models/api/prefecture/get/response'
 import { AreaGetResponse } from 'src/models/api/area/get/response'
 import { DetailedAreaGetResponse } from 'src/models/api/detailedArea/get/response'
-import { RailroadStationGetResponse } from 'src/models/api/railroadStation/get/response'
 import { GenreGetResponse } from 'src/models/api/genre/get/response'
 import { DetailedGenreGetResponse } from 'src/models/api/detailedGenre/get/response'
 import { CookingGetResponse } from 'src/models/api/cooking/get/response'
@@ -37,7 +36,6 @@ export const Home: React.FC = () => {
   const [masterPrefectures, setMasterPrefectures] = useState<PrefectureGetResponse[]>([])
   const [masterAreas, setMasterAreas] = useState<AreaGetResponse[]>([])
   const [masterDetailedAreas, setMasterDetailedAreas] = useState<DetailedAreaGetResponse[]>([])
-  const [masterStations, setMasterStations] = useState<RailroadStationGetResponse[]>([])
   const [masterGenres, setMasterGenres] = useState<GenreGetResponse[]>([])
   const [masterDetailedGenres, setMasterDetailedGenres] = useState<DetailedGenreGetResponse[]>([])
   const [masterCookings, setMasterCookings] = useState<CookingGetResponse[]>([])
@@ -46,7 +44,6 @@ export const Home: React.FC = () => {
   const [prefecture, setPrefecture] = useState<string>('0')
   const [area, setArea] = useState<string>('0')
   const [detailedArea, setDetailedArea] = useState<string>('0')
-  const [station, setStation] = useState<string>('0')
   const [genre, setGenre] = useState<string>('0')
   const [detailedGenre, setDetailedGenre] = useState<string>('0')
   const [cooking, setCooking] = useState<string>('0')
@@ -76,16 +73,9 @@ export const Home: React.FC = () => {
     const areaResults = await Axios.get<AreaGetResponse[]>(`areas/prefecture-id/${prefectureId}`)
     setMasterAreas(areaResults.data)
 
-    //駅のリストを設定
-    const stationResults = await Axios.get<RailroadStationGetResponse[]>(
-      `railroad-stations/prefecture-id/${prefectureId}`,
-    )
-    setMasterStations(stationResults.data)
-
     //選び直しの場合は下位要素をリセットする
     setArea('0')
     setDetailedArea('0')
-    setStation('0')
     setMasterDetailedAreas([])
   }
 
@@ -114,12 +104,6 @@ export const Home: React.FC = () => {
   const changeDetailedArea = async (event: SelectChangeEvent) => {
     const detailedAreaId = event.target.value
     setDetailedArea(detailedAreaId)
-  }
-
-  //駅を選択
-  const changeStation = async (event: SelectChangeEvent) => {
-    const stationId = event.target.value
-    setStation(stationId)
   }
 
   //ジャンルを選択
@@ -196,7 +180,6 @@ export const Home: React.FC = () => {
       master_prefecture_id: parseInt(prefecture),
       master_area_id: parseInt(area),
       master_detailed_area_id: parseInt(detailedArea),
-      master_railroad_station_id: parseInt(station),
       master_genre_id: parseInt(genre),
       master_detailed_genre_id: parseInt(detailedGenre),
       master_cooking_id: parseInt(cooking),
@@ -215,14 +198,12 @@ export const Home: React.FC = () => {
     //マスター系のリセット
     setMasterAreas([])
     setMasterDetailedAreas([])
-    setMasterStations([])
     setMasterDetailedGenres([])
     setMasterCookings([])
     //選択系のリセット
     setPrefecture('0')
     setArea('0')
     setDetailedArea('0')
-    setStation('0')
     setGenre('0')
     setDetailedGenre('0')
     setCooking('0')
@@ -311,14 +292,6 @@ export const Home: React.FC = () => {
                           value={detailedArea}
                         >
                           {masterDetailedAreas.map((master) => (
-                            <MenuItem value={master.id}>{master.name}</MenuItem>
-                          ))}
-                        </Select>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <InputLabel>駅名</InputLabel>
-                        <Select fullWidth label='station' onChange={changeStation} value={station}>
-                          {masterStations.map((master) => (
                             <MenuItem value={master.id}>{master.name}</MenuItem>
                           ))}
                         </Select>
