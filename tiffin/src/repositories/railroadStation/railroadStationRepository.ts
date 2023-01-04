@@ -10,6 +10,19 @@ export class RailroadStationRepository implements IRailroadStationRepository {
     this.connection = connection;
   }
 
+  public async searchByKeyword(keyword: string): Promise<Error | RailroadStation[]> {
+    try {
+      const sql = "select * from master_railroad_stations where name like ?";
+      const [rows] = await this.connection.execute<RailroadStation[] & RowDataPacket[]>(sql, [`%${keyword}%`]);
+      if (rows.length === 0) {
+        return [];
+      }
+      return rows;
+    } catch (error) {
+      return new SqlError(`RailroadStationRepository.searchByKeyword() ERROR: ${error}`);
+    }
+  }
+
   public async findAll(): Promise<RailroadStation[] | Error> {
     try {
       const sql = "select * from master_railroad_stations";
