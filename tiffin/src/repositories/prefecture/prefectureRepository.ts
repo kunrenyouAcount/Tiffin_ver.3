@@ -10,6 +10,19 @@ export class PrefectureRepository implements IPrefectureRepository {
     this.connection = connection;
   }
 
+  public async searchByKeyword(keyword: string): Promise<Error | Prefecture[]> {
+    try {
+      const sql = "select * from master_prefectures where name like ?";
+      const [rows] = await this.connection.execute<Prefecture[] & RowDataPacket[]>(sql, [`%${keyword}%`]);
+      if (rows.length === 0) {
+        return [];
+      }
+      return rows;
+    } catch (error) {
+      return new SqlError(`PrefectureRepository.searchByKeyword() ERROR: ${error}`);
+    }
+  }
+
   public async findAll(): Promise<Prefecture[] | Error> {
     try {
       const sql = "select * from master_prefectures";

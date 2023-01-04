@@ -10,6 +10,19 @@ export class DetailedAreaRepository implements IDetailedAreaRepository {
     this.connection = connection;
   }
 
+  public async searchByKeyword(keyword: string): Promise<Error | DetailedArea[]> {
+    try {
+      const sql = "select * from master_detailed_areas where name like ?";
+      const [rows] = await this.connection.execute<DetailedArea[] & RowDataPacket[]>(sql, [`%${keyword}%`]);
+      if (rows.length === 0) {
+        return [];
+      }
+      return rows;
+    } catch (error) {
+      return new SqlError(`DetailedAreaRepository.searchByKeyword() ERROR: ${error}`);
+    }
+  }
+
   public async findAll(): Promise<DetailedArea[] | Error> {
     try {
       const sql = "select * from master_detailed_areas";

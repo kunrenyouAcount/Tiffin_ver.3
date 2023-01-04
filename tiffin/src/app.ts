@@ -34,6 +34,8 @@ import { DetailedGenreRepository } from "./repositories/detailedGenre/detailedGe
 import { DetailedGenreService } from "./services/detailedGenre/detailedGenreService";
 import { DetailedGenreController } from "./controllers/detailedGenre/detailedGenreController";
 import { ShopRepository } from "./repositories/shop/shopRepository";
+import { PlaceService } from "./services/place/placeService";
+import { PlaceController } from "./controllers/place/placeController";
 
 async function main() {
   dotenv.config();
@@ -113,6 +115,15 @@ async function main() {
   const detailedGenreService = new DetailedGenreService(detailedGenreRepository);
   const detailedGenreController = new DetailedGenreController(detailedGenreService);
   app.use("/api/", detailedGenreController.router);
+
+  const placeService = new PlaceService(
+    prefectureRepository,
+    areaRepository,
+    detailedAreaRepository,
+    railroadStationRepository
+  );
+  const placeController = new PlaceController(placeService);
+  app.use("/api/", placeController.router);
 }
 
 main();

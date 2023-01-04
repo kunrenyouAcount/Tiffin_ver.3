@@ -10,6 +10,19 @@ export class AreaRepository implements IAreaRepository {
     this.connection = connection;
   }
 
+  public async searchByKeyword(keyword: string): Promise<Error | Area[]> {
+    try {
+      const sql = "select * from master_areas where name like ?";
+      const [rows] = await this.connection.execute<Area[] & RowDataPacket[]>(sql, [`%${keyword}%`]);
+      if (rows.length === 0) {
+        return [];
+      }
+      return rows;
+    } catch (error) {
+      return new SqlError(`AreaRepository.searchByKeyword() ERROR: ${error}`);
+    }
+  }
+
   public async findAll(): Promise<Area[] | Error> {
     try {
       const sql = "select * from master_areas";
