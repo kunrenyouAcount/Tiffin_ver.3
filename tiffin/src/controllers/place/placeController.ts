@@ -25,7 +25,7 @@ export class PlaceController {
           name: prefecture.name,
           datatype: "prefecture",
         };
-      }) as PlaceSearchByKeywordResponse;
+      }) as PlaceSearchByKeywordResponse[];
 
       const responseAreas = results.areas.map((area) => {
         return {
@@ -33,7 +33,7 @@ export class PlaceController {
           name: area.name,
           datatype: "area",
         };
-      }) as PlaceSearchByKeywordResponse;
+      }) as PlaceSearchByKeywordResponse[];
 
       const responseDetailedAreas = results.detailedAreas.map((detailedArea) => {
         return {
@@ -41,7 +41,7 @@ export class PlaceController {
           name: detailedArea.name,
           datatype: "detailed-area",
         };
-      }) as PlaceSearchByKeywordResponse;
+      }) as PlaceSearchByKeywordResponse[];
 
       const responseStations = results.stations.map((station) => {
         return {
@@ -49,7 +49,7 @@ export class PlaceController {
           name: station.name,
           datatype: "station",
         };
-      }) as PlaceSearchByKeywordResponse;
+      }) as PlaceSearchByKeywordResponse[];
 
       res
         .status(200)
