@@ -75,6 +75,7 @@ export class PhotoRepository implements IPhotoRepository {
         inner join master_areas on shops.master_area_id = master_areas.id \
         inner join master_prefectures on master_areas.master_prefecture_id = master_prefectures.id \
         left outer join master_detailed_areas on shops.master_detailed_area_id = master_detailed_areas.id \
+        inner join master_railroad_stations on shops.master_railroad_station_id = master_railroad_stations.id \
         where 1 = 1";
       //この後のsqlのwhere条件をand接頭で揃えるために「where 1 = 1」を記載
 
@@ -86,6 +87,9 @@ export class PhotoRepository implements IPhotoRepository {
       }
       if (params.master_detailed_area_id !== 0) {
         sql += ` and master_detailed_areas.id = ${params.master_detailed_area_id}`;
+      }
+      if (params.master_railroad_station_id !== 0) {
+        sql += ` and master_railroad_stations.id = ${params.master_railroad_station_id}`;
       }
       if (params.master_cooking_id !== 0) {
         sql += ` and master_cookings.id = ${params.master_cooking_id}`;
