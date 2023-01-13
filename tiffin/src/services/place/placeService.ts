@@ -25,10 +25,11 @@ export class PlaceService implements IPlaceService {
     this.detailedAreaRepository = detailedAreaRepository;
     this.railroadStationRepository = railroadStationRepository;
   }
-  
+
   public async searchByKeyword(keyword: string): Promise<
     | Error
     | {
+        prefectureMaster: Prefecture[];
         prefectures: Prefecture[];
         areas: Area[];
         detailedAreas: DetailedArea[];
@@ -38,6 +39,10 @@ export class PlaceService implements IPlaceService {
     const prefectureResult = await this.prefectureRepository.searchByKeyword(keyword);
     if (prefectureResult instanceof Error) {
       return prefectureResult;
+    }
+    const prefectureMaster = await this.prefectureRepository.findAll();
+    if (prefectureMaster instanceof Error) {
+      return prefectureMaster;
     }
     const areaResult = await this.areaRepository.searchByKeyword(keyword);
     if (areaResult instanceof Error) {
@@ -52,6 +57,7 @@ export class PlaceService implements IPlaceService {
       return stationResult;
     }
     return {
+      prefectureMaster: prefectureMaster,
       prefectures: prefectureResult,
       areas: areaResult,
       detailedAreas: detailedAreaResult,

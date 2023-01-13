@@ -6,6 +6,7 @@ import { RailroadStation } from "../../models/railroadStation";
 export interface IPlaceService {
   searchByKeyword(keyword: string): Promise<
     | {
+        prefectureMaster: Prefecture[];
         prefectures: Prefecture[];
         areas: Area[];
         detailedAreas: DetailedArea[];
