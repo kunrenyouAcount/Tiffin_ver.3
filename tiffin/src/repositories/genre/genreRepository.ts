@@ -10,6 +10,19 @@ export class GenreRepository implements IGenreRepository {
     this.connection = connection;
   }
 
+  public async searchByKeyword(keyword: string): Promise<Error | Genre[]> {
+    try {
+      const sql = "select * from master_genres where MATCH (name) AGAINST (?)";
+      const [rows] = await this.connection.execute<Genre[] & RowDataPacket[]>(sql, [keyword]);
+      if (rows.length === 0) {
+        return [];
+      }
+      return rows;
+    } catch (error) {
+      return new SqlError(`GenreRepository.searchByKeyword() ERROR: ${error}`);
+    }
+  }
+
   public async findAll(): Promise<Genre[] | Error> {
     try {
       const sql = "select * from master_genres";
