@@ -12,8 +12,8 @@ export class PrefectureRepository implements IPrefectureRepository {
 
   public async searchByKeyword(keyword: string): Promise<Error | Prefecture[]> {
     try {
-      const sql = "select * from master_prefectures where name like ?";
-      const [rows] = await this.connection.execute<Prefecture[] & RowDataPacket[]>(sql, [`%${keyword}%`]);
+      const sql = "select * from master_prefectures where MATCH (name) AGAINST (?)";
+      const [rows] = await this.connection.execute<Prefecture[] & RowDataPacket[]>(sql, [keyword]);
       if (rows.length === 0) {
         return [];
       }

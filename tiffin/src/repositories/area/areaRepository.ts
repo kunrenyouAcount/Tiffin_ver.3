@@ -12,8 +12,8 @@ export class AreaRepository implements IAreaRepository {
 
   public async searchByKeyword(keyword: string): Promise<Error | Area[]> {
     try {
-      const sql = "select * from master_areas where name like ?";
-      const [rows] = await this.connection.execute<Area[] & RowDataPacket[]>(sql, [`%${keyword}%`]);
+      const sql = "select * from master_areas where MATCH (name) AGAINST (?)";
+      const [rows] = await this.connection.execute<Area[] & RowDataPacket[]>(sql, [keyword]);
       if (rows.length === 0) {
         return [];
       }

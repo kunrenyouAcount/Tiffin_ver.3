@@ -12,8 +12,8 @@ export class RailroadStationRepository implements IRailroadStationRepository {
 
   public async searchByKeyword(keyword: string): Promise<Error | RailroadStation[]> {
     try {
-      const sql = "select * from master_railroad_stations where name like ?";
-      const [rows] = await this.connection.execute<RailroadStation[] & RowDataPacket[]>(sql, [`%${keyword}%`]);
+      const sql = "select * from master_railroad_stations where MATCH (name) AGAINST (?)";
+      const [rows] = await this.connection.execute<RailroadStation[] & RowDataPacket[]>(sql, [keyword]);
       if (rows.length === 0) {
         return [];
       }

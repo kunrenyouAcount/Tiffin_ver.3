@@ -12,8 +12,8 @@ export class DetailedAreaRepository implements IDetailedAreaRepository {
 
   public async searchByKeyword(keyword: string): Promise<Error | DetailedArea[]> {
     try {
-      const sql = "select * from master_detailed_areas where name like ?";
-      const [rows] = await this.connection.execute<DetailedArea[] & RowDataPacket[]>(sql, [`%${keyword}%`]);
+      const sql = "select * from master_detailed_areas where MATCH (name) AGAINST (?)";
+      const [rows] = await this.connection.execute<DetailedArea[] & RowDataPacket[]>(sql, [keyword]);
       if (rows.length === 0) {
         return [];
       }

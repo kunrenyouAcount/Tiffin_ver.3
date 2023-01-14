@@ -19,41 +19,33 @@ export class PlaceController {
         return;
       }
 
-      const responsePrefectures = results.prefectures.map((prefecture) => {
-        return {
-          id: prefecture.id!,
-          name: prefecture.name,
-          datatype: "prefecture",
-        };
-      }) as PlaceSearchByKeywordResponse[];
-
-      const responseAreas = results.areas.map((area) => {
-        return {
-          id: area.id!,
-          name: area.name,
-          datatype: "area",
-        };
-      }) as PlaceSearchByKeywordResponse[];
-
-      const responseDetailedAreas = results.detailedAreas.map((detailedArea) => {
-        return {
-          id: detailedArea.id!,
-          name: detailedArea.name,
-          datatype: "detailed-area",
-        };
-      }) as PlaceSearchByKeywordResponse[];
-
-      const responseStations = results.stations.map((station) => {
-        return {
-          id: station.id!,
-          name: station.name,
-          datatype: "station",
-        };
-      }) as PlaceSearchByKeywordResponse[];
-
-      res
-        .status(200)
-        .json(responsePrefectures.concat(responseAreas).concat(responseDetailedAreas).concat(responseStations));
+      const placeResponse = {
+        prefectures: results.prefectures.map((prefecture) => {
+          return {
+            id: prefecture.id!,
+            name: prefecture.name,
+          };
+        }),
+        areas: results.areas.map((area) => {
+          return {
+            id: area.id!,
+            name: area.name,
+          };
+        }),
+        detailedAreas: results.detailedAreas.map((detailedArea) => {
+          return {
+            id: detailedArea.id!,
+            name: detailedArea.name,
+          };
+        }),
+        stations: results.stations.map((station) => {
+          return {
+            id: station.id!,
+            name: station.name,
+          };
+        }),
+      } as PlaceSearchByKeywordResponse;
+      res.status(200).json(placeResponse);
     });
   }
 }

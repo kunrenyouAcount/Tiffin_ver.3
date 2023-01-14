@@ -3,7 +3,8 @@
 CREATE TABLE `master_prefectures` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  FULLTEXT (`name`) WITH PARSER NGRAM
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `master_prefectures` (
@@ -65,6 +66,7 @@ CREATE TABLE `master_areas` (
   `name` varchar(100) NOT NULL,
   `master_prefecture_id` bigint unsigned NOT NULL,
   PRIMARY KEY (`id`),
+  FULLTEXT (`name`) WITH PARSER NGRAM,
   FOREIGN KEY (`master_prefecture_id`) REFERENCES `master_prefectures` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -336,6 +338,7 @@ CREATE TABLE `master_detailed_areas` (
   `name` varchar(100) NOT NULL,
   `master_area_id` bigint unsigned NOT NULL,
   PRIMARY KEY (`id`),
+  FULLTEXT (`name`) WITH PARSER NGRAM,
   FOREIGN KEY (`master_area_id`) REFERENCES `master_areas` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -455,6 +458,7 @@ CREATE TABLE `master_railroad_stations` (
   `status` int,
   `master_prefecture_id` bigint unsigned NOT NULL,
   PRIMARY KEY (`id`),
+  FULLTEXT (`name`) WITH PARSER NGRAM,
   FOREIGN KEY (`master_prefecture_id`) REFERENCES `master_prefectures` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -1,13 +1,17 @@
 import {
   Box,
+  Button,
   Grid,
   ImageList,
   ImageListItem,
   InputLabel,
   MenuItem,
-  Select,
+  Select as MaterialSelect,
   SelectChangeEvent,
+  TextField,
+  Typography,
 } from '@mui/material'
+import Select from 'react-select'
 import SearchIcon from '@mui/icons-material/Search'
 import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import IconButton from '@mui/material/IconButton'
@@ -29,6 +33,11 @@ import {
   initMenuModalItemResponse,
   MenuModalItemResponse,
 } from 'src/models/api/menu/getModalItem/response'
+import {
+  initPlaceSearchByKeywordResponse,
+  PlaceSearchByKeywordResponse,
+} from 'src/models/api/place/searchKeyword/response'
+import makeAnimated from 'react-select/animated'
 
 export const Home: React.FC = () => {
   const [photos, setPhotos] = useState<PhotoGetResponse[]>([])
@@ -40,18 +49,27 @@ export const Home: React.FC = () => {
   const [masterDetailedGenres, setMasterDetailedGenres] = useState<DetailedGenreGetResponse[]>([])
   const [masterCookings, setMasterCookings] = useState<CookingGetResponse[]>([])
   const masterPrices = [500, 1000, 1500, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000]
+  const [masterPlaces, setMasterPlaces] = useState<PlaceSearchByKeywordResponse>(
+    initPlaceSearchByKeywordResponse,
+  )
   //選んだ値格納用のstate
   const [prefecture, setPrefecture] = useState<string>('0')
   const [area, setArea] = useState<string>('0')
   const [detailedArea, setDetailedArea] = useState<string>('0')
   const [genre, setGenre] = useState<string>('0')
   const [detailedGenre, setDetailedGenre] = useState<string>('0')
+  const [station, setStation] = useState<string>('0')
   const [cooking, setCooking] = useState<string>('0')
   const [lowerPrice, setLowerPrice] = useState<string>('0')
   const [upperPrice, setUpperPrice] = useState<string>('0')
-  //モーダル用
+  //画像モーダル用
   const [open, setOpen] = useState<boolean>(false)
   const [modalItem, setModalItem] = useState<MenuModalItemResponse>(initMenuModalItemResponse)
+  //検索ボックス用
+  const [searchBox, setSearchBox] = useState<'pulldown-search' | 'keyword-search'>('keyword-search')
+  const [inputPlace, setInputPlace] = useState<string>('')
+  //アニメーション用
+  const animatedComponents = makeAnimated()
 
   useEffect(() => {
     ;(async () => {
@@ -175,11 +193,47 @@ export const Home: React.FC = () => {
     setUpperPrice(upperPrice)
   }
 
+  //キーワード検索（場所）
+  const changePlace = async (value: any) => {
+    const keyword = value
+    setInputPlace(keyword)
+    const searchResult = await Axios.get<PlaceSearchByKeywordResponse>(
+      `places/search-keyword/?keyword=${keyword}`,
+    )
+    setMasterPlaces(searchResult.data)
+  }
+
+  //キーワード検索後（場所選択）
+  const selectPlace = async (places: { datatype: string; label: string; value: string }[]) => {
+    //既に入力されていた内容をリセット
+    setPrefecture('0')
+    setArea('0')
+    setDetailedArea('0')
+    setStation('0')
+
+    //選択中の項目をセット
+    places.forEach((place) => {
+      if (place.datatype === 'prefecture') {
+        setPrefecture(place.value)
+      }
+      if (place.datatype === 'area') {
+        setArea(place.value)
+      }
+      if (place.datatype === 'detailed-area') {
+        setDetailedArea(place.value)
+      }
+      if (place.datatype === 'station') {
+        setStation(place.value)
+      }
+    })
+  }
+
   const searchPhotos = async () => {
     const photoResults = await Axios.post<PhotoGetResponse[]>(`photos/choice-search`, {
       master_prefecture_id: parseInt(prefecture),
       master_area_id: parseInt(area),
       master_detailed_area_id: parseInt(detailedArea),
+      master_railroad_station_id: parseInt(station),
       master_genre_id: parseInt(genre),
       master_detailed_genre_id: parseInt(detailedGenre),
       master_cooking_id: parseInt(cooking),
@@ -204,6 +258,7 @@ export const Home: React.FC = () => {
     setPrefecture('0')
     setArea('0')
     setDetailedArea('0')
+    setStation('0')
     setGenre('0')
     setDetailedGenre('0')
     setCooking('0')
@@ -247,144 +302,274 @@ export const Home: React.FC = () => {
       </Grid>
       {isLogin() ? (
         <>
-          <Grid
-            container
-            spacing={2}
-            border='1px solid grey'
-            margin='auto'
-            paddingBottom={3}
-            xs={12}
-            sx={{ borderRadius: '5px', boxShadow: 4 }}
-          >
-            <Grid item xs={4}>
-              <Grid container direction='column'>
-                場所で絞り込み
-                <Grid container>
-                  <Grid item xs={4}>
-                    <InputLabel>都道府県</InputLabel>
-                    <Select
-                      fullWidth
-                      label='Prefecture'
-                      onChange={changePrefecture}
-                      value={prefecture}
+          {searchBox === 'keyword-search' ? (
+            <Grid
+              container
+              item
+              spacing={2}
+              border='1px solid grey'
+              margin='auto'
+              paddingBottom={3}
+              xs={8}
+              sx={{ borderRadius: '5px', boxShadow: 4 }}
+              justifyContent='center'
+            >
+              <Grid item xs={5}>
+                <Grid container direction='column'>
+                  <Typography marginBottom={1}>場所で絞り込み</Typography>
+                  <Select
+                    components={animatedComponents}
+                    inputValue={inputPlace}
+                    onInputChange={changePlace}
+                    onChange={selectPlace}
+                    isMulti
+                    options={[
+                      {
+                        label: '都道府県',
+                        options: masterPlaces.prefectures.map((master) => {
+                          return {
+                            value: master.id,
+                            label: master.name,
+                            datatype: 'prefecture',
+                          }
+                        }),
+                      },
+                      {
+                        label: 'エリア',
+                        options: masterPlaces.areas.map((master) => {
+                          return {
+                            value: master.id,
+                            label: master.name,
+                            datatype: 'area',
+                          }
+                        }),
+                      },
+                      {
+                        label: '詳細エリア',
+                        options: masterPlaces.detailedAreas.map((master) => {
+                          return {
+                            value: master.id,
+                            label: master.name,
+                            datatype: 'detailed-area',
+                          }
+                        }),
+                      },
+                      {
+                        label: '駅名',
+                        options: masterPlaces.stations.map((master) => {
+                          return {
+                            value: master.id,
+                            label: master.name,
+                            datatype: 'station',
+                          }
+                        }),
+                      },
+                    ]}
+                  />
+                </Grid>
+              </Grid>
+              <Grid item xs={5}>
+                <Grid container direction='column'>
+                  <Typography marginBottom={1}>メニューで絞り込み</Typography>
+                  <TextField
+                    id='outlined-basic'
+                    label='ジャンル、詳細ジャンル、料理名'
+                    placeholder='和食、丼もの、親子丼'
+                    variant='outlined'
+                  />
+                </Grid>
+              </Grid>
+              <Grid item xs={2}>
+                <Grid container justifyContent='center'>
+                  <Grid item xs={12}>
+                    <Button
+                      onClick={() => {
+                        reset()
+                        setSearchBox('pulldown-search')
+                      }}
                     >
-                      {masterPrefectures.map((master) => (
-                        <MenuItem value={master.id}>{master.name}</MenuItem>
-                      ))}
-                    </Select>
+                      プルダウン検索
+                      <br />
+                      に切り替え
+                    </Button>
                   </Grid>
-                  <Grid item xs={8}>
-                    <Grid container direction='row'>
-                      <Grid item xs={6}>
-                        <InputLabel>エリア</InputLabel>
-                        <Select fullWidth label='Area' onChange={changeArea} value={area}>
-                          {masterAreas.map((master) => (
-                            <MenuItem value={master.id}>{master.name}</MenuItem>
-                          ))}
-                        </Select>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <InputLabel>詳細エリア</InputLabel>
-                        <Select
-                          fullWidth
-                          label='DetailedArea'
-                          onChange={changeDetailedArea}
-                          value={detailedArea}
-                        >
-                          {masterDetailedAreas.map((master) => (
-                            <MenuItem value={master.id}>{master.name}</MenuItem>
-                          ))}
-                        </Select>
+                </Grid>
+                <Grid container direction='row' alignItems='center'>
+                  <Grid item xs={5}>
+                    <IconButton onClick={reset}>
+                      <RestartAltIcon fontSize='large' />
+                    </IconButton>
+                  </Grid>
+                  <Grid item xs={5}>
+                    <IconButton onClick={searchPhotos}>
+                      <SearchIcon fontSize='large' />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          ) : (
+            <></>
+          )}
+          {searchBox === 'pulldown-search' ? (
+            <Grid
+              container
+              spacing={2}
+              border='1px solid grey'
+              margin='auto'
+              paddingBottom={3}
+              xs={12}
+              sx={{ borderRadius: '5px', boxShadow: 4 }}
+            >
+              <Grid item xs={4}>
+                <Grid container direction='column'>
+                  <Typography marginBottom={1}>場所で絞り込み</Typography>
+                  <Grid container>
+                    <Grid item xs={4}>
+                      <InputLabel>都道府県</InputLabel>
+                      <MaterialSelect
+                        fullWidth
+                        label='Prefecture'
+                        onChange={changePrefecture}
+                        value={prefecture}
+                      >
+                        {masterPrefectures.map((master) => (
+                          <MenuItem value={master.id}>{master.name}</MenuItem>
+                        ))}
+                      </MaterialSelect>
+                    </Grid>
+                    <Grid item xs={8}>
+                      <Grid container direction='row'>
+                        <Grid item xs={6}>
+                          <InputLabel>エリア</InputLabel>
+                          <MaterialSelect fullWidth label='Area' onChange={changeArea} value={area}>
+                            {masterAreas.map((master) => (
+                              <MenuItem value={master.id}>{master.name}</MenuItem>
+                            ))}
+                          </MaterialSelect>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <InputLabel>詳細エリア</InputLabel>
+                          <MaterialSelect
+                            fullWidth
+                            label='DetailedArea'
+                            onChange={changeDetailedArea}
+                            value={detailedArea}
+                          >
+                            {masterDetailedAreas.map((master) => (
+                              <MenuItem value={master.id}>{master.name}</MenuItem>
+                            ))}
+                          </MaterialSelect>
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-            <Grid item xs={5}>
-              <Grid container direction='column'>
-                メニューで絞り込み
-                <Grid container>
-                  <Grid item xs={4}>
-                    <InputLabel>ジャンル</InputLabel>
-                    <Select fullWidth label='genre' onChange={changeGenre} value={genre}>
-                      {masterGenres.map((master) => (
-                        <MenuItem value={master.id}>{master.name}</MenuItem>
-                      ))}
-                    </Select>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <InputLabel>詳細ジャンル</InputLabel>
-                    <Select
-                      fullWidth
-                      label='detailedGenre'
-                      onChange={changeDetailedGenre}
-                      value={detailedGenre}
-                    >
-                      {masterDetailedGenres.map((master) => (
-                        <MenuItem value={master.id}>{master.name}</MenuItem>
-                      ))}
-                    </Select>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <InputLabel>料理</InputLabel>
-                    <Select fullWidth label='cooking' onChange={changeCooking} value={cooking}>
-                      {masterCookings.map((master) => (
-                        <MenuItem value={master.id}>{master.name}</MenuItem>
-                      ))}
-                    </Select>
+              <Grid item xs={5}>
+                <Grid container direction='column'>
+                  <Typography marginBottom={1}>メニューで絞り込み</Typography>
+                  <Grid container>
+                    <Grid item xs={4}>
+                      <InputLabel>ジャンル</InputLabel>
+                      <MaterialSelect fullWidth label='genre' onChange={changeGenre} value={genre}>
+                        {masterGenres.map((master) => (
+                          <MenuItem value={master.id}>{master.name}</MenuItem>
+                        ))}
+                      </MaterialSelect>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <InputLabel>詳細ジャンル</InputLabel>
+                      <MaterialSelect
+                        fullWidth
+                        label='detailedGenre'
+                        onChange={changeDetailedGenre}
+                        value={detailedGenre}
+                      >
+                        {masterDetailedGenres.map((master) => (
+                          <MenuItem value={master.id}>{master.name}</MenuItem>
+                        ))}
+                      </MaterialSelect>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <InputLabel>料理</InputLabel>
+                      <MaterialSelect
+                        fullWidth
+                        label='cooking'
+                        onChange={changeCooking}
+                        value={cooking}
+                      >
+                        {masterCookings.map((master) => (
+                          <MenuItem value={master.id}>{master.name}</MenuItem>
+                        ))}
+                      </MaterialSelect>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-            <Grid item xs={2}>
-              <Grid container direction='column'>
-                予算で絞り込み
-                <Grid container>
+              <Grid item xs={2}>
+                <Grid container direction='column'>
+                  <Typography marginBottom={1}>予算で絞り込み</Typography>
+                  <Grid container>
+                    <Grid item xs={6}>
+                      <InputLabel>料金下限</InputLabel>
+                      <MaterialSelect
+                        fullWidth
+                        label='lowerPrice'
+                        onChange={changeLowerPrice}
+                        value={lowerPrice}
+                      >
+                        {masterPrices.map((master) => (
+                          <MenuItem value={master}>{master}</MenuItem>
+                        ))}
+                      </MaterialSelect>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <InputLabel>料金上限</InputLabel>
+                      <MaterialSelect
+                        fullWidth
+                        label='upperPrice'
+                        onChange={changeUpperPrice}
+                        value={upperPrice}
+                      >
+                        {masterPrices.map((master) => (
+                          <MenuItem value={master}>{master}</MenuItem>
+                        ))}
+                      </MaterialSelect>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={1}>
+                <Grid item xs={10}>
+                  <Button
+                    onClick={() => {
+                      reset()
+                      setSearchBox('keyword-search')
+                    }}
+                  >
+                    キーワード検索
+                    <br />
+                    に切り替え
+                  </Button>
+                </Grid>
+                <Grid container direction='row' item alignItems='center'>
                   <Grid item xs={6}>
-                    <InputLabel>料金下限</InputLabel>
-                    <Select
-                      fullWidth
-                      label='lowerPrice'
-                      onChange={changeLowerPrice}
-                      value={lowerPrice}
-                    >
-                      {masterPrices.map((master) => (
-                        <MenuItem value={master}>{master}</MenuItem>
-                      ))}
-                    </Select>
+                    <IconButton onClick={reset}>
+                      <RestartAltIcon fontSize='large' />
+                    </IconButton>
                   </Grid>
                   <Grid item xs={6}>
-                    <InputLabel>料金上限</InputLabel>
-                    <Select
-                      fullWidth
-                      label='upperPrice'
-                      onChange={changeUpperPrice}
-                      value={upperPrice}
-                    >
-                      {masterPrices.map((master) => (
-                        <MenuItem value={master}>{master}</MenuItem>
-                      ))}
-                    </Select>
+                    <IconButton onClick={searchPhotos}>
+                      <SearchIcon fontSize='large' />
+                    </IconButton>
                   </Grid>
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={1}>
-              <Grid container direction='column' item alignItems='center'>
-                <Grid item xs={6}>
-                  <IconButton onClick={reset}>
-                    <RestartAltIcon fontSize='large' />
-                  </IconButton>
-                </Grid>
-                <Grid item xs={6}>
-                  <IconButton onClick={searchPhotos}>
-                    <SearchIcon fontSize='large' />
-                  </IconButton>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
+          ) : (
+            <></>
+          )}
           <Grid>
             <ImageList cols={5}>
               {photos.map((photo) => (
