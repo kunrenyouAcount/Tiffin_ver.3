@@ -10,6 +10,19 @@ export class DetailedGenreRepository implements IDetailedGenreRepository {
     this.connection = connection;
   }
 
+  public async searchByKeyword(keyword: string): Promise<Error | DetailedGenre[]> {
+    try {
+      const sql = "select * from master_detailed_genres where MATCH (name) AGAINST (?)";
+      const [rows] = await this.connection.execute<DetailedGenre[] & RowDataPacket[]>(sql, [keyword]);
+      if (rows.length === 0) {
+        return [];
+      }
+      return rows;
+    } catch (error) {
+      return new SqlError(`DetailedGenreRepository.searchByKeyword() ERROR: ${error}`);
+    }
+  }
+
   public async getByGenreId(genreId: number): Promise<DetailedGenre[] | Error> {
     try {
       const sql = "select * from master_detailed_genres where master_genre_id = ?";

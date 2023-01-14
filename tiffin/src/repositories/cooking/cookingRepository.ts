@@ -9,6 +9,20 @@ export class CookingRepository implements ICookingRepository {
   constructor(connection: Connection) {
     this.connection = connection;
   }
+
+  public async searchByKeyword(keyword: string): Promise<Error | Cooking[]> {
+    try {
+      const sql = "select * from master_cookings where MATCH (name) AGAINST (?)";
+      const [rows] = await this.connection.execute<Cooking[] & RowDataPacket[]>(sql, [keyword]);
+      if (rows.length === 0) {
+        return [];
+      }
+      return rows;
+    } catch (error) {
+      return new SqlError(`CookingRepository.searchByKeyword() ERROR: ${error}`);
+    }
+  }
+
   public async getByGenre(genreId: number): Promise<Cooking[] | Error> {
     try {
       const sql = "select * from master_cookings where master_genre_id = ?";
