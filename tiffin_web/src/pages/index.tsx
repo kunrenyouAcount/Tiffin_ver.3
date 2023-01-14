@@ -222,7 +222,7 @@ export const Home: React.FC = () => {
   }
 
   //キーワード検索後（場所選択）
-  const selectPlace = async (places: { datatype: string; label: string; value: string }[]) => {
+  const selectPlace = async (place: { datatype: string; label: string; value: string }) => {
     //既に入力されていた内容をリセット
     setPrefecture('0')
     setArea('0')
@@ -230,40 +230,37 @@ export const Home: React.FC = () => {
     setStation('0')
 
     //選択中の項目をセット
-    places.forEach((place) => {
-      if (place.datatype === 'prefecture') {
-        setPrefecture(place.value)
-      }
-      if (place.datatype === 'area') {
-        setArea(place.value)
-      }
-      if (place.datatype === 'detailed-area') {
-        setDetailedArea(place.value)
-      }
-      if (place.datatype === 'station') {
-        setStation(place.value)
-      }
-    })
+    if (place.datatype === 'prefecture') {
+      setPrefecture(place.value)
+    }
+    if (place.datatype === 'area') {
+      setArea(place.value)
+    }
+    if (place.datatype === 'detailed-area') {
+      setDetailedArea(place.value)
+    }
+    if (place.datatype === 'station') {
+      setStation(place.value)
+    }
   }
 
   //キーワード検索後（場所選択）
-  const selectEating = async (eatings: { datatype: string; label: string; value: string }[]) => {
+  const selectEating = async (eating: { datatype: string; label: string; value: string }) => {
     //既に入力されていた内容をリセット
     setGenre('0')
     setDetailedGenre('0')
     setCooking('0')
+
     //選択中の項目をセット
-    eatings.forEach((eating) => {
-      if (eating.datatype === 'genre') {
-        setGenre(eating.value)
-      }
-      if (eating.datatype === 'detailed-genre') {
-        setDetailedGenre(eating.value)
-      }
-      if (eating.datatype === 'cooking') {
-        setCooking(eating.value)
-      }
-    })
+    if (eating.datatype === 'genre') {
+      setGenre(eating.value)
+    }
+    if (eating.datatype === 'detailed-genre') {
+      setDetailedGenre(eating.value)
+    }
+    if (eating.datatype === 'cooking') {
+      setCooking(eating.value)
+    }
   }
 
   const searchPhotos = async () => {
@@ -360,7 +357,6 @@ export const Home: React.FC = () => {
                     inputValue={inputPlace}
                     onInputChange={changePlace}
                     onChange={selectPlace}
-                    isMulti
                     options={[
                       {
                         label: '都道府県',
@@ -414,7 +410,6 @@ export const Home: React.FC = () => {
                     inputValue={inputEating}
                     onInputChange={changeEating}
                     onChange={selectEating}
-                    isMulti
                     options={[
                       {
                         label: 'ジャンル',
