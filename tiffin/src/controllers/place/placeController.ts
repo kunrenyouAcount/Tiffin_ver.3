@@ -21,8 +21,6 @@ export class PlaceController {
         return;
       }
 
-      results.stations.map((station) => {});
-
       const placeResponse = {
         prefectures: results.prefectures.map((prefecture) => {
           return {
