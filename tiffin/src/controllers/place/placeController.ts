@@ -1,5 +1,7 @@
 import { Request, Response, Router } from "express";
 import { PlaceSearchByKeywordResponse } from "../../models/api/place/searchKeyword/response";
+import { Prefecture } from "../../models/prefecture";
+// import { Prefecture } from "../../models/prefecture";
 import { IPlaceService } from "../../services/place/interface";
 
 export class PlaceController {
@@ -39,9 +41,12 @@ export class PlaceController {
           };
         }),
         stations: results.stations.map((station) => {
+          const prefecture = results.prefectureMaster.find((prefecture) => {
+            return prefecture.id === station.master_prefecture_id;
+          }) as Prefecture;
           return {
             id: station.id!,
-            name: station.name,
+            name: `${station.name}（${prefecture.name}）`,
           };
         }),
       } as PlaceSearchByKeywordResponse;
