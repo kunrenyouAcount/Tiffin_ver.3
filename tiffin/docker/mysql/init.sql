@@ -23106,7 +23106,8 @@ INSERT INTO `master_railroad_stations` (
 CREATE TABLE `master_genres` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  FULLTEXT (`name`) WITH PARSER NGRAM
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `master_genres` (
@@ -23151,6 +23152,7 @@ CREATE TABLE `master_detailed_genres` (
   `name` varchar(100) NOT NULL,
   `master_genre_id` bigint unsigned NOT NULL,
   PRIMARY KEY (`id`),
+  FULLTEXT (`name`) WITH PARSER NGRAM,
   FOREIGN KEY (`master_genre_id`) REFERENCES `master_genres` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -23228,7 +23230,8 @@ CREATE TABLE `master_cookings` (
   `name` varchar(255) NOT NULL,
   `master_genre_id` bigint NOT NULL,
   `master_detailed_genre_id` bigint,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  FULLTEXT (`name`) WITH PARSER NGRAM
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `master_cookings` (
