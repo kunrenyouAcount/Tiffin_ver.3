@@ -38,6 +38,10 @@ import {
   PlaceSearchByKeywordResponse,
 } from 'src/models/api/place/searchKeyword/response'
 import makeAnimated from 'react-select/animated'
+import {
+  EatingSearchByKeywordResponse,
+  initEatingSearchByKeywordResponse,
+} from 'src/models/api/eating/searchKeyword/response'
 
 export const Home: React.FC = () => {
   const [photos, setPhotos] = useState<PhotoGetResponse[]>([])
@@ -51,6 +55,9 @@ export const Home: React.FC = () => {
   const masterPrices = [500, 1000, 1500, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000]
   const [masterPlaces, setMasterPlaces] = useState<PlaceSearchByKeywordResponse>(
     initPlaceSearchByKeywordResponse,
+  )
+  const [masterEatings, setMasterEatings] = useState<EatingSearchByKeywordResponse>(
+    initEatingSearchByKeywordResponse,
   )
   //選んだ値格納用のstate
   const [prefecture, setPrefecture] = useState<string>('0')
@@ -68,6 +75,7 @@ export const Home: React.FC = () => {
   //検索ボックス用
   const [searchBox, setSearchBox] = useState<'pulldown-search' | 'keyword-search'>('keyword-search')
   const [inputPlace, setInputPlace] = useState<string>('')
+  const [inputEating, setInputEating] = useState<string>('')
   //アニメーション用
   const animatedComponents = makeAnimated()
 
@@ -203,16 +211,26 @@ export const Home: React.FC = () => {
     setMasterPlaces(searchResult.data)
   }
 
+  //キーワード検索（食）
+  const changeEating = async (value: any) => {
+    const keyword = value
+    setInputEating(keyword)
+    const searchResult = await Axios.get<EatingSearchByKeywordResponse>(
+      `eatings/search-keyword/?keyword=${keyword}`,
+    )
+    setMasterEatings(searchResult.data)
+  }
+
   //キーワード検索後（場所選択）
-  const selectPlace = async (places: { datatype: string; label: string; value: string }[]) => {
+  const selectPlace = async (place: { datatype: string; label: string; value: string }) => {
     //既に入力されていた内容をリセット
     setPrefecture('0')
     setArea('0')
     setDetailedArea('0')
     setStation('0')
 
-    //選択中の項目をセット
-    places.forEach((place) => {
+    if (place) {
+      //選択中の項目をセット
       if (place.datatype === 'prefecture') {
         setPrefecture(place.value)
       }
@@ -225,7 +243,28 @@ export const Home: React.FC = () => {
       if (place.datatype === 'station') {
         setStation(place.value)
       }
-    })
+    }
+  }
+
+  //キーワード検索後（場所選択）
+  const selectEating = async (eating: { datatype: string; label: string; value: string }) => {
+    //既に入力されていた内容をリセット
+    setGenre('0')
+    setDetailedGenre('0')
+    setCooking('0')
+
+    if (eating) {
+      //選択中の項目をセット
+      if (eating.datatype === 'genre') {
+        setGenre(eating.value)
+      }
+      if (eating.datatype === 'detailed-genre') {
+        setDetailedGenre(eating.value)
+      }
+      if (eating.datatype === 'cooking') {
+        setCooking(eating.value)
+      }
+    }
   }
 
   const searchPhotos = async () => {
@@ -320,9 +359,9 @@ export const Home: React.FC = () => {
                   <Select
                     components={animatedComponents}
                     inputValue={inputPlace}
+                    isClearable={true}
                     onInputChange={changePlace}
                     onChange={selectPlace}
-                    isMulti
                     options={[
                       {
                         label: '都道府県',
@@ -370,12 +409,45 @@ export const Home: React.FC = () => {
               </Grid>
               <Grid item xs={5}>
                 <Grid container direction='column'>
-                  <Typography marginBottom={1}>メニューで絞り込み</Typography>
-                  <TextField
-                    id='outlined-basic'
-                    label='ジャンル、詳細ジャンル、料理名'
-                    placeholder='和食、丼もの、親子丼'
-                    variant='outlined'
+                  <Typography marginBottom={1}>場所で絞り込み</Typography>
+                  <Select
+                    components={animatedComponents}
+                    inputValue={inputEating}
+                    isClearable={true}
+                    onInputChange={changeEating}
+                    onChange={selectEating}
+                    options={[
+                      {
+                        label: 'ジャンル',
+                        options: masterEatings.genres.map((master) => {
+                          return {
+                            value: master.id,
+                            label: master.name,
+                            datatype: 'genre',
+                          }
+                        }),
+                      },
+                      {
+                        label: '詳細ジャンル',
+                        options: masterEatings.detailedGenres.map((master) => {
+                          return {
+                            value: master.id,
+                            label: master.name,
+                            datatype: 'detailed-genre',
+                          }
+                        }),
+                      },
+                      {
+                        label: '料理名',
+                        options: masterEatings.cookings.map((master) => {
+                          return {
+                            value: master.id,
+                            label: master.name,
+                            datatype: 'cooking',
+                          }
+                        }),
+                      },
+                    ]}
                   />
                 </Grid>
               </Grid>
