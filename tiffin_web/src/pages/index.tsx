@@ -229,18 +229,20 @@ export const Home: React.FC = () => {
     setDetailedArea('0')
     setStation('0')
 
-    //選択中の項目をセット
-    if (place.datatype === 'prefecture') {
-      setPrefecture(place.value)
-    }
-    if (place.datatype === 'area') {
-      setArea(place.value)
-    }
-    if (place.datatype === 'detailed-area') {
-      setDetailedArea(place.value)
-    }
-    if (place.datatype === 'station') {
-      setStation(place.value)
+    if (place) {
+      //選択中の項目をセット
+      if (place.datatype === 'prefecture') {
+        setPrefecture(place.value)
+      }
+      if (place.datatype === 'area') {
+        setArea(place.value)
+      }
+      if (place.datatype === 'detailed-area') {
+        setDetailedArea(place.value)
+      }
+      if (place.datatype === 'station') {
+        setStation(place.value)
+      }
     }
   }
 
@@ -251,15 +253,17 @@ export const Home: React.FC = () => {
     setDetailedGenre('0')
     setCooking('0')
 
-    //選択中の項目をセット
-    if (eating.datatype === 'genre') {
-      setGenre(eating.value)
-    }
-    if (eating.datatype === 'detailed-genre') {
-      setDetailedGenre(eating.value)
-    }
-    if (eating.datatype === 'cooking') {
-      setCooking(eating.value)
+    if (eating) {
+      //選択中の項目をセット
+      if (eating.datatype === 'genre') {
+        setGenre(eating.value)
+      }
+      if (eating.datatype === 'detailed-genre') {
+        setDetailedGenre(eating.value)
+      }
+      if (eating.datatype === 'cooking') {
+        setCooking(eating.value)
+      }
     }
   }
 
@@ -355,6 +359,7 @@ export const Home: React.FC = () => {
                   <Select
                     components={animatedComponents}
                     inputValue={inputPlace}
+                    isClearable={true}
                     onInputChange={changePlace}
                     onChange={selectPlace}
                     options={[
@@ -408,6 +413,7 @@ export const Home: React.FC = () => {
                   <Select
                     components={animatedComponents}
                     inputValue={inputEating}
+                    isClearable={true}
                     onInputChange={changeEating}
                     onChange={selectEating}
                     options={[
