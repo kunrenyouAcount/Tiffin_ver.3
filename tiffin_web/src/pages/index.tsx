@@ -42,16 +42,23 @@ import {
   EatingSearchByKeywordResponse,
   initEatingSearchByKeywordResponse,
 } from 'src/models/api/eating/searchKeyword/response'
+import { Prefecture } from 'src/models/prefecture'
+import { Area } from 'src/models/area'
+import { DetailedArea } from 'src/models/detailedArea'
+import { Genre } from 'src/models/genre'
+import { DetailedGenre } from 'src/models/detailedGenre'
+import { Cooking } from 'src/models/cooking'
+import { Photo } from 'src/models/Photo'
 
 export const Home: React.FC = () => {
-  const [photos, setPhotos] = useState<PhotoGetResponse[]>([])
+  const [photos, setPhotos] = useState<Photo[]>([])
   //マスタ用のstate
-  const [masterPrefectures, setMasterPrefectures] = useState<PrefectureGetResponse[]>([])
-  const [masterAreas, setMasterAreas] = useState<AreaGetResponse[]>([])
-  const [masterDetailedAreas, setMasterDetailedAreas] = useState<DetailedAreaGetResponse[]>([])
-  const [masterGenres, setMasterGenres] = useState<GenreGetResponse[]>([])
-  const [masterDetailedGenres, setMasterDetailedGenres] = useState<DetailedGenreGetResponse[]>([])
-  const [masterCookings, setMasterCookings] = useState<CookingGetResponse[]>([])
+  const [masterPrefectures, setMasterPrefectures] = useState<Prefecture[]>([])
+  const [masterAreas, setMasterAreas] = useState<Area[]>([])
+  const [masterDetailedAreas, setMasterDetailedAreas] = useState<DetailedArea[]>([])
+  const [masterGenres, setMasterGenres] = useState<Genre[]>([])
+  const [masterDetailedGenres, setMasterDetailedGenres] = useState<DetailedGenre[]>([])
+  const [masterCookings, setMasterCookings] = useState<Cooking[]>([])
   const masterPrices = [500, 1000, 1500, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000]
   const [masterPlaces, setMasterPlaces] = useState<PlaceSearchByKeywordResponse>(
     initPlaceSearchByKeywordResponse,
