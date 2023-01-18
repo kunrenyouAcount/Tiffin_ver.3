@@ -367,6 +367,7 @@ export const Home: React.FC = () => {
                     components={animatedComponents}
                     inputValue={inputPlace}
                     isClearable={true}
+                    placeholder='エリア、駅名で絞り込み'
                     onInputChange={changePlace}
                     onChange={selectPlace}
                     options={[
@@ -416,11 +417,12 @@ export const Home: React.FC = () => {
               </Grid>
               <Grid item xs={5}>
                 <Grid container direction='column'>
-                  <Typography marginBottom={1}>場所で絞り込み</Typography>
+                  <Typography marginBottom={1}>メニューで絞り込み</Typography>
                   <Select
                     components={animatedComponents}
                     inputValue={inputEating}
                     isClearable={true}
+                    placeholder='ジャンル、メニューで絞り込み'
                     onInputChange={changeEating}
                     onChange={selectEating}
                     options={[
