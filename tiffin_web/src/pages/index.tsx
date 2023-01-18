@@ -222,7 +222,7 @@ export const Home: React.FC = () => {
   }
 
   //キーワード検索後（場所選択）
-  const selectPlace = async (place: { datatype: string; label: string; value: string }) => {
+  const selectPlace = async (place: any) => {
     //既に入力されていた内容をリセット
     setPrefecture('0')
     setArea('0')
@@ -247,7 +247,7 @@ export const Home: React.FC = () => {
   }
 
   //キーワード検索後（場所選択）
-  const selectEating = async (eating: { datatype: string; label: string; value: string }) => {
+  const selectEating = async (eating: any) => {
     //既に入力されていた内容をリセット
     setGenre('0')
     setDetailedGenre('0')
