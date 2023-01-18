@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as dotenv from "dotenv";
 import { Connection, RowDataPacket } from "mysql2/promise";
-import { RailroadStationResponse } from "../../controllers/railroadStation/response";
+import { RailroadStationGetResponse } from "../../models/api/railroadStation/get/response";
 import { createDBConnection } from "../utils/Database/database";
 import { createRailroadStationTestData } from "../utils/testData/createRailroadStationTestData";
 
@@ -30,7 +30,7 @@ describe("RailroadStationApi", () => {
     it("should return 10 railroadStations and 200 status", async () => {
       const createdRailroadStationList = await createRailroadStationTestData(connection, 2, 5);
 
-      const response = await axios.get<RailroadStationResponse[]>("/api/railroad-stations");
+      const response = await axios.get<RailroadStationGetResponse[]>("/api/railroad-stations");
 
       expect(response.status).toBe(200);
       expect(response.data.length).toBe(10);

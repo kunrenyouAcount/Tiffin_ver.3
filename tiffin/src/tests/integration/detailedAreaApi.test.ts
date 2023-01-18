@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as dotenv from "dotenv";
 import { Connection, RowDataPacket } from "mysql2/promise";
-import { DetailedAreaResponse } from "../../controllers/detailedArea/response";
+import { DetailedAreaGetResponse } from "../../models/api/detailedArea/get/response";
 import { createDBConnection } from "../utils/Database/database";
 import { createDetailedAreaTestData } from "../utils/testData/createDetailedAreaTestData";
 
@@ -31,7 +31,7 @@ describe("DetailedAreaApi", () => {
     it("should return 20 detailedAreas and 200 status", async () => {
       const createdDetailedAreaList = await createDetailedAreaTestData(connection, 2, 2, 5);
 
-      const response = await axios.get<DetailedAreaResponse[]>("/api/detailed-areas");
+      const response = await axios.get<DetailedAreaGetResponse[]>("/api/detailed-areas");
 
       expect(response.status).toBe(200);
       expect(response.data.length).toBe(20);
