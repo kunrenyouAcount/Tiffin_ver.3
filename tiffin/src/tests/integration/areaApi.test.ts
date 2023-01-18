@@ -46,7 +46,9 @@ describe("AreaApi", () => {
     it("should return 5 areas and 200 status", async () => {
       const createdAreaList = await createAreaTestData(connection, 2, 5);
       const expectArea = createdAreaList[0];
-      const response = await axios.get<AreaResponse[]>(`/api/areas/prefecture-id/${expectArea.master_prefecture_id}`);
+      const response = await axios.get<AreaGetResponse[]>(
+        `/api/areas/prefecture-id/${expectArea.master_prefecture_id}`
+      );
 
       expect(response.status).toBe(200);
       expect(response.data.length).toBe(5);
@@ -59,7 +61,7 @@ describe("AreaApi", () => {
     });
     it("should return 404 status", async () => {
       const notExistsId = 1;
-      const response = await axios.get<AreaResponse[]>(`/api/areas/prefecture-id/${notExistsId}`);
+      const response = await axios.get<AreaGetResponse[]>(`/api/areas/prefecture-id/${notExistsId}`);
       expect(response.status).toBe(404);
     });
   });

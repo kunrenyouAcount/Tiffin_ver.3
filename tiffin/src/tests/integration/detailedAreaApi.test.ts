@@ -47,7 +47,7 @@ describe("DetailedAreaApi", () => {
     it("should return 5 detailedAreas and 200 status", async () => {
       const createdDetailedAreaList = await createDetailedAreaTestData(connection, 2, 2, 5);
       const expectDetailedArea = createdDetailedAreaList[0];
-      const response = await axios.get<DetailedAreaResponse[]>(
+      const response = await axios.get<DetailedAreaGetResponse[]>(
         `/api/detailed-areas/area-id/${expectDetailedArea.master_area_id}`
       );
 
@@ -62,7 +62,7 @@ describe("DetailedAreaApi", () => {
     });
     it("should return 404 status", async () => {
       const notExistsId = 1;
-      const response = await axios.get<DetailedAreaResponse[]>(`/api/detailed-areas/area-id/${notExistsId}`);
+      const response = await axios.get<DetailedAreaGetResponse[]>(`/api/detailed-areas/area-id/${notExistsId}`);
       expect(response.status).toBe(404);
     });
   });

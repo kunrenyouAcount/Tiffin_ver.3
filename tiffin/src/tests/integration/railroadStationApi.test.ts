@@ -46,7 +46,7 @@ describe("RailroadStationApi", () => {
     it("should return 5 railroadStations and 200 status", async () => {
       const createdRailroadStationList = await createRailroadStationTestData(connection, 2, 5);
       const expectRailroadStation = createdRailroadStationList[0];
-      const response = await axios.get<RailroadStationResponse[]>(
+      const response = await axios.get<RailroadStationGetResponse[]>(
         `/api/railroad-stations/prefecture-id/${expectRailroadStation.master_prefecture_id}`
       );
 
@@ -61,7 +61,7 @@ describe("RailroadStationApi", () => {
     });
     it("should return 404 status", async () => {
       const notExistsId = 1;
-      const response = await axios.get<RailroadStationResponse[]>(
+      const response = await axios.get<RailroadStationGetResponse[]>(
         `/api/railroad-stations/prefecture-id/${notExistsId}`
       );
       expect(response.status).toBe(404);
