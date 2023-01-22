@@ -7,7 +7,7 @@ import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 
 export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-  Axios.defaults.baseURL = 'http://localhost:4000/api/'
+  Axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URL
   //許容するステータスコードを設定
   Axios.defaults.validateStatus = (status) =>
     (status >= 200 && status < 300) ||
