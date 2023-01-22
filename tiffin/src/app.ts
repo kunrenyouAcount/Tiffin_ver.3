@@ -41,14 +41,14 @@ import { EatingController } from "./controllers/eating/eatingController";
 
 async function main() {
   dotenv.config();
-  const { MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASS, MYSQL_DB, PORT } = process.env;
+  const { MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASS, MYSQL_DB, PORT, FRONT_BASE_URL } = process.env;
 
   const app: Express = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
   const corsOptions = {
-    origin: "http://localhost:3000",
+    origin: FRONT_BASE_URL as string,
     credentials: true,
     optionsSuccessStatus: 200,
   };
