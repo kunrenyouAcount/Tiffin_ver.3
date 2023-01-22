@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Grid,
   ImageList,
@@ -8,7 +7,6 @@ import {
   MenuItem,
   Select as MaterialSelect,
   SelectChangeEvent,
-  TextField,
   Typography,
 } from '@mui/material'
 import Select from 'react-select'
@@ -27,7 +25,6 @@ import { DetailedAreaGetResponse } from 'src/models/api/detailedArea/get/respons
 import { GenreGetResponse } from 'src/models/api/genre/get/response'
 import { DetailedGenreGetResponse } from 'src/models/api/detailedGenre/get/response'
 import { CookingGetResponse } from 'src/models/api/cooking/get/response'
-import Modal from '@mui/material/Modal'
 
 import {
   initMenuModalItemResponse,
@@ -48,7 +45,8 @@ import { DetailedArea } from 'src/models/detailedArea'
 import { Genre } from 'src/models/genre'
 import { DetailedGenre } from 'src/models/detailedGenre'
 import { Cooking } from 'src/models/cooking'
-import { Photo } from 'src/models/Photo'
+import { Photo } from 'src/models/photo'
+import MenuModal from 'src/components/menuModal'
 
 export const Home: React.FC = () => {
   const [photos, setPhotos] = useState<Photo[]>([])
@@ -76,9 +74,6 @@ export const Home: React.FC = () => {
   const [cooking, setCooking] = useState<string>('0')
   const [lowerPrice, setLowerPrice] = useState<string>('0')
   const [upperPrice, setUpperPrice] = useState<string>('0')
-  //画像モーダル用
-  const [open, setOpen] = useState<boolean>(false)
-  const [modalItem, setModalItem] = useState<MenuModalItemResponse>(initMenuModalItemResponse)
   //検索ボックス用
   const [searchBox, setSearchBox] = useState<'pulldown-search' | 'keyword-search'>('keyword-search')
   const [inputPlace, setInputPlace] = useState<string>('')
@@ -312,6 +307,10 @@ export const Home: React.FC = () => {
     setUpperPrice('0')
   }
 
+  //modal関連の情報
+  const [open, setOpen] = useState<boolean>(false)
+  const [modalItem, setModalItem] = useState<MenuModalItemResponse>(initMenuModalItemResponse)
+
   const handleOpen = async (menuId: number) => {
     const modalItemResult = await (
       await Axios.get<MenuModalItemResponse>(`menus/modal-item/${menuId}`)
@@ -320,20 +319,6 @@ export const Home: React.FC = () => {
     setOpen(true)
   }
   const handleClose = () => setOpen(false)
-
-  const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    height: 800,
-    transform: 'translate(-50%, -50%)',
-    width: 900,
-    bgcolor: 'rgba(47, 43, 43, 0.95)',
-    border: '2px solid rgba(47, 43, 43, 1)',
-    boxShadow: 24,
-    color: 'white',
-    p: 4,
-  }
 
   return (
     <>
@@ -666,61 +651,14 @@ export const Home: React.FC = () => {
                 </ImageListItem>
               ))}
             </ImageList>
-            <Modal
+            <MenuModal
+              modalItem={modalItem}
+              setModalItem={setModalItem}
               open={open}
-              onClose={handleClose}
-              aria-labelledby='modal-modal-title'
-              aria-describedby='modal-modal-description'
-            >
-              <Box sx={style}>
-                <ImageList>
-                  <ImageListItem>
-                    <img
-                      src={`${modalItem.photo_path}?w=164&h=164&fit=crop&auto=format`}
-                      srcSet={`${modalItem.photo_path}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                      loading='lazy'
-                    />
-                  </ImageListItem>
-                  <Grid container direction='column'>
-                    <Grid item xs={8}>
-                      <div>{modalItem.name}</div>
-                      <div>{modalItem.price}円</div>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Box color='#B3B3B3'>
-                        <div>提供店　：{modalItem.shop.name}</div>
-                        <div>
-                          営業時間：{modalItem.shop.opening_time.substring(0, 5)}〜
-                          {modalItem.shop.closing_time.substring(0, 5)}
-                        </div>
-                        <div>電話番号：{modalItem.shop.tel}</div>
-                        <div>最寄り駅：{modalItem.shop.station_name}駅</div>
-                        <div>住所　　：{modalItem.shop.address}</div>
-                      </Box>
-                    </Grid>
-                  </Grid>
-                </ImageList>
-                <Box color='#B3B3B3' marginTop={7}>
-                  『{modalItem.shop.name}』の他のメニュー
-                </Box>
-                <ImageList cols={4}>
-                  {modalItem.other_menus
-                    .map((menu) => (
-                      <ImageListItem key={menu.id}>
-                        <img
-                          src={`${menu.photo_path}?w=164&h=164&fit=crop&auto=format`}
-                          srcSet={`${menu.photo_path}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                          loading='lazy'
-                          onClick={() => {
-                            handleOpen(menu.id)
-                          }}
-                        />
-                      </ImageListItem>
-                    ))
-                    .slice(0, 4)}
-                </ImageList>
-              </Box>
-            </Modal>
+              setOpen={setOpen}
+              handleOpen={handleOpen}
+              handleClose={handleClose}
+            />
           </Grid>
         </>
       ) : (
