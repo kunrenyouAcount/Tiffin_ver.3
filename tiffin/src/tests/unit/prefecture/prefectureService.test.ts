@@ -11,6 +11,9 @@ function createMockRepository(): IPrefectureRepository {
     getById: jest.fn(() => {
       throw new Error("Function not implemented.");
     }),
+    searchByKeyword: jest.fn(() => {
+      throw new Error("Function not implemented.");
+    }),
   };
 
   return mockRepository;

@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as dotenv from "dotenv";
 import { Connection, RowDataPacket } from "mysql2/promise";
-import { DetailedAreaResponse } from "../../controllers/detailedArea/response";
+import { DetailedAreaGetResponse } from "../../models/api/detailedArea/get/response";
 import { createDBConnection } from "../utils/Database/database";
 import { createDetailedAreaTestData } from "../utils/testData/createDetailedAreaTestData";
 
@@ -31,7 +31,7 @@ describe("DetailedAreaApi", () => {
     it("should return 20 detailedAreas and 200 status", async () => {
       const createdDetailedAreaList = await createDetailedAreaTestData(connection, 2, 2, 5);
 
-      const response = await axios.get<DetailedAreaResponse[]>("/api/detailed-areas");
+      const response = await axios.get<DetailedAreaGetResponse[]>("/api/detailed-areas");
 
       expect(response.status).toBe(200);
       expect(response.data.length).toBe(20);
@@ -47,7 +47,7 @@ describe("DetailedAreaApi", () => {
     it("should return 5 detailedAreas and 200 status", async () => {
       const createdDetailedAreaList = await createDetailedAreaTestData(connection, 2, 2, 5);
       const expectDetailedArea = createdDetailedAreaList[0];
-      const response = await axios.get<DetailedAreaResponse[]>(
+      const response = await axios.get<DetailedAreaGetResponse[]>(
         `/api/detailed-areas/area-id/${expectDetailedArea.master_area_id}`
       );
 
@@ -62,7 +62,7 @@ describe("DetailedAreaApi", () => {
     });
     it("should return 404 status", async () => {
       const notExistsId = 1;
-      const response = await axios.get<DetailedAreaResponse[]>(`/api/detailed-areas/area-id/${notExistsId}`);
+      const response = await axios.get<DetailedAreaGetResponse[]>(`/api/detailed-areas/area-id/${notExistsId}`);
       expect(response.status).toBe(404);
     });
   });

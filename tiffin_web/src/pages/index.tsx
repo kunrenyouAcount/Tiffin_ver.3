@@ -229,7 +229,7 @@ export const Home: React.FC = () => {
   }
 
   //キーワード検索後（場所選択）
-  const selectPlace = async (place: { datatype: string; label: string; value: string }) => {
+  const selectPlace = async (place: any) => {
     //既に入力されていた内容をリセット
     setPrefecture('0')
     setArea('0')
@@ -254,7 +254,7 @@ export const Home: React.FC = () => {
   }
 
   //キーワード検索後（場所選択）
-  const selectEating = async (eating: { datatype: string; label: string; value: string }) => {
+  const selectEating = async (eating: any) => {
     //既に入力されていた内容をリセット
     setGenre('0')
     setDetailedGenre('0')
@@ -367,7 +367,7 @@ export const Home: React.FC = () => {
                     components={animatedComponents}
                     inputValue={inputPlace}
                     isClearable={true}
-                    placeholder='エリア、駅名で絞り込み'
+                    placeholder='東京都　新宿・代々木・大久保　新宿駅'
                     onInputChange={changePlace}
                     onChange={selectPlace}
                     options={[
@@ -417,12 +417,12 @@ export const Home: React.FC = () => {
               </Grid>
               <Grid item xs={5}>
                 <Grid container direction='column'>
-                  <Typography marginBottom={1}>メニューで絞り込み</Typography>
+                  <Typography marginBottom={1}>ジャンル、料理名で絞り込み</Typography>
                   <Select
                     components={animatedComponents}
                     inputValue={inputEating}
                     isClearable={true}
-                    placeholder='ジャンル、メニューで絞り込み'
+                    placeholder='和食　焼肉　親子丼'
                     onInputChange={changeEating}
                     onChange={selectEating}
                     options={[

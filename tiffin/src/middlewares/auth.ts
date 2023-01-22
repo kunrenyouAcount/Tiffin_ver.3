@@ -12,5 +12,5 @@ export function authorization(req: Request, res: Response, next: NextFunction) {
     return res.status(401).json(payload.message);
   }
   req.body.payload = payload;
-  next();
+  return next();
 }
