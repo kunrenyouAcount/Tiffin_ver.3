@@ -360,6 +360,7 @@ export const Home: React.FC = () => {
                     components={animatedComponents}
                     inputValue={inputPlace}
                     isClearable={true}
+                    placeholder='東京都　新宿・代々木・大久保　新宿駅'
                     onInputChange={changePlace}
                     onChange={selectPlace}
                     options={[
@@ -409,11 +410,12 @@ export const Home: React.FC = () => {
               </Grid>
               <Grid item xs={5}>
                 <Grid container direction='column'>
-                  <Typography marginBottom={1}>場所で絞り込み</Typography>
+                  <Typography marginBottom={1}>ジャンル、料理名で絞り込み</Typography>
                   <Select
                     components={animatedComponents}
                     inputValue={inputEating}
                     isClearable={true}
+                    placeholder='和食　焼肉　親子丼'
                     onInputChange={changeEating}
                     onChange={selectEating}
                     options={[
