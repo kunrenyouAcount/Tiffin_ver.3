@@ -12,6 +12,7 @@ import {
 import { Photo } from 'src/models/photo'
 import MenuModal from 'src/components/menuModal'
 import Search from 'src/components/search'
+import PhotoList from 'src/components/photoList'
 
 export const Home: React.FC = () => {
   const [photos, setPhotos] = useState<Photo[]>([])
@@ -51,20 +52,7 @@ export const Home: React.FC = () => {
         <>
           <Search setPhotos={setPhotos} />
           <Grid>
-            <ImageList cols={5}>
-              {photos.map((photo) => (
-                <ImageListItem key={photo.id}>
-                  <img
-                    src={`${photo.path}?w=164&h=164&fit=crop&auto=format`}
-                    srcSet={`${photo.path}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                    loading='lazy'
-                    onClick={() => {
-                      handleOpen(photo.menu_id)
-                    }}
-                  />
-                </ImageListItem>
-              ))}
-            </ImageList>
+            <PhotoList photos={photos} handleOpen={handleOpen} />
             <MenuModal
               modalItem={modalItem}
               setModalItem={setModalItem}
