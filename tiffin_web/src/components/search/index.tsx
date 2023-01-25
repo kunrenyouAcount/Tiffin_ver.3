@@ -10,7 +10,6 @@ import {
 import { Area } from 'src/models/area'
 import { Cooking } from 'src/models/cooking'
 import { DetailedArea } from 'src/models/detailedArea'
-import { DetailedGenre } from 'src/models/detailedGenre'
 import { Genre } from 'src/models/genre'
 import { Prefecture } from 'src/models/prefecture'
 import makeAnimated from 'react-select/animated'
@@ -32,7 +31,6 @@ import SearchIcon from '@mui/icons-material/Search'
 import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import { AreaGetResponse } from 'src/models/api/area/get/response'
 import { DetailedAreaGetResponse } from 'src/models/api/detailedArea/get/response'
-import { DetailedGenreGetResponse } from 'src/models/api/detailedGenre/get/response'
 import { CookingGetResponse } from 'src/models/api/cooking/get/response'
 import { PhotoGetResponse } from 'src/models/api/photo/get/response'
 import { Photo } from 'src/models/photo'
@@ -46,7 +44,6 @@ export const Search: React.FC<SearchProps> = (props) => {
   const [masterAreas, setMasterAreas] = useState<Area[]>([])
   const [masterDetailedAreas, setMasterDetailedAreas] = useState<DetailedArea[]>([])
   const [masterGenres, setMasterGenres] = useState<Genre[]>([])
-  const [masterDetailedGenres, setMasterDetailedGenres] = useState<DetailedGenre[]>([])
   const [masterCookings, setMasterCookings] = useState<Cooking[]>([])
   const masterPrices = [500, 1000, 1500, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000]
   const [masterPlaces, setMasterPlaces] = useState<PlaceSearchByKeywordResponse>(
@@ -64,7 +61,6 @@ export const Search: React.FC<SearchProps> = (props) => {
   const [area, setArea] = useState<string>('0')
   const [detailedArea, setDetailedArea] = useState<string>('0')
   const [genre, setGenre] = useState<string>('0')
-  const [detailedGenre, setDetailedGenre] = useState<string>('0')
   const [station, setStation] = useState<string>('0')
   const [cooking, setCooking] = useState<string>('0')
   const [lowerPrice, setLowerPrice] = useState<string>('0')
@@ -127,41 +123,8 @@ export const Search: React.FC<SearchProps> = (props) => {
     const genreId = event.target.value
     setGenre(genreId)
 
-    //詳細ジャンルのリストを設定
-    const detailedGenreResults = await Axios.get<DetailedGenreGetResponse[]>(
-      `detailed-genres/genre-id/${genreId}`,
-    )
-    if (detailedGenreResults.status === 404) {
-      //料理が存在しない場合はエラーにしない
-      setMasterDetailedGenres([])
-    } else {
-      setMasterDetailedGenres(detailedGenreResults.data)
-    }
-
     //料理のリストを設定
     const cookingResults = await Axios.get<CookingGetResponse[]>(`cookings/genre-id/${genreId}`)
-
-    if (cookingResults.status === 404) {
-      //料理が存在しない場合はエラーにしない
-      setMasterCookings([])
-    } else {
-      setMasterCookings(cookingResults.data)
-    }
-
-    //選び直しの場合は下位要素をリセットする
-    setDetailedGenre('0')
-    setCooking('0')
-  }
-
-  //詳細ジャンルを選択
-  const changeDetailedGenre = async (event: SelectChangeEvent) => {
-    const detialedGenreId = event.target.value
-    setDetailedGenre(detialedGenreId)
-
-    //料理のリストを設定
-    const cookingResults = await Axios.get<CookingGetResponse[]>(
-      `cookings/detailed-genre-id/${detialedGenreId}`,
-    )
     if (cookingResults.status === 404) {
       //料理が存在しない場合はエラーにしない
       setMasterCookings([])
@@ -240,16 +203,12 @@ export const Search: React.FC<SearchProps> = (props) => {
   const selectEating = async (eating: any) => {
     //既に入力されていた内容をリセット
     setGenre('0')
-    setDetailedGenre('0')
     setCooking('0')
 
     if (eating) {
       //選択中の項目をセット
       if (eating.datatype === 'genre') {
         setGenre(eating.value)
-      }
-      if (eating.datatype === 'detailed-genre') {
-        setDetailedGenre(eating.value)
       }
       if (eating.datatype === 'cooking') {
         setCooking(eating.value)
@@ -264,7 +223,6 @@ export const Search: React.FC<SearchProps> = (props) => {
       master_detailed_area_id: parseInt(detailedArea),
       master_railroad_station_id: parseInt(station),
       master_genre_id: parseInt(genre),
-      master_detailed_genre_id: parseInt(detailedGenre),
       master_cooking_id: parseInt(cooking),
       price_min: parseInt(lowerPrice),
       price_max: parseInt(upperPrice),
@@ -281,7 +239,6 @@ export const Search: React.FC<SearchProps> = (props) => {
     //マスター系のリセット
     setMasterAreas([])
     setMasterDetailedAreas([])
-    setMasterDetailedGenres([])
     setMasterCookings([])
     //選択系のリセット
     setPrefecture('0')
@@ -289,7 +246,6 @@ export const Search: React.FC<SearchProps> = (props) => {
     setDetailedArea('0')
     setStation('0')
     setGenre('0')
-    setDetailedGenre('0')
     setCooking('0')
     setLowerPrice('0')
     setUpperPrice('0')
@@ -382,16 +338,6 @@ export const Search: React.FC<SearchProps> = (props) => {
                         value: master.id,
                         label: master.name,
                         datatype: 'genre',
-                      }
-                    }),
-                  },
-                  {
-                    label: '詳細ジャンル',
-                    options: masterEatings.detailedGenres.map((master) => {
-                      return {
-                        value: master.id,
-                        label: master.name,
-                        datatype: 'detailed-genre',
                       }
                     }),
                   },
@@ -500,7 +446,7 @@ export const Search: React.FC<SearchProps> = (props) => {
             <Grid container direction='column'>
               <Typography marginBottom={1}>メニューで絞り込み</Typography>
               <Grid container>
-                <Grid item xs={4}>
+                <Grid item xs={6}>
                   <InputLabel>ジャンル</InputLabel>
                   <MaterialSelect fullWidth label='genre' onChange={changeGenre} value={genre}>
                     {masterGenres.map((master) => (
@@ -508,20 +454,7 @@ export const Search: React.FC<SearchProps> = (props) => {
                     ))}
                   </MaterialSelect>
                 </Grid>
-                <Grid item xs={4}>
-                  <InputLabel>詳細ジャンル</InputLabel>
-                  <MaterialSelect
-                    fullWidth
-                    label='detailedGenre'
-                    onChange={changeDetailedGenre}
-                    value={detailedGenre}
-                  >
-                    {masterDetailedGenres.map((master) => (
-                      <MenuItem value={master.id}>{master.name}</MenuItem>
-                    ))}
-                  </MaterialSelect>
-                </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={6}>
                   <InputLabel>料理</InputLabel>
                   <MaterialSelect
                     fullWidth

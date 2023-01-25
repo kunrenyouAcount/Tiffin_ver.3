@@ -3,10 +3,6 @@ export type EatingSearchByKeywordResponse = {
     id: number
     name: string
   }[]
-  detailedGenres: {
-    id: number
-    name: string
-  }[]
   cookings: {
     id: number
     name: string
@@ -15,6 +11,5 @@ export type EatingSearchByKeywordResponse = {
 
 export const initEatingSearchByKeywordResponse = {
   genres: [],
-  detailedGenres: [],
   cookings: [],
 }

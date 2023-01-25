@@ -30,9 +30,6 @@ import { PhotoController } from "./controllers/photo/photoController";
 import { GenreService } from "./services/genre/genreService";
 import { GenreRepository } from "./repositories/genre/genreRepository";
 import { GenreController } from "./controllers/genre/genreController";
-import { DetailedGenreRepository } from "./repositories/detailedGenre/detailedGenreRepository";
-import { DetailedGenreService } from "./services/detailedGenre/detailedGenreService";
-import { DetailedGenreController } from "./controllers/detailedGenre/detailedGenreController";
 import { ShopRepository } from "./repositories/shop/shopRepository";
 import { PlaceService } from "./services/place/placeService";
 import { PlaceController } from "./controllers/place/placeController";
@@ -113,11 +110,6 @@ async function main() {
   const genreController = new GenreController(genreService);
   app.use("/api/", genreController.router);
 
-  const detailedGenreRepository = new DetailedGenreRepository(connection);
-  const detailedGenreService = new DetailedGenreService(detailedGenreRepository);
-  const detailedGenreController = new DetailedGenreController(detailedGenreService);
-  app.use("/api/", detailedGenreController.router);
-
   const placeService = new PlaceService(
     prefectureRepository,
     areaRepository,
@@ -127,7 +119,7 @@ async function main() {
   const placeController = new PlaceController(placeService);
   app.use("/api/", placeController.router);
 
-  const eatingService = new EatingService(genreRepository, detailedGenreRepository, cookingRepository);
+  const eatingService = new EatingService(genreRepository, cookingRepository);
   const eatingController = new EatingController(eatingService);
   app.use("/api/", eatingController.router);
 }

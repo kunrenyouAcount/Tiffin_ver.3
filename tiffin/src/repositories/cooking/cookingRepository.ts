@@ -25,7 +25,7 @@ export class CookingRepository implements ICookingRepository {
 
   public async getByGenre(genreId: number): Promise<Cooking[] | Error> {
     try {
-      const sql = "select * from master_cookings where master_genre_id = ?";
+      const sql = "select * from master_cookings left outer join master_genre_master_cookings on master_cookings.id = master_genre_master_cookings.master_cooking_id where master_genre_master_cookings.master_genre_id = ?";
       const [rows] = await this.connection.execute<Cooking[] & RowDataPacket[]>(sql, [genreId]);
       if (rows.length === 0) {
         return new NotFoundDataError(`not exists target cookings`);
@@ -33,19 +33,6 @@ export class CookingRepository implements ICookingRepository {
       return rows as Cooking[];
     } catch (error) {
       return new SqlError(`CookingRepository.getByGenre() ERROR: ${error}`);
-    }
-  }
-
-  public async getByDetailedGenre(detailedGenreId: number): Promise<Cooking[] | Error> {
-    try {
-      const sql = "select * from master_cookings where master_detailed_genre_id = ?";
-      const [rows] = await this.connection.execute<Cooking[] & RowDataPacket[]>(sql, [detailedGenreId]);
-      if (rows.length === 0) {
-        return new NotFoundDataError(`not exists target cookings`);
-      }
-      return rows as Cooking[];
-    } catch (error) {
-      return new SqlError(`CookingRepository.getByDetailedGenre() ERROR: ${error}`);
     }
   }
 
