@@ -371,12 +371,8 @@ export const Search: React.FC<SearchProps> = (props) => {
               </Grid>
             </Grid>
             <Grid container direction='row' alignItems='center'>
-              <Grid item xs={5}>
-                <IconButton onClick={reset}>
-                  <RestartAltIcon fontSize='large' />
-                </IconButton>
-              </Grid>
-              <Grid item xs={5}>
+              <Grid item xs={2}></Grid>
+              <Grid item xs={6}>
                 <IconButton onClick={searchPhotos}>
                   <SearchIcon fontSize='large' />
                 </IconButton>
@@ -397,7 +393,7 @@ export const Search: React.FC<SearchProps> = (props) => {
           xs={12}
           sx={{ borderRadius: '5px', boxShadow: 4 }}
         >
-          <Grid item xs={4}>
+          <Grid item xs={5}>
             <Grid container direction='column'>
               <Typography marginBottom={1}>場所で絞り込み</Typography>
               <Grid container>
@@ -442,7 +438,7 @@ export const Search: React.FC<SearchProps> = (props) => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={5}>
+          <Grid item xs={4}>
             <Grid container direction='column'>
               <Typography marginBottom={1}>メニューで絞り込み</Typography>
               <Grid container>
