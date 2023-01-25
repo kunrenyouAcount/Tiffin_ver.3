@@ -15,6 +15,7 @@ export const PhotoList: React.FC<PhotoListProps> = (props) => {
             src={`${photo.path}?w=164&h=164&fit=crop&auto=format`}
             srcSet={`${photo.path}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
             loading='lazy'
+            style={{ cursor: 'pointer' }}
             onClick={() => {
               props.handleOpen(photo.menu_id)
             }}

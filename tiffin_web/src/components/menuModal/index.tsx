@@ -74,6 +74,7 @@ export const MenuModal: React.FC<MenuModalProps> = (props) => {
                   src={`${menu.photo_path}?w=164&h=164&fit=crop&auto=format`}
                   srcSet={`${menu.photo_path}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                   loading='lazy'
+                  style={{ cursor: 'pointer' }}
                   onClick={() => {
                     props.handleOpen(menu.id)
                   }}
