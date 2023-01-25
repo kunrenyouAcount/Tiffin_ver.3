@@ -89,6 +89,10 @@ export const Search: React.FC<SearchProps> = (props) => {
     setArea('0')
     setDetailedArea('0')
     setMasterDetailedAreas([])
+
+    //活性状態を変更
+    setAreaDisabled(false)
+    setDetailedAreaDisabled(true)
   }
 
   //エリアを選択
@@ -110,6 +114,9 @@ export const Search: React.FC<SearchProps> = (props) => {
     } else {
       setMasterDetailedAreas(detailedAreaResults.data)
     }
+
+    //活性状態を変更
+    setDetailedAreaDisabled(false)
   }
 
   //詳細エリアを選択
@@ -134,6 +141,9 @@ export const Search: React.FC<SearchProps> = (props) => {
 
     //選び直しの場合は下位要素をリセットする
     setCooking('0')
+
+    //活性状態を変更
+    setCookingDisabled(false)
   }
 
   //料理を選択
@@ -249,7 +259,16 @@ export const Search: React.FC<SearchProps> = (props) => {
     setCooking('0')
     setLowerPrice('0')
     setUpperPrice('0')
+
+    //活性状態を変更
+    setAreaDisabled(true)
+    setDetailedAreaDisabled(true)
+    setCookingDisabled(true)
   }
+
+  const [areaDisabled, setAreaDisabled] = useState<boolean>(true)
+  const [detailedAreaDisabled, setDetailedAreaDisabled] = useState<boolean>(true)
+  const [cookingDisabled, setCookingDisabled] = useState<boolean>(true)
 
   return (
     <>
@@ -414,7 +433,13 @@ export const Search: React.FC<SearchProps> = (props) => {
                   <Grid container direction='row'>
                     <Grid item xs={6}>
                       <InputLabel>エリア</InputLabel>
-                      <MaterialSelect fullWidth label='Area' onChange={changeArea} value={area}>
+                      <MaterialSelect
+                        fullWidth
+                        label='Area'
+                        onChange={changeArea}
+                        value={area}
+                        disabled={areaDisabled}
+                      >
                         {masterAreas.map((master) => (
                           <MenuItem value={master.id}>{master.name}</MenuItem>
                         ))}
@@ -427,6 +452,7 @@ export const Search: React.FC<SearchProps> = (props) => {
                         label='DetailedArea'
                         onChange={changeDetailedArea}
                         value={detailedArea}
+                        disabled={detailedAreaDisabled}
                       >
                         {masterDetailedAreas.map((master) => (
                           <MenuItem value={master.id}>{master.name}</MenuItem>
@@ -457,6 +483,7 @@ export const Search: React.FC<SearchProps> = (props) => {
                     label='cooking'
                     onChange={changeCooking}
                     value={cooking}
+                    disabled={cookingDisabled}
                   >
                     {masterCookings.map((master) => (
                       <MenuItem value={master.id}>{master.name}</MenuItem>
