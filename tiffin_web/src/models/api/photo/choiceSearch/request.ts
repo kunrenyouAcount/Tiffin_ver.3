@@ -4,7 +4,6 @@ export type PhotoChoiceSearchRequest = {
   master_detailed_area_id?: number
   master_railroad_station_id?: number
   master_genre_id?: number
-  master_detailed_genre_id?: number
   master_cooking_id?: number
   price_min?: number
   price_max?: number

@@ -49,28 +49,5 @@ export class CookingController {
       });
       res.status(200).json(cookingList);
     });
-
-    this.router.get("/cookings/detailed-genre-id/:detailedGenreId", async (req: Request, res: Response) => {
-      const detailedGenreId = parseInt(req.params.detailedGenreId);
-      const results = await this.cookingService.getByDetailedGenre(detailedGenreId);
-
-      if (results instanceof NotFoundDataError) {
-        res.status(404).json(results.message);
-        return;
-      }
-
-      if (results instanceof Error) {
-        res.status(500).json(results.message);
-        return;
-      }
-
-      const cookingList: CookingGetResponse[] = results.map((result) => {
-        return {
-          id: result.id,
-          name: result.name,
-        } as CookingGetResponse;
-      });
-      res.status(200).json(cookingList);
-    });
   }
 }

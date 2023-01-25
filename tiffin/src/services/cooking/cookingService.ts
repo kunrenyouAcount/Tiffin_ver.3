@@ -13,11 +13,6 @@ export class CookingService implements ICookingService {
     return result;
   }
 
-  public async getByDetailedGenre(detailedGenreId: number): Promise<Error | Cooking[]> {
-    const result = await this.cookingRepository.getByDetailedGenre(detailedGenreId);
-    return result;
-  }
-
   public async findAll(): Promise<Cooking[] | Error> {
     const result = await this.cookingRepository.findAll();
     return result;

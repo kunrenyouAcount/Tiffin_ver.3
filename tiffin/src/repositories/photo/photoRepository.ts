@@ -66,11 +66,11 @@ export class PhotoRepository implements IPhotoRepository {
   public async choiceSearch(params: PhotoChoiceSearchRequest): Promise<Error | Photo[]> {
     try {
       var sql =
-        "select photos.id, photos.path, photos.menu_id from photos \
+        "select distinct(photos.id) from photos \
         inner join menus on photos.menu_id = menus.id \
-        inner join master_genres on menus.master_genre_id = master_genres.id \
-        left outer join master_detailed_genres on menus.master_detailed_genre_id = master_detailed_genres.id \
         inner join master_cookings on menus.master_cooking_id = master_cookings.id \
+        left outer join master_genre_master_cookings on master_cookings.id = master_genre_master_cookings.master_cooking_id \
+        left outer join master_genres on master_genre_master_cookings.master_genre_id = master_genres.id \
         inner join shops on menus.shop_id = shops.id \
         inner join master_areas on shops.master_area_id = master_areas.id \
         inner join master_prefectures on master_areas.master_prefecture_id = master_prefectures.id \
@@ -97,9 +97,6 @@ export class PhotoRepository implements IPhotoRepository {
       if (params.master_genre_id !== 0) {
         sql += ` and master_genres.id = ${params.master_genre_id}`;
       }
-      if (params.master_detailed_genre_id !== 0) {
-        sql += ` and master_detailed_genres.id = ${params.master_detailed_genre_id}`;
-      }
       if (params.price_min !== 0) {
         sql += ` and ${params.price_min} <= menus.price`;
       }
@@ -108,11 +105,15 @@ export class PhotoRepository implements IPhotoRepository {
       }
       sql += ";";
 
-      const [rows] = await this.connection.execute<Photo[] & RowDataPacket[]>(sql);
+      const [rows] = await this.connection.execute<{ id: number }[] & RowDataPacket[]>(sql);
       if (rows.length === 0) {
         return new NotFoundDataError(`not exists target photos`);
       }
-      return rows as Photo[];
+
+      const ids = rows.map((row) => row.id);
+      sql = "select * from photos where id in (?)";
+      const [results] = await this.connection.query<Photo[] & RowDataPacket[]>(sql, [ids]);
+      return results as Photo[];
     } catch (error) {
       return new SqlError(`PhotoRepository.choiceSearch() ERROR: ${error}`);
     }

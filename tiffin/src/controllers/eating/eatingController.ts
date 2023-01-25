@@ -26,12 +26,6 @@ export class EatingController {
             name: genre.name,
           };
         }),
-        detailedGenres: results.detailedGenres.map((detailedGenre) => {
-          return {
-            id: detailedGenre.id!,
-            name: detailedGenre.name,
-          };
-        }),
         cookings: results.cookings.map((cooking) => {
           return {
             id: cooking.id!,
