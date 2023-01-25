@@ -89,6 +89,10 @@ export const Search: React.FC<SearchProps> = (props) => {
     setArea('0')
     setDetailedArea('0')
     setMasterDetailedAreas([])
+
+    //活性状態を変更
+    setAreaDisabled(false)
+    setDetailedAreaDisabled(true)
   }
 
   //エリアを選択
@@ -110,6 +114,9 @@ export const Search: React.FC<SearchProps> = (props) => {
     } else {
       setMasterDetailedAreas(detailedAreaResults.data)
     }
+
+    //活性状態を変更
+    setDetailedAreaDisabled(false)
   }
 
   //詳細エリアを選択
@@ -134,6 +141,9 @@ export const Search: React.FC<SearchProps> = (props) => {
 
     //選び直しの場合は下位要素をリセットする
     setCooking('0')
+
+    //活性状態を変更
+    setCookingDisabled(false)
   }
 
   //料理を選択
@@ -249,7 +259,16 @@ export const Search: React.FC<SearchProps> = (props) => {
     setCooking('0')
     setLowerPrice('0')
     setUpperPrice('0')
+
+    //活性状態を変更
+    setAreaDisabled(true)
+    setDetailedAreaDisabled(true)
+    setCookingDisabled(true)
   }
+
+  const [areaDisabled, setAreaDisabled] = useState<boolean>(true)
+  const [detailedAreaDisabled, setDetailedAreaDisabled] = useState<boolean>(true)
+  const [cookingDisabled, setCookingDisabled] = useState<boolean>(true)
 
   return (
     <>
@@ -371,12 +390,8 @@ export const Search: React.FC<SearchProps> = (props) => {
               </Grid>
             </Grid>
             <Grid container direction='row' alignItems='center'>
-              <Grid item xs={5}>
-                <IconButton onClick={reset}>
-                  <RestartAltIcon fontSize='large' />
-                </IconButton>
-              </Grid>
-              <Grid item xs={5}>
+              <Grid item xs={2}></Grid>
+              <Grid item xs={6}>
                 <IconButton onClick={searchPhotos}>
                   <SearchIcon fontSize='large' />
                 </IconButton>
@@ -397,7 +412,7 @@ export const Search: React.FC<SearchProps> = (props) => {
           xs={12}
           sx={{ borderRadius: '5px', boxShadow: 4 }}
         >
-          <Grid item xs={4}>
+          <Grid item xs={5}>
             <Grid container direction='column'>
               <Typography marginBottom={1}>場所で絞り込み</Typography>
               <Grid container>
@@ -418,7 +433,13 @@ export const Search: React.FC<SearchProps> = (props) => {
                   <Grid container direction='row'>
                     <Grid item xs={6}>
                       <InputLabel>エリア</InputLabel>
-                      <MaterialSelect fullWidth label='Area' onChange={changeArea} value={area}>
+                      <MaterialSelect
+                        fullWidth
+                        label='Area'
+                        onChange={changeArea}
+                        value={area}
+                        disabled={areaDisabled}
+                      >
                         {masterAreas.map((master) => (
                           <MenuItem value={master.id}>{master.name}</MenuItem>
                         ))}
@@ -431,6 +452,7 @@ export const Search: React.FC<SearchProps> = (props) => {
                         label='DetailedArea'
                         onChange={changeDetailedArea}
                         value={detailedArea}
+                        disabled={detailedAreaDisabled}
                       >
                         {masterDetailedAreas.map((master) => (
                           <MenuItem value={master.id}>{master.name}</MenuItem>
@@ -442,7 +464,7 @@ export const Search: React.FC<SearchProps> = (props) => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={5}>
+          <Grid item xs={4}>
             <Grid container direction='column'>
               <Typography marginBottom={1}>メニューで絞り込み</Typography>
               <Grid container>
@@ -461,6 +483,7 @@ export const Search: React.FC<SearchProps> = (props) => {
                     label='cooking'
                     onChange={changeCooking}
                     value={cooking}
+                    disabled={cookingDisabled}
                   >
                     {masterCookings.map((master) => (
                       <MenuItem value={master.id}>{master.name}</MenuItem>
