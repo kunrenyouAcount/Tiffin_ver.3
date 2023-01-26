@@ -15,9 +15,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # secretsの取得チェック
-      - name: Check Get secrets
-        run: echo ${{ secrets.AWS_ACCESS_KEY }}
 
       # IP取得ライブラリをインストール
       - name: Public IP Install
@@ -48,8 +45,8 @@ jobs:
       - name: Deploy
         run: |
 
-          # SSHのセキュリティグループを開放する
-          aws ec2 authorize-security-group-ingress --group-id ${{ secrets.EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+          # # SSHのセキュリティグループを開放する
+          # aws ec2 authorize-security-group-ingress --group-id ${{ secrets.EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
 
           # SSH接続して、git pullする
           echo "${{ secrets.GIT_PRIVATE_KEY }}" > private_key
@@ -59,5 +56,5 @@ jobs:
           # 反映処理
           ssh -oStrictHostKeyChecking=no ${{ secrets.EC2_USER_NAME }}@${{ secrets.EC2_HOST_NAME }} -i private_key "cd C:\home\ec2-user\Tiffin_ver.3\tiffin && npm install && npm run build && cd C:\home\ec2-user\Tiffin_ver.3\tiffin_web && npm install && npm run build"
                     
-          # SSHのセキュリティグループを閉じる
-          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+          # # SSHのセキュリティグループを閉じる
+          # aws ec2 revoke-security-group-ingress --group-id ${{ secrets.EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
