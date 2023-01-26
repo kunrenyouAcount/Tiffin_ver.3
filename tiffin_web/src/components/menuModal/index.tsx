@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction, useState } from 'react'
 import { MenuModalItemResponse } from 'src/models/api/menu/getModalItem/response'
 import Modal from '@mui/material/Modal'
 import { Box, Grid, ImageList, ImageListItem } from '@mui/material'
+import styles from 'src/components/menuModal/styles.module.css'
 
 interface MenuModalProps {
   modalItem: MenuModalItemResponse
@@ -14,20 +15,6 @@ interface MenuModalProps {
 }
 
 export const MenuModal: React.FC<MenuModalProps> = (props) => {
-  const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    height: 800,
-    transform: 'translate(-50%, -50%)',
-    width: 900,
-    bgcolor: 'rgba(47, 43, 43, 0.95)',
-    border: '2px solid rgba(47, 43, 43, 1)',
-    boxShadow: 24,
-    color: 'white',
-    p: 4,
-  }
-
   return (
     <Modal
       open={props.open}
@@ -35,7 +22,7 @@ export const MenuModal: React.FC<MenuModalProps> = (props) => {
       aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'
     >
-      <Box sx={style}>
+      <Box className={styles.modal}>
         <ImageList>
           <ImageListItem>
             <img
@@ -74,7 +61,7 @@ export const MenuModal: React.FC<MenuModalProps> = (props) => {
                   src={`${menu.photo_path}?w=164&h=164&fit=crop&auto=format`}
                   srcSet={`${menu.photo_path}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                   loading='lazy'
-                  style={{ cursor: 'pointer' }}
+                  className={styles.img_wrap}
                   onClick={() => {
                     props.handleOpen(menu.id)
                   }}
