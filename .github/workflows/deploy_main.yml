@@ -15,6 +15,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # secretsの取得チェック
+      - name: Check Get secrets
+        run: echo ${{ secrets.AWS_ACCESS_KEY }}
+
       # IP取得ライブラリをインストール
       - name: Public IP Install
         id: ip
