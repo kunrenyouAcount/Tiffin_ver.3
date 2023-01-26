@@ -1,5 +1,4 @@
-import Axios from 'axios'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 import { MenuModalItemResponse } from 'src/models/api/menu/getModalItem/response'
 import Modal from '@mui/material/Modal'
 import { Box, Grid, ImageList, ImageListItem } from '@mui/material'

@@ -1,7 +1,6 @@
 import { Request, Response, Router } from "express";
 import { PlaceSearchByKeywordResponse } from "../../models/api/place/searchKeyword/response";
 import { Prefecture } from "../../models/prefecture";
-// import { Prefecture } from "../../models/prefecture";
 import { IPlaceService } from "../../services/place/interface";
 
 export class PlaceController {
