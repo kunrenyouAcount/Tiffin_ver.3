@@ -52,8 +52,8 @@ jobs:
           chmod 600 private_key
           ssh -oStrictHostKeyChecking=no ${{ secrets.EC2_USER_NAME }}@${{ secrets.EC2_HOST_NAME }} -i private_key "cd /home/ec2-user/Tiffin_ver.3 && git pull origin main"
 
-          # # 反映処理
-          # ssh -oStrictHostKeyChecking=no ${{ secrets.EC2_USER_NAME }}@${{ secrets.EC2_HOST_NAME }} -i private_key "cd /home/ec2-user/Tiffin_ver.3/tiffin && npm install && npm run build && cd /home/ec2-user/Tiffin_ver.3/tiffin_web && npm install && npm run build"
+          # 反映処理
+          ssh -oStrictHostKeyChecking=no ${{ secrets.EC2_USER_NAME }}@${{ secrets.EC2_HOST_NAME }} -i private_key "cd /home/ec2-user/Tiffin_ver.3/tiffin && npm install && npm run build && cd /home/ec2-user/Tiffin_ver.3/tiffin_web && npm install && npm run build"
                     
           # SSHのセキュリティグループを閉じる
           aws ec2 revoke-security-group-ingress --group-id ${{ secrets.EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
