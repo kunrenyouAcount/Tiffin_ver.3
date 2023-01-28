@@ -4,7 +4,7 @@
   "description": "express/nodejs(typescript)",
   "main": "app.ts",
   "scripts": {
-    "start": "node dist/src/app.js",
+    "start": "NODE_ENV=production forever start dist/src/app.js",
     "build": "tsc -p . ",
     "dev": "nodemon src/app.ts",
     "test": "jest tests --coverage --runInBand --forceExit --detectOpenHandles"
@@ -17,6 +17,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "forever": "^4.0.3",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3"
   },
