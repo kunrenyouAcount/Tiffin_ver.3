@@ -52,7 +52,6 @@ export const Home: React.FC = () => {
         <>
           <Search setPhotos={setPhotos} />
           <Grid>
-            反映確認！！
             <PhotoList photos={photos} handleOpen={handleOpen} />
             <MenuModal
               modalItem={modalItem}
