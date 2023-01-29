@@ -5,6 +5,7 @@
   "main": "app.ts",
   "scripts": {
     "start": "NODE_ENV=production forever start dist/src/app.js",
+    "restart": "NODE_ENV=production forever restart dist/src/app.js",
     "build": "tsc -p . ",
     "dev": "nodemon src/app.ts",
     "test": "jest tests --coverage --runInBand --forceExit --detectOpenHandles"
