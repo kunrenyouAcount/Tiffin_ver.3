@@ -51,6 +51,7 @@ export const Home: React.FC = () => {
       {isLogin() ? (
         <>
           <Search setPhotos={setPhotos} />
+          反映確認用！
           <Grid>
             <PhotoList photos={photos} handleOpen={handleOpen} />
             <MenuModal
