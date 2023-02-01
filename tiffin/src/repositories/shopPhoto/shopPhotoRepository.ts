@@ -1,73 +1,73 @@
 import { Connection, RowDataPacket } from "mysql2/promise";
-import { Photo } from "../../models/photo";
-import { IPhotoRepository } from "./interface";
+import { ShopPhoto } from "../../models/shopPhoto";
+import { IShopPhotoRepository } from "./interface";
 import { NotFoundDataError, SqlError } from "../../utils/error";
 import { PhotoChoiceSearchRequest } from "../../models/api/photo/choiceSearch/request";
 
-export class PhotoRepository implements IPhotoRepository {
+export class ShopPhotoRepository implements IShopPhotoRepository {
   private connection: Connection;
 
   constructor(connection: Connection) {
     this.connection = connection;
   }
 
-  public async findAll(): Promise<Photo[] | Error> {
+  public async findAll(): Promise<ShopPhoto[] | Error> {
     try {
-      const sql = "select * from photos";
-      const [rows] = await this.connection.execute<Photo[] & RowDataPacket[]>(sql);
+      const sql = "select * from shop_photos";
+      const [rows] = await this.connection.execute<ShopPhoto[] & RowDataPacket[]>(sql);
       if (rows.length === 0) {
         return [];
       }
       return rows;
     } catch (error) {
-      return new SqlError(`PhotoRepository.findAll() ERROR: ${error}`);
+      return new SqlError(`ShopPhotoRepository.findAll() ERROR: ${error}`);
     }
   }
 
-  public async getById(id: number): Promise<Photo | Error> {
+  public async getById(id: number): Promise<ShopPhoto | Error> {
     try {
-      const sql = "select * from photos where id = ?";
-      const [rows] = await this.connection.execute<Photo & RowDataPacket[]>(sql, [id]);
+      const sql = "select * from shop_photos where id = ?";
+      const [rows] = await this.connection.execute<ShopPhoto & RowDataPacket[]>(sql, [id]);
       if (rows.length === 0) {
-        return new NotFoundDataError(`not exists target photos`);
+        return new NotFoundDataError(`not exists target shop_photos`);
       }
-      return rows[0] as Photo;
+      return rows[0] as ShopPhoto;
     } catch (error) {
-      return new SqlError(`PhotoRepository.getById() ERROR: ${error}`);
+      return new SqlError(`ShopPhotoRepository.getById() ERROR: ${error}`);
     }
   }
 
-  public async getByMenuId(menuId: number): Promise<Error | Photo> {
+  public async getByMenuId(menuId: number): Promise<Error | ShopPhoto> {
     try {
-      const sql = "select * from photos where menu_id = ?";
-      const [rows] = await this.connection.execute<Photo & RowDataPacket[]>(sql, [menuId]);
+      const sql = "select * from shop_photos where menu_id = ?";
+      const [rows] = await this.connection.execute<ShopPhoto & RowDataPacket[]>(sql, [menuId]);
       if (rows.length === 0) {
-        return new NotFoundDataError(`not exists target photos`);
+        return new NotFoundDataError(`not exists target shop_photos`);
       }
-      return rows[0] as Photo;
+      return rows[0] as ShopPhoto;
     } catch (error) {
-      return new SqlError(`PhotoRepository.getByMenuId() ERROR: ${error}`);
+      return new SqlError(`ShopPhotoRepository.getByMenuId() ERROR: ${error}`);
     }
   }
 
-  public async getByMenuIds(menuIds: number[]): Promise<Error | Photo[]> {
+  public async getByMenuIds(menuIds: number[]): Promise<Error | ShopPhoto[]> {
     try {
-      const sql = "select * from photos where menu_id in (?)";
-      const [rows] = await this.connection.query<Photo[] & RowDataPacket[]>(sql, [menuIds]);
+      const sql = "select * from shop_photos where menu_id in (?)";
+      const [rows] = await this.connection.query<ShopPhoto[] & RowDataPacket[]>(sql, [menuIds]);
       if (rows.length === 0) {
-        return new NotFoundDataError(`not exists target photos`);
+        return new NotFoundDataError(`not exists target shop_photos`);
       }
-      return rows as Photo[];
+      return rows as ShopPhoto[];
     } catch (error) {
-      return new SqlError(`PhotoRepository.getByMenuIds() ERROR: ${error}`);
+      return new SqlError(`ShopPhotoRepository.getByMenuIds() ERROR: ${error}`);
     }
   }
 
-  public async choiceSearch(params: PhotoChoiceSearchRequest): Promise<Error | Photo[]> {
+  public async choiceSearch(params: PhotoChoiceSearchRequest): Promise<Error | ShopPhoto[]> {
     try {
       var sql =
-        "select distinct(photos.id) from photos \
-        inner join menus on photos.menu_id = menus.id \
+        "select distinct(shop_photos.id) from shop_photos \
+        inner join menus on shop_photos.menu_id = menus.id \
         inner join master_cookings on menus.master_cooking_id = master_cookings.id \
         left outer join master_genre_master_cookings on master_cookings.id = master_genre_master_cookings.master_cooking_id \
         left outer join master_genres on master_genre_master_cookings.master_genre_id = master_genres.id \
@@ -107,15 +107,15 @@ export class PhotoRepository implements IPhotoRepository {
 
       const [rows] = await this.connection.execute<{ id: number }[] & RowDataPacket[]>(sql);
       if (rows.length === 0) {
-        return new NotFoundDataError(`not exists target photos`);
+        return new NotFoundDataError(`not exists target shop_photos`);
       }
 
       const ids = rows.map((row) => row.id);
-      sql = "select * from photos where id in (?)";
-      const [results] = await this.connection.query<Photo[] & RowDataPacket[]>(sql, [ids]);
-      return results as Photo[];
+      sql = "select * from shop_photos where id in (?)";
+      const [results] = await this.connection.query<ShopPhoto[] & RowDataPacket[]>(sql, [ids]);
+      return results as ShopPhoto[];
     } catch (error) {
-      return new SqlError(`PhotoRepository.choiceSearch() ERROR: ${error}`);
+      return new SqlError(`ShopPhotoRepository.choiceSearch() ERROR: ${error}`);
     }
   }
 }

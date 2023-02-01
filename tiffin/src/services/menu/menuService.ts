@@ -3,8 +3,7 @@ import { Photo } from "../../models/photo";
 import { RailroadStation } from "../../models/railroadStation";
 import { Shop } from "../../models/shop";
 import { IMenuRepository } from "../../repositories/menu/interface";
-import { IPhotoRepository } from "../../repositories/photo/interface";
-import { PhotoRepository } from "../../repositories/photo/photoRepository";
+import { IShopPhotoRepository } from "../../repositories/shopPhoto/interface";
 import { IRailroadStationRepository } from "../../repositories/railroadStation/interface";
 import { IShopRepository } from "../../repositories/shop/interface";
 import { IMenuService } from "./interface";
@@ -12,18 +11,18 @@ import { IMenuService } from "./interface";
 export class MenuService implements IMenuService {
   private menuRepository: IMenuRepository;
   private shopRepository: IShopRepository;
-  private photoRepository: IPhotoRepository;
+  private shopPhotoRepository: IShopPhotoRepository;
   private stationRepository: IRailroadStationRepository;
 
   constructor(
     menuRepository: IMenuRepository,
     shopRepository: IShopRepository,
-    photoRepository: PhotoRepository,
+    shopPhotoRepository: IShopPhotoRepository,
     stationRepository: IRailroadStationRepository
   ) {
     this.menuRepository = menuRepository;
     this.shopRepository = shopRepository;
-    this.photoRepository = photoRepository;
+    this.shopPhotoRepository = shopPhotoRepository;
     this.stationRepository = stationRepository;
   }
 
@@ -75,30 +74,41 @@ export class MenuService implements IMenuService {
     if (stationResult instanceof Error) {
       return stationResult;
     }
-    const photoResult = await this.photoRepository.getByMenuId(menuResult.id!);
-    if (photoResult instanceof Error) {
-      return photoResult;
+    const shopPhotoResult = await this.shopPhotoRepository.getByMenuId(menuResult.id!);
+    if (shopPhotoResult instanceof Error) {
+      return shopPhotoResult;
     }
+    const convertPhotoResult = {
+      id: shopPhotoResult.id,
+      path: shopPhotoResult.path,
+      menu_id: shopPhotoResult.menu_id,
+    } as Photo;
     const menuResultsByShop = await this.menuRepository.getByShopId(menuResult.shop_id);
     if (menuResultsByShop instanceof Error) {
       return menuResultsByShop;
     }
     //店舗の他のメニューを取得しているため、重複を削除
     const otherMenuResults = menuResultsByShop.filter((menu) => menu.id !== menuId);
-
     const otherMenuIds = otherMenuResults.map((otherMenu) => otherMenu.id!);
-    const otherPhotoResults = await this.photoRepository.getByMenuIds(otherMenuIds);
+    const otherPhotoResults = await this.shopPhotoRepository.getByMenuIds(otherMenuIds);
     if (otherPhotoResults instanceof Error) {
       return otherPhotoResults;
     }
+    const convertOtherPhotoResults = otherPhotoResults.map((result) => {
+      return {
+        id: result.id,
+        path: result.path,
+        menu_id: result.menu_id,
+      } as Photo;
+    });
 
     return {
       menu: menuResult,
       shop: shopResult,
       station: stationResult,
-      photo: photoResult,
+      photo: convertPhotoResult,
       otherMenus: otherMenuResults,
-      otherPhotos: otherPhotoResults,
+      otherPhotos: convertOtherPhotoResults,
     };
   }
 }

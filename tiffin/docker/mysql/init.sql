@@ -23610,7 +23610,7 @@ INSERT INTO `menus` (
 ;
 
 -- photos
-CREATE TABLE `photos` (
+CREATE TABLE `shop_photos` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `path` varchar(255) NOT NULL DEFAULT '',
   `menu_id` bigint unsigned NOT NULL,
@@ -23620,7 +23620,7 @@ CREATE TABLE `photos` (
   FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `photos` (
+INSERT INTO `shop_photos` (
 	`id`,
 	`path`,
   `menu_id`
