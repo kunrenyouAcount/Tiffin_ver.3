@@ -24,7 +24,7 @@ import { MenuController } from "./controllers/menu/menuController";
 import { CookingRepository } from "./repositories/cooking/cookingRepository";
 import { CookingService } from "./services/cooking/cookingService";
 import { CookingController } from "./controllers/cooking/cookingController";
-import { PhotoRepository } from "./repositories/photo/photoRepository";
+import { ShopPhotoRepository } from "./repositories/shopPhoto/shopPhotoRepository";
 import { PhotoService } from "./services/photo/photoService";
 import { PhotoController } from "./controllers/photo/photoController";
 import { GenreService } from "./services/genre/genreService";
@@ -94,14 +94,14 @@ async function main() {
   const cookingController = new CookingController(cookingService);
   app.use("/api/", cookingController.router);
 
-  const photoRepository = new PhotoRepository(connection);
-  const photoService = new PhotoService(photoRepository);
+  const shopPhotoRepository = new ShopPhotoRepository(connection);
+  const photoService = new PhotoService(shopPhotoRepository);
   const photoController = new PhotoController(photoService);
   app.use("/api/", photoController.router);
 
   const menuRepository = new MenuRepository(connection);
   const shopRepository = new ShopRepository(connection);
-  const menuService = new MenuService(menuRepository, shopRepository, photoRepository, railroadStationRepository);
+  const menuService = new MenuService(menuRepository, shopRepository, shopPhotoRepository, railroadStationRepository);
   const menuController = new MenuController(menuService);
   app.use("/api/", menuController.router);
 
