@@ -23672,3 +23672,21 @@ INSERT INTO `users` (
 	('田中太郎', 'tarou@example.com', '$2b$10$lS.1RfbwrBLGm6beMuJAnejoOhvBhw6v34R.ko28zyQG6oNtzWGay', 1),
 	('山田花子', 'hanako@example.com', '$2b$10$lS.1RfbwrBLGm6beMuJAnejoOhvBhw6v34R.ko28zyQG6oNtzWGay', 2)
 ;
+
+-- shop_photo_likes
+CREATE TABLE `shop_photo_likes` (
+  `shop_photo_id` bigint unsigned NOT NULL,
+  `user_id` bigint unsigned NOT NULL,
+  PRIMARY KEY (`shop_photo_id`, `user_id`),
+  FOREIGN KEY (`shop_photo_id`) REFERENCES `shop_photos` (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `shop_photo_likes` (
+	`shop_photo_id`,
+	`user_id`
+) VALUES
+  (1, 1),
+  (1, 2),
+  (2, 2)
+;
