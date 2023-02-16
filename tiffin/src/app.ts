@@ -35,6 +35,9 @@ import { PlaceService } from "./services/place/placeService";
 import { PlaceController } from "./controllers/place/placeController";
 import { EatingService } from "./services/eating/eatingService";
 import { EatingController } from "./controllers/eating/eatingController";
+import { ShopPhotoLikeRepository } from "./repositories/shopPhotoLike/shopPhotoLikeRepository";
+import { ShopPhotoLikeService } from "./services/shopPhotoLike/shopPhotoLikeService";
+import { ShopPhotoLikeController } from "./controllers/shopPhotoLike/shopPhotoLikeController";
 
 async function main() {
   dotenv.config();
@@ -122,6 +125,11 @@ async function main() {
   const eatingService = new EatingService(genreRepository, cookingRepository);
   const eatingController = new EatingController(eatingService);
   app.use("/api/", eatingController.router);
+
+  const shopPhotoLikeRepository = new ShopPhotoLikeRepository(connection);
+  const shopPhotoLikeService = new ShopPhotoLikeService(shopPhotoLikeRepository);
+  const shopPhotoLikeController = new ShopPhotoLikeController(shopPhotoLikeService);
+  app.use("/api/", shopPhotoLikeController.router);
 }
 
 main();
