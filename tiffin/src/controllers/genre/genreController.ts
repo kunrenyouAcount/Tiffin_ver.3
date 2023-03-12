@@ -12,10 +12,6 @@ export class GenreController {
 
     this.router.get("/genres", async (req: Request, res: Response) => {
       const results = await this.genreService.findAll();
-      if (results instanceof Error) {
-        res.status(500).json(results.message);
-        return;
-      }
 
       const genreList: GenreGetResponse[] = results.map((result) => {
         return {

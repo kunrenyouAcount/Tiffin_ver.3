@@ -1,16 +1,14 @@
-import { Genre } from "../../models/genre";
-import { IGenreRepository } from "../../repositories/genre/interface";
+import { MasterGenre, PrismaClient } from "@prisma/client";
 import { IGenreService } from "./interface";
 
 export class GenreService implements IGenreService {
-  private genreRepository: IGenreRepository;
+  private prisma: PrismaClient;
 
-  constructor(genreRepository: IGenreRepository) {
-    this.genreRepository = genreRepository;
+  constructor(prisma: PrismaClient) {
+    this.prisma = prisma;
   }
 
-  public async findAll(): Promise<Genre[] | Error> {
-    const result = await this.genreRepository.findAll();
-    return result;
+  public async findAll(): Promise<MasterGenre[]> {
+    return await this.prisma.masterGenre.findMany();
   }
 }
