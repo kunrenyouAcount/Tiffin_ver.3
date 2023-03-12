@@ -1,21 +1,24 @@
-import { DetailedArea } from "../../models/detailedArea";
-import { IDetailedAreaRepository } from "../../repositories/detailedArea/interface";
+import { MasterDetailedArea, PrismaClient } from "@prisma/client";
 import { IDetailedAreaService } from "./interface";
 
 export class DetailedAreaService implements IDetailedAreaService {
-  private detailedAreaRepository: IDetailedAreaRepository;
+  private prisma: PrismaClient;
 
-  constructor(detailedAreaRepository: IDetailedAreaRepository) {
-    this.detailedAreaRepository = detailedAreaRepository;
+  constructor(prisma: PrismaClient) {
+    this.prisma = prisma;
   }
 
-  public async findAll(): Promise<DetailedArea[] | Error> {
-    const result = await this.detailedAreaRepository.findAll();
+  public async findAll(): Promise<MasterDetailedArea[]> {
+    const result = await this.prisma.masterDetailedArea.findMany();
     return result;
   }
 
-  public async getByAreaId(areaId: number): Promise<DetailedArea[] | Error> {
-    const result = await this.detailedAreaRepository.getByAreaId(areaId);
+  public async getByAreaId(areaId: number): Promise<MasterDetailedArea[]> {
+    const result = await this.prisma.masterDetailedArea.findMany({
+      where: {
+        masterAreaId: areaId,
+      },
+    });
     return result;
   }
 }
