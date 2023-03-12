@@ -10,6 +10,9 @@
     "dev": "nodemon src/app.ts",
     "test": "jest tests --coverage --runInBand --forceExit --detectOpenHandles"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
