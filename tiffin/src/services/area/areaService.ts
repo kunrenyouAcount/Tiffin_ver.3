@@ -1,21 +1,20 @@
-import { Area } from "../../models/area";
-import { IAreaRepository } from "../../repositories/area/interface";
+import { MasterArea, PrismaClient } from "@prisma/client";
 import { IAreaService } from "./interface";
 
 export class AreaService implements IAreaService {
-  private areaRepository: IAreaRepository;
+  private prisma: PrismaClient;
 
-  constructor(areaRepository: IAreaRepository) {
-    this.areaRepository = areaRepository;
+  constructor(prisma: PrismaClient) {
+    this.prisma = prisma;
   }
 
-  public async findAll(): Promise<Area[] | Error> {
-    const result = await this.areaRepository.findAll();
-    return result;
+  public async findAll(): Promise<MasterArea[]> {
+    return await this.prisma.masterArea.findMany();
   }
 
-  public async getByPrefectureId(prefectureId: number): Promise<Area[] | Error> {
-    const result = await this.areaRepository.getByPrefectureId(prefectureId);
-    return result;
+  public async getByPrefectureId(prefectureId: number): Promise<MasterArea[]> {
+    return await this.prisma.masterArea.findMany({
+      where: { masterPrefectureId: prefectureId },
+    });
   }
 }
