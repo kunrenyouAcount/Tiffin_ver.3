@@ -1,6 +1,5 @@
 import { IRailroadStationService } from "../../services/railroadStation/interface";
 import { Request, Response, Router } from "express";
-import { NotFoundDataError } from "../../utils/error";
 import { RailroadStationGetResponse } from "../../models/api/railroadStation/get/response";
 
 export class RailroadStationController {
@@ -13,10 +12,6 @@ export class RailroadStationController {
 
     this.router.get("/railroad-stations", async (req: Request, res: Response) => {
       const results = await this.railroadStationService.findAll();
-      if (results instanceof Error) {
-        res.status(500).json(results.message);
-        return;
-      }
 
       const railroadStationList: RailroadStationGetResponse[] = results.map((result) => {
         return {
@@ -33,16 +28,6 @@ export class RailroadStationController {
     this.router.get("/railroad-stations/prefecture-id/:prefectureId", async (req: Request, res: Response) => {
       const prefectureId = parseInt(req.params.prefectureId);
       const results = await this.railroadStationService.getByPrefectureId(prefectureId);
-
-      if (results instanceof NotFoundDataError) {
-        res.status(404).json(results.message);
-        return;
-      }
-
-      if (results instanceof Error) {
-        res.status(500).json(results.message);
-        return;
-      }
 
       const railroadStationList: RailroadStationGetResponse[] = results.map((result) => {
         return {

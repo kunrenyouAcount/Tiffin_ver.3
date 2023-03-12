@@ -1,21 +1,24 @@
-import { RailroadStation } from "../../models/railroadStation";
-import { IRailroadStationRepository } from "../../repositories/railroadStation/interface";
+import { MasterRailroadStation, PrismaClient } from "@prisma/client";
 import { IRailroadStationService } from "./interface";
 
 export class RailroadStationService implements IRailroadStationService {
-  private railroadStationRepository: IRailroadStationRepository;
+  private prisma: PrismaClient;
 
-  constructor(railroadStationRepository: IRailroadStationRepository) {
-    this.railroadStationRepository = railroadStationRepository;
+  constructor(prisma: PrismaClient) {
+    this.prisma = prisma;
   }
 
-  public async findAll(): Promise<RailroadStation[] | Error> {
-    const result = await this.railroadStationRepository.findAll();
+  public async findAll(): Promise<MasterRailroadStation[]> {
+    const result = await this.prisma.masterRailroadStation.findMany();
     return result;
   }
 
-  public async getByPrefectureId(prefectureId: number): Promise<RailroadStation[] | Error> {
-    const result = await this.railroadStationRepository.getByPrefectureId(prefectureId);
+  public async getByPrefectureId(prefectureId: number): Promise<MasterRailroadStation[]> {
+    const result = await this.prisma.masterRailroadStation.findMany({
+      where: {
+        masterPrefectureId: prefectureId,
+      },
+    });
     return result;
   }
 }
