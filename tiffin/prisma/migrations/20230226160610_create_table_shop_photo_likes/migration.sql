@@ -1,7 +1,7 @@
 -- CreateTable
 CREATE TABLE `ShopPhotoLike` (
-    `shopPhotoId` BIGINT NOT NULL,
-    `userId` BIGINT NOT NULL,
+    `shopPhotoId` INTEGER NOT NULL,
+    `userId` INTEGER NOT NULL,
 
     PRIMARY KEY (`shopPhotoId`, `userId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

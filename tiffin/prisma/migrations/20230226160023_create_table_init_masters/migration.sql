@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE `MasterPrefecture` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
 
     FULLTEXT INDEX `MasterPrefecture_name_idx`(`name`),
@@ -9,9 +9,9 @@ CREATE TABLE `MasterPrefecture` (
 
 -- CreateTable
 CREATE TABLE `MasterArea` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
-    `masterPrefectureId` BIGINT NOT NULL,
+    `masterPrefectureId` INTEGER NOT NULL,
 
     FULLTEXT INDEX `MasterArea_name_idx`(`name`),
     PRIMARY KEY (`id`)
@@ -19,9 +19,9 @@ CREATE TABLE `MasterArea` (
 
 -- CreateTable
 CREATE TABLE `MasterDetailedArea` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
-    `masterAreaId` BIGINT NOT NULL,
+    `masterAreaId` INTEGER NOT NULL,
 
     FULLTEXT INDEX `MasterDetailedArea_name_idx`(`name`),
     PRIMARY KEY (`id`)
@@ -29,12 +29,12 @@ CREATE TABLE `MasterDetailedArea` (
 
 -- CreateTable
 CREATE TABLE `MasterRailroadStation` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `post_code` VARCHAR(191) NULL,
     `address` VARCHAR(191) NULL,
     `status` INTEGER NULL,
-    `masterPrefectureId` BIGINT NOT NULL,
+    `masterPrefectureId` INTEGER NOT NULL,
 
     FULLTEXT INDEX `MasterRailroadStation_name_idx`(`name`),
     PRIMARY KEY (`id`)
@@ -42,7 +42,7 @@ CREATE TABLE `MasterRailroadStation` (
 
 -- CreateTable
 CREATE TABLE `MasterGenre` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
 
     FULLTEXT INDEX `MasterGenre_name_idx`(`name`),
@@ -51,7 +51,7 @@ CREATE TABLE `MasterGenre` (
 
 -- CreateTable
 CREATE TABLE `MasterCooking` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
 
     FULLTEXT INDEX `MasterCooking_name_idx`(`name`),
@@ -60,8 +60,8 @@ CREATE TABLE `MasterCooking` (
 
 -- CreateTable
 CREATE TABLE `MasterGenreMasterCooking` (
-    `masterGenreId` BIGINT NOT NULL,
-    `masterCookingId` BIGINT NOT NULL,
+    `masterGenreId` INTEGER NOT NULL,
+    `masterCookingId` INTEGER NOT NULL,
 
     PRIMARY KEY (`masterGenreId`, `masterCookingId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

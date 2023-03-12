@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE `ShopUser` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL DEFAULT '',
     `email` VARCHAR(191) NOT NULL DEFAULT '',
     `password` VARCHAR(191) NOT NULL DEFAULT '',
@@ -13,53 +13,53 @@ CREATE TABLE `ShopUser` (
 
 -- CreateTable
 CREATE TABLE `Shop` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL DEFAULT '',
     `address` VARCHAR(191) NOT NULL DEFAULT '',
     `tel` VARCHAR(191) NOT NULL DEFAULT '',
-    `openingTime` DATETIME(3) NOT NULL,
-    `closingTime` DATETIME(3) NOT NULL,
+    `openingTime` VARCHAR(191) NOT NULL DEFAULT '',
+    `closingTime` VARCHAR(191) NOT NULL DEFAULT '',
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updateAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `masterAreaId` BIGINT NOT NULL,
-    `masterDetailedAreaId` BIGINT NOT NULL,
-    `masterRailroadStationId` BIGINT NOT NULL,
-    `shopUserId` BIGINT NOT NULL,
+    `masterAreaId` INTEGER NOT NULL,
+    `masterDetailedAreaId` INTEGER NOT NULL,
+    `masterRailroadStationId` INTEGER NOT NULL,
+    `shopUserId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `Menu` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL DEFAULT '',
     `price` INTEGER NOT NULL DEFAULT 0,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updateAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `masterCookingId` BIGINT NOT NULL,
-    `shopId` BIGINT NOT NULL,
+    `masterCookingId` INTEGER NOT NULL,
+    `shopId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `ShopPhoto` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `path` VARCHAR(191) NOT NULL DEFAULT '',
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updateAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `menuId` BIGINT NOT NULL,
+    `menuId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `User` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL DEFAULT '',
     `email` VARCHAR(191) NOT NULL DEFAULT '',
     `password` VARCHAR(191) NOT NULL DEFAULT '',
-    `masterPrefectureId` BIGINT NOT NULL,
+    `masterPrefectureId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updateAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 

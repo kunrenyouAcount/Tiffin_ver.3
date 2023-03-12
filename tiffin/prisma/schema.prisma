@@ -12,7 +12,7 @@ datasource db {
 }
 
 model MasterPrefecture {
-  id                    BigInt                  @id @default(autoincrement())
+  id                    Int                     @id @default(autoincrement())
   name                  String
   masterAreas           MasterArea[]
   masterRailroadStation MasterRailroadStation[]
@@ -22,10 +22,10 @@ model MasterPrefecture {
 }
 
 model MasterArea {
-  id                 BigInt               @id @default(autoincrement())
+  id                 Int                  @id @default(autoincrement())
   name               String
   masterPrefecture   MasterPrefecture     @relation(fields: [masterPrefectureId], references: [id])
-  masterPrefectureId BigInt
+  masterPrefectureId Int
   MasterDetailedArea MasterDetailedArea[]
   Shop               Shop[]
 
@@ -33,29 +33,29 @@ model MasterArea {
 }
 
 model MasterDetailedArea {
-  id           BigInt     @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   name         String
   masterArea   MasterArea @relation(fields: [masterAreaId], references: [id])
-  masterAreaId BigInt
+  masterAreaId Int
 
   @@fulltext([name])
 }
 
 model MasterRailroadStation {
-  id                 BigInt           @id @default(autoincrement())
+  id                 Int              @id @default(autoincrement())
   name               String
   post_code          String?
   address            String?
   status             Int?
   masterPrefecture   MasterPrefecture @relation(fields: [masterPrefectureId], references: [id])
-  masterPrefectureId BigInt
+  masterPrefectureId Int
   Shop               Shop[]
 
   @@fulltext([name])
 }
 
 model MasterGenre {
-  id                       BigInt                     @id @default(autoincrement())
+  id                       Int                        @id @default(autoincrement())
   name                     String
   MasterGenreMasterCooking MasterGenreMasterCooking[]
 
@@ -63,7 +63,7 @@ model MasterGenre {
 }
 
 model MasterCooking {
-  id                       BigInt                     @id @default(autoincrement())
+  id                       Int                        @id @default(autoincrement())
   name                     String
   MasterGenreMasterCooking MasterGenreMasterCooking[]
   Menu                     Menu[]
@@ -73,15 +73,15 @@ model MasterCooking {
 
 model MasterGenreMasterCooking {
   masterGenre     MasterGenre   @relation(fields: [masterGenreId], references: [id])
-  masterGenreId   BigInt
+  masterGenreId   Int
   masterCooking   MasterCooking @relation(fields: [masterCookingId], references: [id])
-  masterCookingId BigInt
+  masterCookingId Int
 
   @@id([masterGenreId, masterCookingId])
 }
 
 model ShopUser {
-  id        BigInt   @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   name      String   @unique @default("")
   email     String   @default("")
   password  String   @default("")
@@ -91,54 +91,54 @@ model ShopUser {
 }
 
 model Shop {
-  id                      BigInt                @id @default(autoincrement())
+  id                      Int                   @id @default(autoincrement())
   name                    String                @default("")
   address                 String                @default("")
   tel                     String                @default("")
-  openingTime             DateTime
-  closingTime             DateTime
+  openingTime             String                @default("")
+  closingTime             String                @default("")
   createdAt               DateTime              @default(now())
   updateAt                DateTime              @default(now()) @updatedAt
   masterArea              MasterArea            @relation(fields: [masterAreaId], references: [id])
-  masterAreaId            BigInt
-  masterDetailedAreaId    BigInt
+  masterAreaId            Int
+  masterDetailedAreaId    Int
   masterRailroadStation   MasterRailroadStation @relation(fields: [masterRailroadStationId], references: [id])
-  masterRailroadStationId BigInt
+  masterRailroadStationId Int
   shopUser                ShopUser              @relation(fields: [shopUserId], references: [id])
-  shopUserId              BigInt
+  shopUserId              Int
   Menu                    Menu[]
 }
 
 model Menu {
-  id              BigInt        @id @default(autoincrement())
+  id              Int           @id @default(autoincrement())
   name            String        @default("")
   price           Int           @default(0)
   createdAt       DateTime      @default(now())
   updateAt        DateTime      @default(now()) @updatedAt
   masterCooking   MasterCooking @relation(fields: [masterCookingId], references: [id])
-  masterCookingId BigInt
+  masterCookingId Int
   shop            Shop          @relation(fields: [shopId], references: [id])
-  shopId          BigInt
+  shopId          Int
   ShopPhoto       ShopPhoto[]
 }
 
 model ShopPhoto {
-  id            BigInt          @id @default(autoincrement())
+  id            Int             @id @default(autoincrement())
   path          String          @default("")
   createdAt     DateTime        @default(now())
   updateAt      DateTime        @default(now()) @updatedAt
   menu          Menu            @relation(fields: [menuId], references: [id])
-  menuId        BigInt
+  menuId        Int
   ShopPhotoLike ShopPhotoLike[]
 }
 
 model User {
-  id                 BigInt           @id @default(autoincrement())
+  id                 Int              @id @default(autoincrement())
   name               String           @unique @default("")
   email              String           @default("")
   password           String           @default("")
   masterPrefecture   MasterPrefecture @relation(fields: [masterPrefectureId], references: [id])
-  masterPrefectureId BigInt
+  masterPrefectureId Int
   createdAt          DateTime         @default(now())
   updateAt           DateTime         @default(now()) @updatedAt
   ShopPhotoLike      ShopPhotoLike[]
@@ -146,9 +146,9 @@ model User {
 
 model ShopPhotoLike {
   shopPhoto   ShopPhoto @relation(fields: [shopPhotoId], references: [id])
-  shopPhotoId BigInt
+  shopPhotoId Int
   user        User      @relation(fields: [userId], references: [id])
-  userId      BigInt
+  userId      Int
 
   @@id([shopPhotoId, userId])
 }
