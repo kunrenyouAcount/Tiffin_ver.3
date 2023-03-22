@@ -9,16 +9,14 @@ export class RailroadStationService implements IRailroadStationService {
   }
 
   public async findAll(): Promise<MasterRailroadStation[]> {
-    const result = await this.prisma.masterRailroadStation.findMany();
-    return result;
+    return await this.prisma.masterRailroadStation.findMany();
   }
 
   public async getByPrefectureId(prefectureId: number): Promise<MasterRailroadStation[]> {
-    const result = await this.prisma.masterRailroadStation.findMany({
+    return await this.prisma.masterRailroadStation.findMany({
       where: {
         masterPrefectureId: prefectureId,
       },
     });
-    return result;
   }
 }

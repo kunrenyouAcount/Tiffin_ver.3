@@ -29,6 +29,11 @@ export class RailroadStationController {
       const prefectureId = parseInt(req.params.prefectureId);
       const results = await this.railroadStationService.getByPrefectureId(prefectureId);
 
+      if (!results.length) {
+        res.status(404).json();
+        return;
+      }
+
       const railroadStationList: RailroadStationGetResponse[] = results.map((result) => {
         return {
           id: result.id,

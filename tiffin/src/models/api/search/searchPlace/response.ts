@@ -1,4 +1,4 @@
-export type PlaceSearchByKeywordResponse = {
+export type SearchPlaceResponse = {
   prefectures: {
     id: number;
     name: string;

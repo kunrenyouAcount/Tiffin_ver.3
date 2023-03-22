@@ -26,6 +26,11 @@ export class DetailedAreaController {
       const areaId = parseInt(req.params.areaId);
       const results = await this.detailedAreaService.getByAreaId(areaId);
 
+      if (!results.length) {
+        res.status(404).json();
+        return;
+      }
+
       const detailedAreaList: DetailedAreaGetResponse[] = results.map((result) => {
         return {
           id: result.id,

@@ -1,7 +1,6 @@
 import { IAuthService } from "../../services/auth/interface";
 import { Request, Response, Router } from "express";
 import { MismatchEmailOrPassword, NotFoundDataError, ValidationError } from "../../utils/error";
-import { User } from "../../models/user";
 import { SigninRequestValidation } from "./signIn/requestValidation";
 import { SignupRequestValidation } from "./signUp/requestValidation";
 import { AuthSigninRequest } from "../../models/api/auth/signin/request";
@@ -56,13 +55,12 @@ export class AuthController {
         return;
       }
 
-      const user: User = validated;
-      const result = await this.authService.signUp(user);
-
-      if (result instanceof Error) {
-        res.status(500).json(result.message);
-        return;
-      }
+      const result = await this.authService.signUp(
+        validated.name,
+        validated.email,
+        validated.password,
+        validated.master_prefecture_id
+      );
 
       res.status(200).json(result);
     });

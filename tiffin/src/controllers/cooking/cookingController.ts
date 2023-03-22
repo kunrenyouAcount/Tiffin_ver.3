@@ -27,6 +27,11 @@ export class CookingController {
       const genreId = parseInt(req.params.genreId);
       const results = await this.cookingService.getByGenre(genreId);
 
+      if (!results.length) {
+        res.status(404).json();
+        return;
+      }
+
       const cookingList: CookingGetResponse[] = results.map((result) => {
         return {
           id: result.id,

@@ -27,6 +27,11 @@ export class AreaController {
       const prefectureId = parseInt(req.params.prefectureId);
       const results = await this.areaService.getByPrefectureId(prefectureId);
 
+      if (!results.length) {
+        res.status(404).json();
+        return;
+      }
+
       const areaList: AreaGetResponse[] = results.map((result) => {
         return {
           id: result.id,

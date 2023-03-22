@@ -1,21 +1,24 @@
 import { compare, hash } from "bcrypt";
-import { User } from "../../models/user";
 import { AccessTokenPayload, generateAccessToken } from "../../utils/token";
-import { IUserRepository } from "../../repositories/user/interface";
 import { IAuthService } from "./interface";
 import { MismatchEmailOrPassword, NotFoundDataError } from "../../utils/error";
+import { PrismaClient, User } from "@prisma/client";
 
 export class AuthService implements IAuthService {
-  private userRepository: IUserRepository;
+  private prisma: PrismaClient;
 
-  constructor(userRepository: IUserRepository) {
-    this.userRepository = userRepository;
+  constructor(prisma: PrismaClient) {
+    this.prisma = prisma;
   }
 
   public async signIn(email: string, password: string): Promise<string | Error> {
-    const result = await this.userRepository.getByEmail(email);
-    if (result instanceof Error) {
-      return result;
+    const result = await this.prisma.user.findFirst({
+      where: {
+        email: email,
+      },
+    });
+    if (result === null) {
+      return new NotFoundDataError(`not exists target User`);
     }
 
     const user: User = result;
@@ -34,34 +37,38 @@ export class AuthService implements IAuthService {
     return generateAccessToken(payload);
   }
 
-  public async signUp(user: User): Promise<string | Error> {
-    const hashedPassword: string = await hash(user.password, 10);
-    user.password = hashedPassword;
+  public async signUp(name: string, email: string, password: string, masterPrefectureId: number): Promise<string> {
+    const hashedPassword: string = await hash(password, 10);
+    password = hashedPassword;
 
-    const result = await this.userRepository.create(user);
-    if (result instanceof Error) {
-      return result;
-    }
-    const createdId: number = result;
+    const result = await this.prisma.user.create({
+      data: {
+        name: name,
+        email: email,
+        password: password,
+        masterPrefectureId: masterPrefectureId,
+      },
+    });
+    const createdId: number = result.id;
 
     const payload: AccessTokenPayload = {
       userId: createdId,
-      name: user.name,
-      email: user.email,
+      name: name,
+      email: email,
     };
 
     return generateAccessToken(payload);
   }
 
   public async checkNotUsingEmail(email: string): Promise<boolean | Error> {
-    const result = await this.userRepository.getByEmail(email);
-    if (result instanceof NotFoundDataError) {
-      return true;
+    const result = await this.prisma.user.findFirst({
+      where: {
+        email: email,
+      },
+    });
+    if (result === null) {
+      return new NotFoundDataError(`not exists target User`);
     }
-    if (result instanceof Error) {
-      return result;
-    }
-
     return false;
   }
 }

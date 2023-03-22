@@ -1,4 +1,4 @@
-export type EatingSearchByKeywordResponse = {
+export type SearchEatingResponse = {
   genres: {
     id: number;
     name: string;
