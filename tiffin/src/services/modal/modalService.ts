@@ -10,19 +10,19 @@ export class ModalService implements IModalService {
 
   public async getModalItemByMenuId(menuId: number): Promise<
     | (Menu & {
-        ShopPhoto: ShopPhoto[];
-        shop: Shop & { Menu: (Menu & { ShopPhoto: ShopPhoto[] })[]; masterRailroadStation: MasterRailroadStation };
+        shopPhotos: ShopPhoto[];
+        shop: Shop & { menus: (Menu & { shopPhotos: ShopPhoto[] })[]; masterRailroadStation: MasterRailroadStation };
       })
     | null
   > {
     return await this.prisma.menu.findFirst({
       include: {
-        ShopPhoto: true,
+        shopPhotos: true,
         shop: {
           include: {
-            Menu: {
+            menus: {
               include: {
-                ShopPhoto: true,
+                shopPhotos: true,
               },
               where: {
                 NOT: {

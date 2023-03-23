@@ -11,7 +11,7 @@ export class CookingService implements ICookingService {
   public async getByGenre(genreId: number): Promise<MasterCooking[]> {
     const result = await this.prisma.masterCooking.findMany({
       where: {
-        MasterGenreMasterCooking: {
+        masterGenreMasterCookings: {
           every: {
             masterGenreId: genreId,
           },

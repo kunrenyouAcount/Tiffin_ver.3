@@ -12,22 +12,22 @@ datasource db {
 }
 
 model MasterPrefecture {
-  id                    Int                     @id @default(autoincrement())
-  name                  String
-  masterAreas           MasterArea[]
-  masterRailroadStation MasterRailroadStation[]
-  User                  User[]
+  id                     Int                     @id @default(autoincrement())
+  name                   String
+  masterAreas            MasterArea[]
+  masterRailroadStations MasterRailroadStation[]
+  users                  User[]
 
   @@fulltext([name])
 }
 
 model MasterArea {
-  id                 Int                  @id @default(autoincrement())
-  name               String
-  masterPrefecture   MasterPrefecture     @relation(fields: [masterPrefectureId], references: [id])
-  masterPrefectureId Int
-  MasterDetailedArea MasterDetailedArea[]
-  Shop               Shop[]
+  id                  Int                  @id @default(autoincrement())
+  name                String
+  masterPrefecture    MasterPrefecture     @relation(fields: [masterPrefectureId], references: [id])
+  masterPrefectureId  Int
+  masterDetailedAreas MasterDetailedArea[]
+  shops               Shop[]
 
   @@fulltext([name])
 }
@@ -49,24 +49,24 @@ model MasterRailroadStation {
   status             Int?
   masterPrefecture   MasterPrefecture @relation(fields: [masterPrefectureId], references: [id])
   masterPrefectureId Int
-  Shop               Shop[]
+  shops              Shop[]
 
   @@fulltext([name])
 }
 
 model MasterGenre {
-  id                       Int                        @id @default(autoincrement())
-  name                     String
-  MasterGenreMasterCooking MasterGenreMasterCooking[]
+  id                        Int                        @id @default(autoincrement())
+  name                      String
+  masterGenreMasterCookings MasterGenreMasterCooking[]
 
   @@fulltext([name])
 }
 
 model MasterCooking {
-  id                       Int                        @id @default(autoincrement())
-  name                     String
-  MasterGenreMasterCooking MasterGenreMasterCooking[]
-  Menu                     Menu[]
+  id                        Int                        @id @default(autoincrement())
+  name                      String
+  masterGenreMasterCookings MasterGenreMasterCooking[]
+  menus                     Menu[]
 
   @@fulltext([name])
 }
@@ -87,7 +87,7 @@ model ShopUser {
   password  String   @default("")
   createdAt DateTime @default(now())
   updateAt  DateTime @default(now()) @updatedAt
-  Shop      Shop[]
+  shops     Shop[]
 }
 
 model Shop {
@@ -106,7 +106,7 @@ model Shop {
   masterRailroadStationId Int
   shopUser                ShopUser              @relation(fields: [shopUserId], references: [id])
   shopUserId              Int
-  Menu                    Menu[]
+  menus                   Menu[]
 }
 
 model Menu {
@@ -119,17 +119,17 @@ model Menu {
   masterCookingId Int
   shop            Shop          @relation(fields: [shopId], references: [id])
   shopId          Int
-  ShopPhoto       ShopPhoto[]
+  shopPhotos      ShopPhoto[]
 }
 
 model ShopPhoto {
-  id            Int             @id @default(autoincrement())
-  path          String          @default("")
-  createdAt     DateTime        @default(now())
-  updateAt      DateTime        @default(now()) @updatedAt
-  menu          Menu            @relation(fields: [menuId], references: [id])
-  menuId        Int
-  ShopPhotoLike ShopPhotoLike[]
+  id             Int             @id @default(autoincrement())
+  path           String          @default("")
+  createdAt      DateTime        @default(now())
+  updateAt       DateTime        @default(now()) @updatedAt
+  menu           Menu            @relation(fields: [menuId], references: [id])
+  menuId         Int
+  shopPhotoLikes ShopPhotoLike[]
 }
 
 model User {
@@ -141,7 +141,7 @@ model User {
   masterPrefectureId Int
   createdAt          DateTime         @default(now())
   updateAt           DateTime         @default(now()) @updatedAt
-  ShopPhotoLike      ShopPhotoLike[]
+  shopPhotoLikes     ShopPhotoLike[]
 }
 
 model ShopPhotoLike {

@@ -23,7 +23,7 @@ export class ModalController {
         id: result.id,
         name: result.name,
         price: result.price,
-        shopPhoto: result.ShopPhoto.map((photo) => {
+        shopPhoto: result.shopPhotos.map((photo) => {
           return {
             id: photo.id,
             path: photo.path,
@@ -37,12 +37,12 @@ export class ModalController {
           opening_time: result.shop.openingTime,
           closing_time: result.shop.closingTime,
           station_name: result.shop.masterRailroadStation.name,
-          other_menus: result.shop.Menu.map((menu) => {
+          other_menus: result.shop.menus.map((menu) => {
             return {
               id: menu.id,
               name: menu.name,
               price: menu.price,
-              shopPhoto: menu.ShopPhoto.map((photo) => {
+              shopPhoto: menu.shopPhotos.map((photo) => {
                 return {
                   id: photo.id,
                   path: photo.path,
