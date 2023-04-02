@@ -23,6 +23,8 @@ import { GenreService } from "./services/genre/genreService";
 import { GenreController } from "./controllers/genre/genreController";
 import { KeywordSearchService } from "./services/keywordSearch/keywordSearchService";
 import { KeywordSearchController } from "./controllers/keywordSearch/keywordSearchController";
+import { LikeService } from "./services/like/likeService";
+import { LikeController } from "./controllers/like/likeController";
 
 async function main() {
   dotenv.config();
@@ -85,6 +87,10 @@ async function main() {
   const keywordSearchService = new KeywordSearchService(prisma);
   const keywordSearchController = new KeywordSearchController(keywordSearchService);
   app.use("/api", keywordSearchController.router);
+
+  const likeService = new LikeService(prisma);
+  const likeController = new LikeController(likeService);
+  app.use("/api", likeController.router);
 }
 
 main();
