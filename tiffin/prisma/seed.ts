@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
 
-async function main() {
+export async function masterPrefectureSeed(prisma: PrismaClient) {
   await prisma.masterPrefecture.createMany({
     data: [
       {
@@ -194,7 +193,9 @@ async function main() {
       },
     ],
   });
+}
 
+export async function masterAreaSeed(prisma: PrismaClient) {
   await prisma.masterArea.createMany({
     data: [
       {
@@ -1479,7 +1480,9 @@ async function main() {
       },
     ],
   });
+}
 
+export async function masterDetailedAreaSeed(prisma: PrismaClient) {
   await prisma.masterDetailedArea.createMany({
     data: [
       {
@@ -1984,7 +1987,9 @@ async function main() {
       },
     ],
   });
+}
 
+export async function masterRailroadStationSeed(prisma: PrismaClient) {
   await prisma.masterRailroadStation.createMany({
     data: [
       {
@@ -89069,7 +89074,9 @@ async function main() {
       },
     ],
   });
+}
 
+export async function masterGenreSeed(prisma: PrismaClient) {
   await prisma.masterGenre.createMany({
     data: [
       {
@@ -89162,6 +89169,9 @@ async function main() {
       },
     ],
   });
+}
+
+export async function masterCookingSeed(prisma: PrismaClient) {
   await prisma.masterCooking.createMany({
     data: [
       {
@@ -89774,7 +89784,9 @@ async function main() {
       },
     ],
   });
+}
 
+export async function masterGenreMasterCookingSeed(prisma: PrismaClient) {
   await prisma.masterGenreMasterCooking.createMany({
     data: [
       {
@@ -90479,6 +90491,9 @@ async function main() {
       },
     ],
   });
+}
+
+export async function shopUserSeed(prisma: PrismaClient) {
   await prisma.shopUser.createMany({
     data: [
       {
@@ -90543,6 +90558,9 @@ async function main() {
       },
     ],
   });
+}
+
+export async function shopSeed(prisma: PrismaClient) {
   await prisma.shop.createMany({
     data: [
       {
@@ -90619,6 +90637,9 @@ async function main() {
       },
     ],
   });
+}
+
+export async function menuSeed(prisma: PrismaClient) {
   await prisma.menu.createMany({
     data: [
       {
@@ -90770,6 +90791,9 @@ async function main() {
       },
     ],
   });
+}
+
+export async function shopPhotoSeed(prisma: PrismaClient) {
   await prisma.shopPhoto.createMany({
     data: [
       {
@@ -90879,6 +90903,9 @@ async function main() {
       },
     ],
   });
+}
+
+export async function userSeed(prisma: PrismaClient) {
   await prisma.user.createMany({
     data: [
       {
@@ -90897,7 +90924,9 @@ async function main() {
       },
     ],
   });
+}
 
+export async function shopPhotoLikeSeed(prisma: PrismaClient) {
   await prisma.shopPhotoLike.createMany({
     data: [
       {
@@ -90916,11 +90945,26 @@ async function main() {
   });
 }
 
-main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+export async function masterSeed(prisma: PrismaClient) {
+  await masterPrefectureSeed(prisma);
+  await masterAreaSeed(prisma);
+  await masterDetailedAreaSeed(prisma);
+  await masterRailroadStationSeed(prisma);
+  await masterGenreSeed(prisma);
+  await masterCookingSeed(prisma);
+  await masterGenreMasterCookingSeed(prisma);
+}
+
+async function transactionSeed(prisma: PrismaClient) {
+  await shopUserSeed(prisma);
+  await shopSeed(prisma);
+  await menuSeed(prisma);
+  await shopPhotoSeed(prisma);
+  await userSeed(prisma);
+  await shopPhotoLikeSeed(prisma);
+}
+
+export async function main(prisma: PrismaClient) {
+  await masterSeed(prisma);
+  await transactionSeed(prisma);
+}
