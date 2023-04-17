@@ -17,7 +17,7 @@ export class RailroadStationController {
         return {
           id: result.id,
           name: result.name,
-          post_code: result.post_code,
+          post_code: result.postCode,
           address: result.address,
           status: result.status,
         } as RailroadStationGetResponse;
@@ -38,7 +38,7 @@ export class RailroadStationController {
         return {
           id: result.id,
           name: result.name,
-          post_code: result.post_code,
+          post_code: result.postCode,
           address: result.address,
           status: result.status,
         } as RailroadStationGetResponse;
