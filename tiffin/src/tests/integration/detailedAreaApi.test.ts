@@ -21,6 +21,7 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
+  await truncate(prisma);
   await prisma.$disconnect();
 });
 

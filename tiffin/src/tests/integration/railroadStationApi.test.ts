@@ -20,11 +20,12 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
+  await truncate(prisma);
   await prisma.$disconnect();
 });
 
 describe("GET /railroad-stations", () => {
-  it("should return 2 railroad-stations and 200 status", async () => {
+  it("should return 2 railroad-stations and 200 status", async () => { 
     const mocks = [
       {
         id: 1110101,
