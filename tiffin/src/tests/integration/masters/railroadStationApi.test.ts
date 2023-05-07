@@ -1,9 +1,9 @@
 import axios from "axios";
 import * as dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
-import { truncate } from "../../utils/allTableTruncate";
-import { masterPrefectureSeed, masterRailroadStationSeed } from "../../../prisma/seed";
-import { RailroadStationGetResponse } from "../../models/api/railroadStation/get/response";
+import { truncate } from "../../../utils/allTableTruncate";
+import { masterPrefectureSeed } from "../../../../prisma/seed";
+import { RailroadStationGetResponse } from "../../../models/api/railroadStation/get/response";
 
 dotenv.config();
 const { PORT } = process.env;
@@ -25,7 +25,7 @@ afterEach(async () => {
 });
 
 describe("GET /railroad-stations", () => {
-  it("should return 2 railroad-stations and 200 status", async () => { 
+  it("should return 2 railroad-stations and 200 status", async () => {
     const mocks = [
       {
         id: 1110101,

@@ -1,9 +1,9 @@
 import axios from "axios";
 import * as dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
-import { truncate } from "../../utils/allTableTruncate";
-import { CookingGetResponse } from "../../models/api/cooking/get/response";
-import { masterGenreSeed } from "../../../prisma/seed";
+import { truncate } from "../../../utils/allTableTruncate";
+import { CookingGetResponse } from "../../../models/api/cooking/get/response";
+import { masterGenreSeed } from "../../../../prisma/seed";
 
 dotenv.config();
 const { PORT } = process.env;

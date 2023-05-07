@@ -1,8 +1,8 @@
 import axios from "axios";
 import * as dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
-import { truncate } from "../../utils/allTableTruncate";
-import { PrefectureGetResponse } from "../../models/api/prefecture/get/response";
+import { truncate } from "../../../utils/allTableTruncate";
+import { PrefectureGetResponse } from "../../../models/api/prefecture/get/response";
 
 dotenv.config();
 const { PORT } = process.env;

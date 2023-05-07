@@ -1,10 +1,10 @@
 import axios from "axios";
 import * as dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
-import { truncate } from "../../utils/allTableTruncate";
-import { masterAreaSeed, masterGenreSeed, masterPrefectureSeed } from "../../../prisma/seed";
-import { SearchPlaceResponse } from "../../models/api/search/searchPlace/response";
-import { SearchEatingResponse } from "../../models/api/search/searchEating/response";
+import { truncate } from "../../../utils/allTableTruncate";
+import { masterAreaSeed, masterPrefectureSeed } from "../../../../prisma/seed";
+import { SearchPlaceResponse } from "../../../models/api/search/searchPlace/response";
+import { SearchEatingResponse } from "../../../models/api/search/searchEating/response";
 
 dotenv.config();
 const { PORT } = process.env;
