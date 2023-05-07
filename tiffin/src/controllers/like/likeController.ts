@@ -33,7 +33,7 @@ export class LikeController {
       const userId = req.body.payload.userId as number;
 
       await this.likeService.deleteLikeShopPhoto(parsedShopPhotoId, userId);
-      res.status(200).json(shopPhotoId);
+      res.status(200).json(parsedShopPhotoId);
     });
   }
 }
