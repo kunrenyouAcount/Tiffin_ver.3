@@ -48,6 +48,10 @@ async function main() {
 
   const prisma = new PrismaClient();
 
+  const authService = new AuthService(prisma);
+  const authController = new AuthController(authService);
+  app.use("/api/", authController.router);
+
   const prefectureService = new PrefectureService(prisma);
   const prefectureController = new PrefectureController(prefectureService);
   app.use("/api/", prefectureController.router);
@@ -64,9 +68,9 @@ async function main() {
   const railroadStationController = new RailroadStationController(railroadStationService);
   app.use("/api/", railroadStationController.router);
 
-  const authService = new AuthService(prisma);
-  const authController = new AuthController(authService);
-  app.use("/api/", authController.router);
+  const genreService = new GenreService(prisma);
+  const genreController = new GenreController(genreService);
+  app.use("/api/", genreController.router);
 
   const cookingService = new CookingService(prisma);
   const cookingController = new CookingController(cookingService);
@@ -79,10 +83,6 @@ async function main() {
   const modalService = new ModalService(prisma);
   const modalController = new ModalController(modalService);
   app.use("/api/", modalController.router);
-
-  const genreService = new GenreService(prisma);
-  const genreController = new GenreController(genreService);
-  app.use("/api/", genreController.router);
 
   const keywordSearchService = new KeywordSearchService(prisma);
   const keywordSearchController = new KeywordSearchController(keywordSearchService);
