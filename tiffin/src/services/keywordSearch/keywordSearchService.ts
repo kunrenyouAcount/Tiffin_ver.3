@@ -24,22 +24,30 @@ export class KeywordSearchService implements IKeywordSearchService {
   }> {
     const prefectures = await this.prisma.masterPrefecture.findMany({
       where: {
-        name: keyword,
+        name: {
+          contains: keyword,
+        },
       },
     });
     const areas = await this.prisma.masterArea.findMany({
       where: {
-        name: keyword,
+        name: {
+          contains: keyword,
+        },
       },
     });
     const detailedAreas = await this.prisma.masterDetailedArea.findMany({
       where: {
-        name: keyword,
+        name: {
+          contains: keyword,
+        },
       },
     });
     const stations = await this.prisma.masterRailroadStation.findMany({
       where: {
-        name: keyword,
+        name: {
+          contains: keyword,
+        },
       },
     });
     return {
@@ -53,12 +61,16 @@ export class KeywordSearchService implements IKeywordSearchService {
   public async searchEating(keyword: string): Promise<{ genres: MasterGenre[]; cookings: MasterCooking[] }> {
     const genres = await this.prisma.masterGenre.findMany({
       where: {
-        name: keyword,
+        name: {
+          contains: keyword,
+        },
       },
     });
     const cookings = await this.prisma.masterCooking.findMany({
       where: {
-        name: keyword,
+        name: {
+          contains: keyword,
+        },
       },
     });
     return {
