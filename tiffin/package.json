@@ -11,7 +11,7 @@
     "test": "jest tests --coverage --runInBand --forceExit --detectOpenHandles"
   },
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "ts-node prisma/initSeed.ts"
   },
   "author": "",
   "license": "ISC",
