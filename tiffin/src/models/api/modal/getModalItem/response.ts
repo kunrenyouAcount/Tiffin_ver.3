@@ -1,4 +1,4 @@
-export type GetModalItemResponse = {
+export type ModalItemGetResponse = {
   id: number;
   name: string;
   price: number;

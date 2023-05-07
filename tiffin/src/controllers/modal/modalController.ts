@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { GetModalItemResponse } from "../../models/api/modal/getModalItem/response";
+import { ModalItemGetResponse } from "../../models/api/modal/getModalItem/response";
 import { IModalService } from "../../services/modal/interface";
 
 export class ModalController {
@@ -51,7 +51,7 @@ export class ModalController {
             };
           }),
         },
-      } as GetModalItemResponse;
+      } as ModalItemGetResponse;
 
       res.status(200).json(modalItem);
     });
