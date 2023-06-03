@@ -1,4 +1,4 @@
-export type EatingSearchByKeywordResponse = {
+export type SearchEatingResponse = {
   genres: {
     id: number
     name: string
@@ -9,7 +9,7 @@ export type EatingSearchByKeywordResponse = {
   }[]
 }
 
-export const initEatingSearchByKeywordResponse = {
+export const initSearchEatingResponse = {
   genres: [],
   cookings: [],
 }

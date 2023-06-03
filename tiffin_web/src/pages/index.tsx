@@ -1,4 +1,4 @@
-import { Grid, ImageList, ImageListItem } from '@mui/material'
+import { Grid } from '@mui/material'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import Header from 'src/components/Header'
@@ -6,9 +6,9 @@ import { isLogin } from 'src/utils/auth'
 import Axios from 'axios'
 import { PhotoGetResponse } from 'src/models/api/photo/get/response'
 import {
-  initMenuModalItemResponse,
-  MenuModalItemResponse,
-} from 'src/models/api/menu/getModalItem/response'
+  initModalItemGetResponse,
+  ModalItemGetResponse,
+} from 'src/models/api/modal/getModalItem/response'
 import { Photo } from 'src/models/photo'
 import MenuModal from 'src/components/menuModal'
 import Search from 'src/components/search'
@@ -26,11 +26,11 @@ export const Home: React.FC = () => {
 
   //modal関連の情報
   const [open, setOpen] = useState<boolean>(false)
-  const [modalItem, setModalItem] = useState<MenuModalItemResponse>(initMenuModalItemResponse)
+  const [modalItem, setModalItem] = useState<ModalItemGetResponse>(initModalItemGetResponse)
 
   const handleOpen = async (menuId: number) => {
     const modalItemResult = await (
-      await Axios.get<MenuModalItemResponse>(`menus/modal-item/${menuId}`)
+      await Axios.get<ModalItemGetResponse>(`modal/menu-id/${menuId}`)
     ).data
     setModalItem(modalItemResult)
     setOpen(true)

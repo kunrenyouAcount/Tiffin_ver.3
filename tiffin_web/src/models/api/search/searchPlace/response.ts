@@ -1,4 +1,4 @@
-export type PlaceSearchByKeywordResponse = {
+export type SearchPlaceResponse = {
   prefectures: {
     id: number
     name: string
@@ -17,7 +17,7 @@ export type PlaceSearchByKeywordResponse = {
   }[]
 }
 
-export const initPlaceSearchByKeywordResponse = {
+export const initSearchPlaceResponse = {
   prefectures: [],
   areas: [],
   detailedAreas: [],
