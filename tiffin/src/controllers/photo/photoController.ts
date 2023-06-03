@@ -62,7 +62,15 @@ export class PhotoController {
         validated.price_max
       );
 
-      res.status(200).json(results);
+      const photos: PhotoGetResponse[] = results.map((photo) => {
+        return {
+          id: photo.id,
+          path: photo.path,
+          menu_id: photo.menuId,
+        };
+      });
+
+      res.status(200).json(photos);
     });
   }
 }
