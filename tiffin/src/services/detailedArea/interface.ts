@@ -1,6 +1,6 @@
-import { DetailedArea } from "../../models/detailedArea";
+import { MasterDetailedArea } from "@prisma/client";
 
 export interface IDetailedAreaService {
-  findAll(): Promise<DetailedArea[] | Error>;
-  getByAreaId(areaId: number): Promise<DetailedArea[] | Error>;
+  findAll(): Promise<MasterDetailedArea[]>;
+  getByAreaId(areaId: number): Promise<MasterDetailedArea[]>;
 }

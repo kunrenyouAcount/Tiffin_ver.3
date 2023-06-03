@@ -1,9 +1,9 @@
 import { IPhotoService } from "../../services/photo/interface";
 import { Request, Response, Router } from "express";
-import { NotFoundDataError } from "../../utils/error";
-import { PhotoChoiceSearchRequest } from "../../models/api/photo/choiceSearch/request";
+import { ValidationError } from "../../utils/error";
 import { PhotoGetResponse } from "../../models/api/photo/get/response";
-import { PhotoChoiceSearchResponse } from "../../models/api/photo/choiceSearch/response";
+import { PhotoSearchRequest } from "../../models/api/photo/search/request";
+import { PhotoSearchRequestValidation } from "./search/requestValidation";
 
 export class PhotoController {
   private photoService: IPhotoService;
@@ -15,16 +15,12 @@ export class PhotoController {
 
     this.router.get("/photos", async (request: Request, res: Response) => {
       const results = await this.photoService.findAll();
-      if (results instanceof Error) {
-        res.status(500).json(results.message);
-        return;
-      }
 
       const photoList: PhotoGetResponse[] = results.map((result) => {
         return {
           id: result.id,
           path: result.path,
-          menu_id: result.menu_id,
+          menu_id: result.menuId,
         } as PhotoGetResponse;
       });
       res.status(200).json(photoList);
@@ -34,44 +30,47 @@ export class PhotoController {
       const id = parseInt(req.params.id);
       const result = await this.photoService.getById(id);
 
-      if (result instanceof NotFoundDataError) {
-        res.status(404).json(result.message);
+      if (result === null) {
+        res.status(404).json();
         return;
       }
 
-      if (result instanceof Error) {
-        res.status(500).json(result.message);
-        return;
-      }
       const photo: PhotoGetResponse = {
         id: result.id,
         path: result.path,
-        menu_id: result.menu_id,
+        menu_id: result.menuId,
       } as PhotoGetResponse;
       res.status(200).json(photo);
     });
 
-    this.router.post("/photos/choice-search", async (req: Request, res: Response) => {
-      const params: PhotoChoiceSearchRequest = req.body;
-      const results = await this.photoService.choiceSearch(params);
-      if (results instanceof NotFoundDataError) {
-        res.status(404).json(results.message);
+    this.router.post("/photos/search", async (req: Request, res: Response) => {
+      const validation = new PhotoSearchRequestValidation();
+      const validated: PhotoSearchRequest | ValidationError = validation.validate(req.body);
+      if (validated instanceof ValidationError) {
+        res.status(422).json(validated.err);
         return;
       }
 
-      if (results instanceof Error) {
-        res.status(500).json(results.message);
-        return;
-      }
+      const results = await this.photoService.search(
+        validated.master_prefecture_id,
+        validated.master_area_id,
+        validated.master_detailed_area_id,
+        validated.master_railroad_station_id,
+        validated.master_genre_id,
+        validated.master_cooking_id,
+        validated.price_min,
+        validated.price_max
+      );
 
-      const photoList: PhotoChoiceSearchResponse[] = results.map((result) => {
+      const photos: PhotoGetResponse[] = results.map((photo) => {
         return {
-          id: result.id,
-          path: result.path,
-          menu_id: result.menu_id,
-        } as PhotoChoiceSearchResponse;
+          id: photo.id,
+          path: photo.path,
+          menu_id: photo.menuId,
+        };
       });
-      res.status(200).json(photoList);
+
+      res.status(200).json(photos);
     });
   }
 }

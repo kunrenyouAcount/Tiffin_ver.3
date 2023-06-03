@@ -1,6 +1,6 @@
-import { Prefecture } from "../../models/prefecture";
+import { MasterPrefecture } from "@prisma/client";
 
 export interface IPrefectureService {
-  findAll(): Promise<Prefecture[] | Error>;
-  getById(id: number): Promise<Prefecture | Error>;
+  findAll(): Promise<MasterPrefecture[]>;
+  getById(id: number): Promise<MasterPrefecture | null>;
 }

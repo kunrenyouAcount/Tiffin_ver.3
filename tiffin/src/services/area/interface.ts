@@ -1,6 +1,6 @@
-import { Area } from "../../models/area";
+import { MasterArea } from "@prisma/client";
 
 export interface IAreaService {
-  findAll(): Promise<Area[] | Error>;
-  getByPrefectureId(prefectureId: number): Promise<Area[] | Error>;
+  findAll(): Promise<MasterArea[]>;
+  getByPrefectureId(prefectureId: number): Promise<MasterArea[]>;
 }

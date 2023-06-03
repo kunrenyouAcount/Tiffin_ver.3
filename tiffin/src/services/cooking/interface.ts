@@ -1,6 +1,6 @@
-import { Cooking } from "../../models/cooking";
+import { MasterCooking } from "@prisma/client";
 
 export interface ICookingService {
-  findAll(): Promise<Cooking[] | Error>;
-  getByGenre(genreId: number): Promise<Cooking[] | Error>;
+  findAll(): Promise<MasterCooking[]>;
+  getByGenre(genreId: number): Promise<MasterCooking[]>;
 }

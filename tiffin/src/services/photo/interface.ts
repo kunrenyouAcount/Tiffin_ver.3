@@ -1,8 +1,16 @@
-import { PhotoChoiceSearchRequest } from "../../models/api/photo/choiceSearch/request";
-import { Photo } from "../../models/photo";
+import { ShopPhoto } from "@prisma/client";
 
 export interface IPhotoService {
-  findAll(): Promise<Photo[] | Error>;
-  getById(id: number): Promise<Photo | Error>;
-  choiceSearch(params: PhotoChoiceSearchRequest): Promise<Photo[] | Error>;
+  findAll(): Promise<ShopPhoto[]>;
+  getById(id: number): Promise<ShopPhoto | null>;
+  search(
+    prefectureId: number | null,
+    areaId: number | null,
+    detailedAreaId: number | null,
+    railroadStationId: number | null,
+    genreId: number | null,
+    cookingId: number | null,
+    minPrice: number | null,
+    maxPrice: number | null
+  ): Promise<ShopPhoto[]>;
 }

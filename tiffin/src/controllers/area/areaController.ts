@@ -1,6 +1,5 @@
 import { IAreaService } from "../../services/area/interface";
 import { Request, Response, Router } from "express";
-import { NotFoundDataError } from "../../utils/error";
 import { AreaGetResponse } from "../../models/api/area/get/response";
 
 export class AreaController {
@@ -13,16 +12,12 @@ export class AreaController {
 
     this.router.get("/areas", async (req: Request, res: Response) => {
       const results = await this.areaService.findAll();
-      if (results instanceof Error) {
-        res.status(500).json(results.message);
-        return;
-      }
 
       const areaList: AreaGetResponse[] = results.map((result) => {
         return {
           id: result.id,
           name: result.name,
-          master_prefecture_id: result.master_prefecture_id,
+          master_prefecture_id: result.masterPrefectureId,
         } as AreaGetResponse;
       });
       res.status(200).json(areaList);
@@ -32,13 +27,8 @@ export class AreaController {
       const prefectureId = parseInt(req.params.prefectureId);
       const results = await this.areaService.getByPrefectureId(prefectureId);
 
-      if (results instanceof NotFoundDataError) {
-        res.status(404).json(results.message);
-        return;
-      }
-
-      if (results instanceof Error) {
-        res.status(500).json(results.message);
+      if (!results.length) {
+        res.status(404).json();
         return;
       }
 
@@ -46,7 +36,7 @@ export class AreaController {
         return {
           id: result.id,
           name: result.name,
-          master_prefecture_id: result.master_prefecture_id,
+          master_prefecture_id: result.masterPrefectureId,
         } as AreaGetResponse;
       });
       res.status(200).json(areaList);

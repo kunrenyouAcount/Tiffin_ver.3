@@ -1,6 +1,5 @@
 import { IDetailedAreaService } from "../../services/detailedArea/interface";
 import { Request, Response, Router } from "express";
-import { NotFoundDataError } from "../../utils/error";
 import { DetailedAreaGetResponse } from "../../models/api/detailedArea/get/response";
 
 export class DetailedAreaController {
@@ -13,10 +12,6 @@ export class DetailedAreaController {
 
     this.router.get("/detailed-areas", async (req: Request, res: Response) => {
       const results = await this.detailedAreaService.findAll();
-      if (results instanceof Error) {
-        res.status(500).json(results.message);
-        return;
-      }
 
       const detailedAreaList: DetailedAreaGetResponse[] = results.map((result) => {
         return {
@@ -31,13 +26,8 @@ export class DetailedAreaController {
       const areaId = parseInt(req.params.areaId);
       const results = await this.detailedAreaService.getByAreaId(areaId);
 
-      if (results instanceof NotFoundDataError) {
-        res.status(404).json(results.message);
-        return;
-      }
-
-      if (results instanceof Error) {
-        res.status(500).json(results.message);
+      if (!results.length) {
+        res.status(404).json();
         return;
       }
 

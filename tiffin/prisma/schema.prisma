@@ -1,0 +1,172 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model MasterPrefecture {
+  id                     Int                     @id @default(autoincrement())
+  name                   String
+  masterAreas            MasterArea[]
+  masterRailroadStations MasterRailroadStation[]
+  users                  User[]
+
+  @@fulltext([name])
+  @@map("master_prefectures")
+}
+
+model MasterArea {
+  id                  Int                  @id @default(autoincrement())
+  name                String
+  masterPrefecture    MasterPrefecture     @relation(fields: [masterPrefectureId], references: [id])
+  masterPrefectureId  Int                  @map("master_prefecture_id")
+  masterDetailedAreas MasterDetailedArea[]
+  shops               Shop[]
+
+  @@fulltext([name])
+  @@map("master_areas")
+}
+
+model MasterDetailedArea {
+  id           Int        @id @default(autoincrement())
+  name         String
+  masterArea   MasterArea @relation(fields: [masterAreaId], references: [id])
+  masterAreaId Int        @map("master_area_id")
+
+  @@fulltext([name])
+  @@map("master_detailed_areas")
+}
+
+model MasterRailroadStation {
+  id                 Int              @id @default(autoincrement())
+  name               String
+  postCode           String?          @map("post_code")
+  address            String?
+  status             Int?
+  masterPrefecture   MasterPrefecture @relation(fields: [masterPrefectureId], references: [id])
+  masterPrefectureId Int              @map("master_prefecture_id")
+  shops              Shop[]
+
+  @@fulltext([name])
+  @@map("master_railroad_stations")
+}
+
+model MasterGenre {
+  id                        Int                        @id @default(autoincrement())
+  name                      String
+  masterGenreMasterCookings MasterGenreMasterCooking[]
+
+  @@fulltext([name])
+  @@map("master_genres")
+}
+
+model MasterCooking {
+  id                        Int                        @id @default(autoincrement())
+  name                      String
+  masterGenreMasterCookings MasterGenreMasterCooking[]
+  menus                     Menu[]
+
+  @@fulltext([name])
+  @@map("master_cookings")
+}
+
+model MasterGenreMasterCooking {
+  masterGenre     MasterGenre   @relation(fields: [masterGenreId], references: [id])
+  masterGenreId   Int           @map("master_genre_id")
+  masterCooking   MasterCooking @relation(fields: [masterCookingId], references: [id])
+  masterCookingId Int           @map("master_cooking_id")
+
+  @@id([masterGenreId, masterCookingId])
+  @@map("master_genre_master_cookings")
+}
+
+model ShopUser {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @default("")
+  email     String   @default("")
+  password  String   @default("")
+  createdAt DateTime @default(now()) @map("created_at")
+  updateAt  DateTime @default(now()) @updatedAt @map("updated_at")
+  shops     Shop[]
+
+  @@map("shop_users")
+}
+
+model Shop {
+  id                      Int                   @id @default(autoincrement())
+  name                    String                @default("")
+  address                 String                @default("")
+  tel                     String                @default("")
+  openingTime             String                @default("") @map("opening_time")
+  closingTime             String                @default("") @map("closing_time")
+  createdAt               DateTime              @default(now()) @map("created_at")
+  updateAt                DateTime              @default(now()) @updatedAt @map("updated_at")
+  masterArea              MasterArea            @relation(fields: [masterAreaId], references: [id])
+  masterAreaId            Int                   @map("master_area_id")
+  masterDetailedAreaId    Int                   @map("master_detailed_area_id")
+  masterRailroadStation   MasterRailroadStation @relation(fields: [masterRailroadStationId], references: [id])
+  masterRailroadStationId Int                   @map("master_railroad_station_id")
+  shopUser                ShopUser              @relation(fields: [shopUserId], references: [id])
+  shopUserId              Int                   @map("shop_user_id")
+  menus                   Menu[]
+
+  @@map("shops")
+}
+
+model Menu {
+  id              Int           @id @default(autoincrement())
+  name            String        @default("")
+  price           Int           @default(0)
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updateAt        DateTime      @default(now()) @updatedAt @map("updated_at")
+  masterCooking   MasterCooking @relation(fields: [masterCookingId], references: [id])
+  masterCookingId Int           @map("master_cooking_id")
+  shop            Shop          @relation(fields: [shopId], references: [id])
+  shopId          Int           @map("shop_id")
+  shopPhotos      ShopPhoto[]
+
+  @@map("menus")
+}
+
+model ShopPhoto {
+  id             Int             @id @default(autoincrement())
+  path           String          @default("")
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updateAt       DateTime        @default(now()) @updatedAt @map("updated_at")
+  menu           Menu            @relation(fields: [menuId], references: [id])
+  menuId         Int             @map("menu_id")
+  shopPhotoLikes ShopPhotoLike[]
+
+  @@map("shop_photos")
+}
+
+model User {
+  id                 Int              @id @default(autoincrement())
+  name               String           @unique @default("")
+  email              String           @default("")
+  password           String           @default("")
+  masterPrefecture   MasterPrefecture @relation(fields: [masterPrefectureId], references: [id])
+  masterPrefectureId Int              @map("master_prefecture_id")
+  createdAt          DateTime         @default(now()) @map("created_at")
+  updateAt           DateTime         @default(now()) @updatedAt @map("updated_at")
+  shopPhotoLikes     ShopPhotoLike[]
+
+  @@map("users")
+}
+
+model ShopPhotoLike {
+  shopPhoto   ShopPhoto @relation(fields: [shopPhotoId], references: [id])
+  shopPhotoId Int       @map("shop_photo_id")
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int       @map("user_id")
+
+  @@id([shopPhotoId, userId])
+  @@map("shop_photo_likes")
+}

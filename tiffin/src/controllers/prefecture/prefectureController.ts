@@ -13,10 +13,6 @@ export class PrefectureController {
 
     this.router.get("/prefectures", async (req: Request, res: Response) => {
       const results = await this.prefectureService.findAll();
-      if (results instanceof Error) {
-        res.status(500).json(results.message);
-        return;
-      }
 
       const prefectureList: PrefectureGetResponse[] = results.map((result) => {
         return {
@@ -24,6 +20,7 @@ export class PrefectureController {
           name: result.name,
         } as PrefectureGetResponse;
       });
+
       res.status(200).json(prefectureList);
     });
 
@@ -31,13 +28,8 @@ export class PrefectureController {
       const id = parseInt(req.params.id);
       const result = await this.prefectureService.getById(id);
 
-      if (result instanceof NotFoundDataError) {
-        res.status(404).json(result.message);
-        return;
-      }
-
-      if (result instanceof Error) {
-        res.status(500).json(result.message);
+      if (result === null) {
+        res.status(404).json();
         return;
       }
 

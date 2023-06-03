@@ -1,12 +1,12 @@
 import { Dispatch, SetStateAction } from 'react'
-import { MenuModalItemResponse } from 'src/models/api/menu/getModalItem/response'
 import Modal from '@mui/material/Modal'
 import { Box, Grid, ImageList, ImageListItem } from '@mui/material'
 import styles from 'src/components/menuModal/styles.module.css'
+import { ModalItemGetResponse } from 'src/models/api/modal/getModalItem/response'
 
 interface MenuModalProps {
-  modalItem: MenuModalItemResponse
-  setModalItem: Dispatch<SetStateAction<MenuModalItemResponse>>
+  modalItem: ModalItemGetResponse
+  setModalItem: Dispatch<SetStateAction<ModalItemGetResponse>>
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
   handleOpen: (menuId: number) => Promise<void>
@@ -25,8 +25,8 @@ export const MenuModal: React.FC<MenuModalProps> = (props) => {
         <ImageList>
           <ImageListItem>
             <img
-              src={`${props.modalItem.photo_path}?w=164&h=164&fit=crop&auto=format`}
-              srcSet={`${props.modalItem.photo_path}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+              src={`${props.modalItem.shopPhoto[0].path}?w=164&h=164&fit=crop&auto=format`}
+              srcSet={`${props.modalItem.shopPhoto[0].path}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
               loading='lazy'
             />
           </ImageListItem>
@@ -53,12 +53,12 @@ export const MenuModal: React.FC<MenuModalProps> = (props) => {
           『{props.modalItem.shop.name}』の他のメニュー
         </Box>
         <ImageList cols={4}>
-          {props.modalItem.other_menus
+          {props.modalItem.shop.other_menus
             .map((menu) => (
               <ImageListItem key={menu.id}>
                 <img
-                  src={`${menu.photo_path}?w=164&h=164&fit=crop&auto=format`}
-                  srcSet={`${menu.photo_path}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                  src={`${menu.shopPhoto[0].path}?w=164&h=164&fit=crop&auto=format`}
+                  srcSet={`${menu.shopPhoto[0].path}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                   loading='lazy'
                   className={styles.img_wrap}
                   onClick={() => {

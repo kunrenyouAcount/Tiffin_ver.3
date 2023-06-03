@@ -1,12 +1,4 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import {
-  EatingSearchByKeywordResponse,
-  initEatingSearchByKeywordResponse,
-} from 'src/models/api/eating/searchKeyword/response'
-import {
-  initPlaceSearchByKeywordResponse,
-  PlaceSearchByKeywordResponse,
-} from 'src/models/api/place/searchKeyword/response'
 import { Area } from 'src/models/area'
 import { Cooking } from 'src/models/cooking'
 import { DetailedArea } from 'src/models/detailedArea'
@@ -34,6 +26,14 @@ import { DetailedAreaGetResponse } from 'src/models/api/detailedArea/get/respons
 import { CookingGetResponse } from 'src/models/api/cooking/get/response'
 import { PhotoGetResponse } from 'src/models/api/photo/get/response'
 import { Photo } from 'src/models/photo'
+import {
+  SearchPlaceResponse,
+  initSearchPlaceResponse,
+} from 'src/models/api/search/searchPlace/response'
+import {
+  SearchEatingResponse,
+  initSearchEatingResponse,
+} from 'src/models/api/search/searchEating/response'
 
 interface SearchProps {
   setPhotos: Dispatch<SetStateAction<Photo[]>>
@@ -46,12 +46,8 @@ export const Search: React.FC<SearchProps> = (props) => {
   const [masterGenres, setMasterGenres] = useState<Genre[]>([])
   const [masterCookings, setMasterCookings] = useState<Cooking[]>([])
   const masterPrices = [500, 1000, 1500, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000]
-  const [masterPlaces, setMasterPlaces] = useState<PlaceSearchByKeywordResponse>(
-    initPlaceSearchByKeywordResponse,
-  )
-  const [masterEatings, setMasterEatings] = useState<EatingSearchByKeywordResponse>(
-    initEatingSearchByKeywordResponse,
-  )
+  const [masterPlaces, setMasterPlaces] = useState<SearchPlaceResponse>(initSearchPlaceResponse)
+  const [masterEatings, setMasterEatings] = useState<SearchEatingResponse>(initSearchEatingResponse)
 
   const [searchBox, setSearchBox] = useState<'pulldown-search' | 'keyword-search'>('keyword-search')
   const [inputPlace, setInputPlace] = useState<string>('')
@@ -168,20 +164,28 @@ export const Search: React.FC<SearchProps> = (props) => {
   const changePlace = async (value: any) => {
     const keyword = value
     setInputPlace(keyword)
-    const searchResult = await Axios.get<PlaceSearchByKeywordResponse>(
-      `places/search-keyword/?keyword=${keyword}`,
+    const searchResult = await Axios.get<SearchPlaceResponse>(
+      `search-keyword/place/?keyword=${keyword}`,
     )
-    setMasterPlaces(searchResult.data)
+    if (searchResult.status === 404) {
+      setMasterPlaces(initSearchPlaceResponse)
+    } else {
+      setMasterPlaces(searchResult.data)
+    }
   }
 
   //キーワード検索（食）
   const changeEating = async (value: any) => {
     const keyword = value
     setInputEating(keyword)
-    const searchResult = await Axios.get<EatingSearchByKeywordResponse>(
-      `eatings/search-keyword/?keyword=${keyword}`,
+    const searchResult = await Axios.get<SearchEatingResponse>(
+      `search-keyword/eating/?keyword=${keyword}`,
     )
-    setMasterEatings(searchResult.data)
+    if (searchResult.status === 404) {
+      setMasterEatings(initSearchEatingResponse)
+    } else {
+      setMasterEatings(searchResult.data)
+    }
   }
 
   //キーワード検索後（場所選択）
@@ -227,7 +231,7 @@ export const Search: React.FC<SearchProps> = (props) => {
   }
 
   const searchPhotos = async () => {
-    const photoResults = await Axios.post<PhotoGetResponse[]>(`photos/choice-search`, {
+    const photoResults = await Axios.post<PhotoGetResponse[]>(`photos/search`, {
       master_prefecture_id: parseInt(prefecture),
       master_area_id: parseInt(area),
       master_detailed_area_id: parseInt(detailedArea),

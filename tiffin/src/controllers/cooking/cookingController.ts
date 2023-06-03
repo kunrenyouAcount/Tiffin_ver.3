@@ -13,10 +13,6 @@ export class CookingController {
 
     this.router.get("/cookings", async (req: Request, res: Response) => {
       const results = await this.cookingService.findAll();
-      if (results instanceof Error) {
-        res.status(500).json(results.message);
-        return;
-      }
 
       const cookingList: CookingGetResponse[] = results.map((results) => {
         return {
@@ -31,13 +27,8 @@ export class CookingController {
       const genreId = parseInt(req.params.genreId);
       const results = await this.cookingService.getByGenre(genreId);
 
-      if (results instanceof NotFoundDataError) {
-        res.status(404).json(results.message);
-        return;
-      }
-
-      if (results instanceof Error) {
-        res.status(500).json(results.message);
+      if (!results.length) {
+        res.status(404).json();
         return;
       }
 

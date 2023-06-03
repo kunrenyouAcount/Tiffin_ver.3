@@ -1,5 +1,5 @@
-import { Genre } from "../../models/genre";
+import { MasterGenre } from "@prisma/client";
 
 export interface IGenreService {
-  findAll(): Promise<Genre[] | Error>;
+  findAll(): Promise<MasterGenre[]>;
 }

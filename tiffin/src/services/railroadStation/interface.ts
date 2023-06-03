@@ -1,6 +1,6 @@
-import { RailroadStation } from "../../models/railroadStation";
+import { MasterRailroadStation } from "@prisma/client";
 
 export interface IRailroadStationService {
-  findAll(): Promise<RailroadStation[] | Error>;
-  getByPrefectureId(prefectureId: number): Promise<RailroadStation[] | Error>;
+  findAll(): Promise<MasterRailroadStation[]>;
+  getByPrefectureId(prefectureId: number): Promise<MasterRailroadStation[]>;
 }

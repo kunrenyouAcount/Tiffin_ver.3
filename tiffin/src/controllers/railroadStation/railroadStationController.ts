@@ -1,6 +1,5 @@
 import { IRailroadStationService } from "../../services/railroadStation/interface";
 import { Request, Response, Router } from "express";
-import { NotFoundDataError } from "../../utils/error";
 import { RailroadStationGetResponse } from "../../models/api/railroadStation/get/response";
 
 export class RailroadStationController {
@@ -13,16 +12,12 @@ export class RailroadStationController {
 
     this.router.get("/railroad-stations", async (req: Request, res: Response) => {
       const results = await this.railroadStationService.findAll();
-      if (results instanceof Error) {
-        res.status(500).json(results.message);
-        return;
-      }
 
       const railroadStationList: RailroadStationGetResponse[] = results.map((result) => {
         return {
           id: result.id,
           name: result.name,
-          post_code: result.post_code,
+          post_code: result.postCode,
           address: result.address,
           status: result.status,
         } as RailroadStationGetResponse;
@@ -34,13 +29,8 @@ export class RailroadStationController {
       const prefectureId = parseInt(req.params.prefectureId);
       const results = await this.railroadStationService.getByPrefectureId(prefectureId);
 
-      if (results instanceof NotFoundDataError) {
-        res.status(404).json(results.message);
-        return;
-      }
-
-      if (results instanceof Error) {
-        res.status(500).json(results.message);
+      if (!results.length) {
+        res.status(404).json();
         return;
       }
 
@@ -48,7 +38,7 @@ export class RailroadStationController {
         return {
           id: result.id,
           name: result.name,
-          post_code: result.post_code,
+          post_code: result.postCode,
           address: result.address,
           status: result.status,
         } as RailroadStationGetResponse;
