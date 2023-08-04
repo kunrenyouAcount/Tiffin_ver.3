@@ -2,6 +2,7 @@ import { ICookingService } from "../../services/cooking/interface";
 import { Request, Response, Router } from "express";
 import { NotFoundDataError } from "../../utils/error";
 import { CookingGetResponse } from "../../models/api/cooking/get/response";
+import { authorization } from "../middlewares/auth";
 
 export class CookingController {
   private cookingService: ICookingService;
@@ -11,7 +12,7 @@ export class CookingController {
     this.cookingService = cookingService;
     this.router = Router();
 
-    this.router.get("/cookings", async (req: Request, res: Response) => {
+    this.router.get("/cookings", authorization, async (req: Request, res: Response) => {
       const results = await this.cookingService.findAll();
 
       const cookingList: CookingGetResponse[] = results.map((results) => {
@@ -23,7 +24,7 @@ export class CookingController {
       res.status(200).json(cookingList);
     });
 
-    this.router.get("/cookings/genre-id/:genreId", async (req: Request, res: Response) => {
+    this.router.get("/cookings/genre-id/:genreId", authorization, async (req: Request, res: Response) => {
       const genreId = parseInt(req.params.genreId);
       const results = await this.cookingService.getByGenre(genreId);
 

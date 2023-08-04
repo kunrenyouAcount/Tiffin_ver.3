@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 import { ModalItemGetResponse } from "../../models/api/modal/getModalItem/response";
 import { IModalService } from "../../services/modal/interface";
+import { authorization } from "../middlewares/auth";
 
 export class ModalController {
   private modalService: IModalService;
@@ -10,7 +11,7 @@ export class ModalController {
     this.modalService = modalService;
     this.router = Router();
 
-    this.router.get("/modal/menu-id/:menuId", async (req: Request, res: Response) => {
+    this.router.get("/modal/menu-id/:menuId", authorization, async (req: Request, res: Response) => {
       const id = parseInt(req.params.menuId);
       const result = await this.modalService.getModalItemByMenuId(id);
 
