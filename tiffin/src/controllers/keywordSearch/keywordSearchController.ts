@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 import { SearchEatingResponse } from "../../models/api/search/searchEating/response";
 import { SearchPlaceResponse } from "../../models/api/search/searchPlace/response";
 import { IKeywordSearchService } from "../../services/keywordSearch/interface";
+import { authorization } from "../middlewares/auth";
 
 export class KeywordSearchController {
   private keywordSearchService: IKeywordSearchService;
@@ -11,7 +12,7 @@ export class KeywordSearchController {
     this.keywordSearchService = keywordSearchService;
     this.router = Router();
 
-    this.router.get("/search-keyword/place", async (req: Request, res: Response) => {
+    this.router.get("/search-keyword/place", authorization, async (req: Request, res: Response) => {
       const keyword = req.query.keyword as string;
       const results = await this.keywordSearchService.searchPlace(keyword);
 
@@ -55,7 +56,7 @@ export class KeywordSearchController {
       res.status(200).json(placeList);
     });
 
-    this.router.get("/search-keyword/eating/", async (req: Request, res: Response) => {
+    this.router.get("/search-keyword/eating/", authorization, async (req: Request, res: Response) => {
       const keyword = req.query.keyword as string;
       const results = await this.keywordSearchService.searchEating(keyword);
 

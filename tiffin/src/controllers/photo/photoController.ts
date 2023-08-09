@@ -4,6 +4,7 @@ import { ValidationError } from "../../utils/error";
 import { PhotoGetResponse } from "../../models/api/photo/get/response";
 import { PhotoSearchRequest } from "../../models/api/photo/search/request";
 import { PhotoSearchRequestValidation } from "./search/requestValidation";
+import { authorization } from "../middlewares/auth";
 
 export class PhotoController {
   private photoService: IPhotoService;
@@ -13,10 +14,10 @@ export class PhotoController {
     this.photoService = photoService;
     this.router = Router();
 
-    this.router.get("/photos", async (request: Request, res: Response) => {
+    this.router.get("/photos", authorization, async (req: Request, res: Response) => {
       const results = await this.photoService.findAll();
 
-      const photoList: PhotoGetResponse[] = results.map((result) => {
+      const photoList = results.map((result) => {
         return {
           id: result.id,
           path: result.path,
@@ -26,7 +27,7 @@ export class PhotoController {
       res.status(200).json(photoList);
     });
 
-    this.router.get("/photos/:id", async (req: Request, res: Response) => {
+    this.router.get("/photos/:id", authorization, async (req: Request, res: Response) => {
       const id = parseInt(req.params.id);
       const result = await this.photoService.getById(id);
 
@@ -35,7 +36,7 @@ export class PhotoController {
         return;
       }
 
-      const photo: PhotoGetResponse = {
+      const photo = {
         id: result.id,
         path: result.path,
         menu_id: result.menuId,
@@ -43,7 +44,7 @@ export class PhotoController {
       res.status(200).json(photo);
     });
 
-    this.router.post("/photos/search", async (req: Request, res: Response) => {
+    this.router.post("/photos/search", authorization, async (req: Request, res: Response) => {
       const validation = new PhotoSearchRequestValidation();
       const validated: PhotoSearchRequest | ValidationError = validation.validate(req.body);
       if (validated instanceof ValidationError) {
@@ -62,12 +63,12 @@ export class PhotoController {
         validated.price_max
       );
 
-      const photos: PhotoGetResponse[] = results.map((photo) => {
+      const photos = results.map((photo) => {
         return {
           id: photo.id,
           path: photo.path,
           menu_id: photo.menuId,
-        };
+        } as PhotoGetResponse;
       });
 
       res.status(200).json(photos);
